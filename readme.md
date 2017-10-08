@@ -6,7 +6,7 @@ You can follow [this](https://core.telegram.org/bots/api "Telegram Bot API") doc
 [![Travis CI](https://img.shields.io/travis/jungle-bay/telegram-bot-api.svg?style=flat)](https://travis-ci.org/jungle-bay/telegram-bot-api)
 [![Scrutinizer CI](https://img.shields.io/scrutinizer/g/jungle-bay/telegram-bot-api.svg?style=flat)](https://scrutinizer-ci.com/g/jungle-bay/telegram-bot-api)
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-api.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-api)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/8d372f24-cfad-415d-ba77-38b604b6332d.svg?style=flat)](https://insight.sensiolabs.com/projects/8d372f24-cfad-415d-ba77-38b604b6332d)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/629ccaba-0a4e-4ea3-b0a4-63d053b5bf30.svg?style=flat)](https://insight.sensiolabs.com/projects/629ccaba-0a4e-4ea3-b0a4-63d053b5bf30)
 [![Telegram chat](https://img.shields.io/badge/chat-on%20telegram-brightgreen.svg?style=flat)](https://t.me/joinchat/AAAAAD4GsKIh_AtPynuuIQ)
 
 ## Prerequisites
@@ -33,7 +33,7 @@ $tba = new TelegramBotAPI('123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11');
 
 $info = $tba->getMe();
 
-echo $info->getIsBot();
+echo $info->getBot();
 ```
 
 ## License
