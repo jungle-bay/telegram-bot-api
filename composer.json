@@ -1,0 +1,43 @@
+{
+    "name": "jungle-bay/telegram-bot-api",
+    "description": "PHP Library for Telegram Bot API",
+    "type": "library",
+    "keywords": [
+        "php",
+        "telegram",
+        "bot",
+        "api"
+    ],
+    "homepage": "https://core.telegram.org/bots/api/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roma Baranenko",
+            "email": "jungle.romabb8@gmail.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/jungle-bay/telegram-bot-api/issues/"
+    },
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "TelegramBotAPI\\": "src/TelegramBotAPI/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TelegramBotAPI\\Tests\\": "tests/TelegramBotAPI/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --bootstrap vendor/autoload.php --filter",
+        "tests": "phpunit --bootstrap vendor/autoload.php tests"
+    }
+}

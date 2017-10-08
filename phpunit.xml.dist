@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertWarningsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertErrorsToExceptions="true"
+         processIsolation="false"
+         stopOnError="true"
+         stopOnFailure="true"
+         stopOnIncomplete="true"
+         stopOnSkipped="true"
+         stopOnRisky="true"
+         verbose="false">
+
+    <testsuites>
+        <testsuite name="Telegram Bot API Test Suite">
+            <directory>tests/TelegramBotAPI/Tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/TelegramBotAPI/</directory>
+        </whitelist>
+    </filter>
+
+</phpunit>
