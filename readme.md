@@ -14,7 +14,7 @@ You can follow [this](https://core.telegram.org/bots/api "Telegram Bot API") doc
    - PHP 5.5.0 or above.
    - [curl](https://secure.php.net/manual/en/book.curl.php), [json](https://secure.php.net/manual/en/book.json.php) extensions must be enabled.
 
-## Installation
+## Installation (in a while)
 
 The recommended way to install is through [Composer](https://getcomposer.org):
 
