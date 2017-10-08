@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#user
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class User implements JsonDeserializer {
+class User implements JsonDeserializerInterface {
 
     /**
      * @var int $id
@@ -129,14 +129,14 @@ class User implements JsonDeserializer {
     /**
      * @return null|bool
      */
-    public function getIsBot() {
+    public function getBot() {
         return $this->isBot;
     }
 
     /**
      * @param null|bool $isBot
      */
-    public function setIsBot($isBot) {
+    public function setBot($isBot) {
         $this->isBot = $isBot;
     }
 }

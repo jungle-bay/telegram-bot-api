@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#userprofilephotos
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class UserProfilePhotos implements JsonDeserializer {
+class UserProfilePhotos implements JsonDeserializerInterface {
 
     /**
      * @var int $totalCount

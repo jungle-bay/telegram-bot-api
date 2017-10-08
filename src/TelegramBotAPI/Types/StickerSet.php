@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#stickerset
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class StickerSet implements JsonDeserializer {
+class StickerSet implements JsonDeserializerInterface {
 
     /**
      * @var string $name
@@ -82,14 +82,14 @@ class StickerSet implements JsonDeserializer {
     /**
      * @return bool
      */
-    public function isMasks() {
+    public function getMasks() {
         return $this->isMasks;
     }
 
     /**
      * @param bool $isMasks
      */
-    public function setIsMasks($isMasks) {
+    public function setMasks($isMasks) {
         $this->isMasks = $isMasks;
     }
 

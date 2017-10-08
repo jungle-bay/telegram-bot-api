@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Types;
 
 
 use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#keyboardbutton
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class KeyboardButton implements JsonSerializable, JsonDeserializer {
+class KeyboardButton implements JsonSerializable, JsonDeserializerInterface {
 
     /**
      * @var string $text

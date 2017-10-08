@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Types;
 
 
 use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#labeledprice
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class LabeledPrice implements JsonSerializable, JsonDeserializer {
+class LabeledPrice implements JsonSerializable, JsonDeserializerInterface {
 
     /**
      * @var string $label

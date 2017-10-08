@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Types;
 
 
 use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#forcereply
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ForceReply implements JsonSerializable, JsonDeserializer {
+class ForceReply implements JsonSerializable, JsonDeserializerInterface {
 
     /**
      * @var bool $forceReply

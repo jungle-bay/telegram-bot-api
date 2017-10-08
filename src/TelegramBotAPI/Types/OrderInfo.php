@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#orderinfo
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class OrderInfo implements JsonDeserializer {
+class OrderInfo implements JsonDeserializerInterface {
 
     /**
      * @var null|string $name

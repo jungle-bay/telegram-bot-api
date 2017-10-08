@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Types;
 
 
 use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#shippingoption
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ShippingOption implements JsonSerializable, JsonDeserializer {
+class ShippingOption implements JsonSerializable, JsonDeserializerInterface {
 
     /**
      * @var string $id

@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#audio
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Audio implements JsonDeserializer {
+class Audio implements JsonDeserializerInterface {
 
     /**
      * @var string $fileId

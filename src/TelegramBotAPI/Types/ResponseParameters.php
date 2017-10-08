@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#responseparameters
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ResponseParameters implements JsonDeserializer {
+class ResponseParameters implements JsonDeserializerInterface {
 
     /**
      * @var null|int $migrateToChatId

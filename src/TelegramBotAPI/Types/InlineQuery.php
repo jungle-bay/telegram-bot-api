@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#inlinequery
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class InlineQuery implements JsonDeserializer {
+class InlineQuery implements JsonDeserializerInterface {
 
     /**
      * @var string $id

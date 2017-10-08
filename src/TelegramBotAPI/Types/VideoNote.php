@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#videonote
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class VideoNote implements JsonDeserializer {
+class VideoNote implements JsonDeserializerInterface {
 
     /**
      * @var string $fileId

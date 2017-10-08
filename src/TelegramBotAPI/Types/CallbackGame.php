@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Types;
 
 
 use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#callbackgame
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class CallbackGame implements JsonSerializable, JsonDeserializer {
+class CallbackGame implements JsonSerializable, JsonDeserializerInterface {
 
     /**
      * Specify data which should be serialized to JSON

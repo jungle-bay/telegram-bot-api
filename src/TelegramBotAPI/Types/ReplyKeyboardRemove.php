@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Types;
 
 
 use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#replykeyboardremove
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ReplyKeyboardRemove implements JsonSerializable, JsonDeserializer {
+class ReplyKeyboardRemove implements JsonSerializable, JsonDeserializerInterface {
 
     /**
      * @var bool $removeKeyboard

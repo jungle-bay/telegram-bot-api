@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#venue
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Venue implements JsonDeserializer {
+class Venue implements JsonDeserializerInterface {
 
     /**
      * @var Location $location

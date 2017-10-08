@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#webhookinfo
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class WebhookInfo implements JsonDeserializer {
+class WebhookInfo implements JsonDeserializerInterface {
 
     /**
      * @var string $url

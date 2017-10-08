@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Types;
 
 
 use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#inlinekeyboardmarkup
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class InlineKeyboardMarkup implements JsonSerializable, JsonDeserializer {
+class InlineKeyboardMarkup implements JsonSerializable, JsonDeserializerInterface {
 
     /**
      * @var array InlineKeyboardButton[]

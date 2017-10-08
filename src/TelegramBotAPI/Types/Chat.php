@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#chat
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Chat implements JsonDeserializer {
+class Chat implements JsonDeserializerInterface {
 
     /**
      * @var int $id

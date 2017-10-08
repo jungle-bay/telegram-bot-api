@@ -7,7 +7,7 @@ namespace TelegramBotAPI\Api;
  * @package TelegramBotAPI\Api
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-interface JsonDeserializer {
+interface JsonDeserializerInterface {
 
     /**
      * In the object's constructor, need to implement convert from an array to an object.

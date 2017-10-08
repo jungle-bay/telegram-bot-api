@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializer;
+use TelegramBotAPI\Api\JsonDeserializerInterface;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#shippingaddress
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ShippingAddress implements JsonDeserializer {
+class ShippingAddress implements JsonDeserializerInterface {
 
     /**
      * @var string $countryCode
