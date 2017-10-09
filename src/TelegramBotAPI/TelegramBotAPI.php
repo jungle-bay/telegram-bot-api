@@ -157,7 +157,7 @@ class TelegramBotAPI extends HTTP {
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
      */
-    public function setUpdates($response) {
+    public function takeUpdates($response) {
 
         $data = parent::checkForBadRequest($response);
 
