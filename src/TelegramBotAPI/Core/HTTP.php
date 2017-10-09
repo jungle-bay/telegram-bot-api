@@ -39,12 +39,13 @@ class HTTP {
         return $response;
     }
 
+
     /**
      * @param string $response
      * @return array
      * @throws TelegramBotAPIRuntimeException
      */
-    private function checkForBadRequest($response) {
+    protected function checkForBadRequest($response) {
 
         $data = json_decode($response, true);
 

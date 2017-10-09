@@ -150,6 +150,28 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
+     * @link https://core.telegram.org/bots/api#getting-updates
+     * @param string $response
+     * @return Update[]
+     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    public function setUpdates($response) {
+
+        $data = parent::checkForBadRequest($response);
+
+        $result = array();
+
+        foreach ($data as $obj) $result[] = new Update($obj);
+
+        unset($data);
+
+        return $result;
+    }
+
+    /**
+     * @api
      * @link https://core.telegram.org/bots/api#getupdates
      * @param array $parameters
      * @return Update[]
