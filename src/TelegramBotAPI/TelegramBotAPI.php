@@ -212,6 +212,11 @@ class TelegramBotAPI extends HTTP {
 
         $url = $this->generateUrl(TBAPrivateConst::GET_UPDATES);
         $data = $this->post($url, $payload);
+
+        if (!is_array($data)) {
+            throw new TelegramBotAPIRuntimeException('data updates must be an array.');
+        }
+
         $result = array();
 
         foreach ($data as $obj) {
@@ -313,6 +318,11 @@ class TelegramBotAPI extends HTTP {
 
         $url = $this->generateUrl(TBAPrivateConst::GET_WEBHOOK_INFO);
         $data = $this->get($url);
+
+        if (!is_array($data)) {
+            throw new TelegramBotAPIRuntimeException('data WebhookInfo must be an array.');
+        }
+
         $result = new WebhookInfo($data);
 
         unset($url, $data);
@@ -332,6 +342,11 @@ class TelegramBotAPI extends HTTP {
 
         $url = $this->generateUrl(TBAPrivateConst::GET_ME);
         $data = $this->get($url);
+
+        if (!is_array($data)) {
+            throw new TelegramBotAPIRuntimeException('data getMe must be an array.');
+        }
+
         $result = new User($data);
 
         unset($url, $data);

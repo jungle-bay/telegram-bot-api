@@ -38,10 +38,21 @@ class OrderInfo implements JsonDeserializerInterface {
      */
     public function __construct(array $data = array()) {
 
-        if (isset($data['name'])) $this->setName($data['name']);
-        if (isset($data['phone_number'])) $this->setPhoneNumber($data['phone_number']);
-        if (isset($data['email'])) $this->setEmail($data['email']);
-        if (isset($data['shipping_address'])) $this->setEmail(new ShippingAddress($data['shipping_address']));
+        if (isset($data['name'])) {
+            $this->setName($data['name']);
+        }
+
+        if (isset($data['phone_number'])) {
+            $this->setPhoneNumber($data['phone_number']);
+        }
+
+        if (isset($data['email'])) {
+            $this->setEmail($data['email']);
+        }
+
+        if (isset($data['shipping_address'])) {
+            $this->setShippingAddress(new ShippingAddress($data['shipping_address']));
+        }
     }
 
     /**
