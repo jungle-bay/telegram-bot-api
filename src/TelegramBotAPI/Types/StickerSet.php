@@ -40,7 +40,7 @@ class StickerSet implements JsonDeserializerInterface {
 
         $this->setName($data['name']);
         $this->setTitle($data['title']);
-        $this->setIsMasks($data['is_masks']);
+        $this->setMasks($data['is_masks']);
 
         $stickers = array();
 
