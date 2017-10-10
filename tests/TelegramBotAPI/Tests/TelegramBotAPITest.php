@@ -44,7 +44,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
     }
 
 
-    //Tests Getting updates
+    /** Tests Getting updates */
 
     public function testGetUpdates() {
 
@@ -95,7 +95,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
         $this->assertInstanceOf(WebhookInfo::class, $webhookInfo);
     }
 
-    //Tests Available methods
+    /** Tests Available methods */
 
     public function testGetMe() {
 
@@ -437,9 +437,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
         $this->assertEquals($this->getUserId(), $chatMember->getUser()->getId());
     }
 
-    //public function testAnswerCallbackQuery();
-
-    // Tests Updating messages
+    /** Tests Updating messages */
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
@@ -548,11 +546,9 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
         $this->assertEquals(5, $feedback->getMessageId());
     }
 
-    // Tests Inline mode
+    /** Tests Inline mode */
 
-    //public function testAnswerInlineQuery();
-
-    // Tests Games
+    /** Tests Games */
 
     public function testSendGame() {
 
