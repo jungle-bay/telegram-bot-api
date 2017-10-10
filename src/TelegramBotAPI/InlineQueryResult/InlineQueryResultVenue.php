@@ -277,7 +277,7 @@ class InlineQueryResultVenue extends InlineQueryResult {
         }
 
         if (isset($this->replyMarkup)) {
-            $data['reply_markup'] = $this->getReplyMarkup()->arraySerialize();
+            $data['reply_markup'] = $this->getReplyMarkup();
         }
 
         if (isset($this->inputMessageContent)) {

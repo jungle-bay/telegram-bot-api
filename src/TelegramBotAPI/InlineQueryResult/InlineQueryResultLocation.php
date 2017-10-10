@@ -230,7 +230,7 @@ class InlineQueryResultLocation extends InlineQueryResult {
         $data['title'] = $this->getTitle();
 
         if (isset($this->replyMarkup)) {
-            $data['reply_markup'] = $this->getReplyMarkup()->arraySerialize();
+            $data['reply_markup'] = $this->getReplyMarkup();
         }
 
         if (isset($this->inputMessageContent)) {
