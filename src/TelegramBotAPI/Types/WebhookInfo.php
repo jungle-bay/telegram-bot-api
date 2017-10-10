@@ -148,14 +148,14 @@ class WebhookInfo implements JsonDeserializerInterface {
     }
 
     /**
-     * @return null|\string[]
+     * @return null|string[]
      */
     public function getAllowedUpdates() {
         return $this->allowedUpdates;
     }
 
     /**
-     * @param null|\string[] $allowedUpdates
+     * @param null|string[] $allowedUpdates
      */
     public function setAllowedUpdates($allowedUpdates) {
         $this->allowedUpdates = $allowedUpdates;
