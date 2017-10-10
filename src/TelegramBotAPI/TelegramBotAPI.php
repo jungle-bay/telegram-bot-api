@@ -160,10 +160,11 @@ class TelegramBotAPI extends HTTP {
     public function takeUpdates($response) {
 
         $data = $this->checkForBadRequest($response);
-
         $result = array();
 
-        foreach ($data as $obj) $result[] = new Update($obj);
+        foreach ($data as $obj) {
+            $result[] = new Update($obj);
+        }
 
         unset($data);
 
@@ -213,7 +214,9 @@ class TelegramBotAPI extends HTTP {
         $data = $this->post($url, $payload);
         $result = array();
 
-        foreach ($data as $obj) $result[] = new Update($obj);
+        foreach ($data as $obj) {
+            $result[] = new Update($obj);
+        }
 
         unset($parameters, $url, $payload, $data);
 
