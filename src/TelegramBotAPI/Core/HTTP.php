@@ -18,7 +18,7 @@ class HTTP {
 
     /**
      * @param $ch
-     * @return false|string
+     * @return string
      *
      * @throws TelegramBotAPIRuntimeException
      */
