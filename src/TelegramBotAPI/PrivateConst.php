@@ -20,7 +20,7 @@ final class PrivateConst {
     const CHECK_KEYBOARD_TYPE = 'CHECK_KEYBOARD_TYPE';
     const CHECK_ACTION_TYPE = 'CHECK_ACTION_TYPE';
     const CHECK_LIMIT = 'CHECK_LIMIT';
-
+    const CHECK_CAPTION_LIMIT = 'CHECK_CAPTION_LIMIT';
 
     const TELEGRAM_BOT_API = 'https://api.telegram.org/bot%s/%s';
     const TELEGRAM_BOT_FILE = 'https://api.telegram.org/file/bot%s/%s';

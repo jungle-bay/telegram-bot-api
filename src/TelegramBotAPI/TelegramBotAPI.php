@@ -102,6 +102,20 @@ class TelegramBotAPI extends HTTP {
                     break;
                 }
 
+                case PrivateConst::CHECK_CAPTION_LIMIT: {
+
+                    if (!$this->checkCaptionLimit($parameters[$field])) {
+                        new TelegramBotAPIWarning('
+                            Used not by the correct limit.
+                            Photo caption (may also be used when resending photos by file_id),
+                            0-200 characters.
+                        ');
+                    }
+
+                    $payload[$field] = $parameters[$field];
+                    break;
+                }
+
                 default: {
 
                     if (isset($parameters[$field])) {
@@ -346,22 +360,6 @@ class TelegramBotAPI extends HTTP {
             'allowed_updates' => false
         ));
 
-
-        if (isset($parameters['certificate'])) {
-
-            $certificate = $parameters['certificate'];
-
-            if (!$certificate instanceof InputFile) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct object certificate.
-                    Must be InputFile.
-                    More: https://core.telegram.org/bots/api#inputfile
-                ');
-            } else {
-                $payload['certificate'] = $certificate;
-            }
-        }
-
         $url = $this->generateUrl(TBAPrivateConst::SET_WEBHOOK);
         $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
@@ -380,7 +378,7 @@ class TelegramBotAPI extends HTTP {
     public function deleteWebhook() {
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_WEBHOOK);
-        $result = $this->get($url);
+        $result = $this->send(TBAPrivateConst::GET, $url, array());
 
         unset($url);
 
@@ -397,11 +395,8 @@ class TelegramBotAPI extends HTTP {
     public function getWebhookInfo() {
 
         $url = $this->generateUrl(TBAPrivateConst::GET_WEBHOOK_INFO);
-        $data = $this->get($url);
-
-        if (!is_array($data)) {
-            throw new TelegramBotAPIRuntimeException('data WebhookInfo must be an array.');
-        }
+        $data = $this->send(TBAPrivateConst::GET, $url, array());
+        $this->checkDataToArray($data);
 
         $result = new WebhookInfo($data);
 
@@ -421,11 +416,8 @@ class TelegramBotAPI extends HTTP {
     public function getMe() {
 
         $url = $this->generateUrl(TBAPrivateConst::GET_ME);
-        $data = $this->get($url);
-
-        if (!is_array($data)) {
-            throw new TelegramBotAPIRuntimeException('data getMe must be an array.');
-        }
+        $data = $this->send(TBAPrivateConst::GET, $url, array());
+        $this->checkDataToArray($data);
 
         $result = new User($data);
 
@@ -477,31 +469,17 @@ class TelegramBotAPI extends HTTP {
      */
     public function forwardMessage(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['from_chat_id'])) {
-            throw new TelegramBotAPIException('`from_chat_id` is required.');
-        }
-
-        if (empty($parameters['message_id'])) {
-            throw new TelegramBotAPIException('`message_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['from_chat_id'] = (string) $parameters['from_chat_id'];
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        $payload['message_id'] = (int) $parameters['message_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'from_chat_id'         => true,
+            'message_id'           => true,
+            'disable_notification' => false,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::FORWARD_MESSAGE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -520,55 +498,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendPhoto(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['photo'])) {
-            throw new TelegramBotAPIException('`photo` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['photo'] = $parameters['photo'];
-
-        if (isset($parameters['caption'])) {
-
-            $caption = (string) $parameters['caption'];
-
-            if (!$this->checkCaptionLimit($caption)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit.
-                    Photo caption (may also be used when resending photos by file_id),
-                    0-200 characters.
-                ');
-            } else {
-                $payload['caption'] = $caption;
-            }
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'photo'                => true,
+            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_PHOTO);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -587,66 +529,22 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendAudio(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['audio'])) {
-            throw new TelegramBotAPIException('`audio` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['audio'] = $parameters['audio'];
-
-        if (isset($parameters['caption'])) {
-
-            $caption = (string) $parameters['caption'];
-
-            if (!$this->checkCaptionLimit($caption)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit.
-                    Audio caption, 0-200 characters.
-                ');
-            } else {
-                $payload['caption'] = $caption;
-            }
-        }
-
-        if (isset($parameters['duration'])) {
-            $payload['duration'] = (int) $parameters['duration'];
-        }
-
-        if (isset($parameters['performer'])) {
-            $payload['performer'] = (string) $parameters['performer'];
-        }
-
-        if (isset($parameters['title'])) {
-            $payload['title'] = (string) $parameters['title'];
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'audio'                => true,
+            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'duration'             => false,
+            'performer'            => false,
+            'title'                => false,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_AUDIO);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -665,55 +563,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendDocument(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['document'])) {
-            throw new TelegramBotAPIException('`document` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['document'] = $parameters['document'];
-
-        if (isset($parameters['caption'])) {
-
-            $caption = (string) $parameters['caption'];
-
-            if (!$this->checkCaptionLimit($caption)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit.
-                    Document caption (may also be used when resending documents by file_id),
-                    0-200 characters.
-                ');
-            } else {
-                $payload['caption'] = $caption;
-            }
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'document'             => true,
+            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_DOCUMENT);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -732,40 +594,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendSticker(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['sticker'])) {
-            throw new TelegramBotAPIException('`sticker` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['sticker'] = $parameters['sticker'];
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'sticker'              => true,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_STICKER);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -784,67 +624,22 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVideo(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['video'])) {
-            throw new TelegramBotAPIException('`video` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['video'] = $parameters['video'];
-
-        if (isset($parameters['duration'])) {
-            $payload['duration'] = (int) $parameters['duration'];
-        }
-
-        if (isset($parameters['width'])) {
-            $payload['width'] = (int) $parameters['width'];
-        }
-
-        if (isset($parameters['height'])) {
-            $payload['height'] = (int) $parameters['height'];
-        }
-
-        if (isset($parameters['caption'])) {
-
-            $caption = (string) $parameters['caption'];
-
-            if (!$this->checkCaptionLimit($caption)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit.
-                    Video caption (may also be used when resending videos by file_id),
-                    0-200 characters.
-                ');
-            } else {
-                $payload['caption'] = $caption;
-            }
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'video'                => true,
+            'duration'             => false,
+            'width'                => false,
+            'height'               => false,
+            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VIDEO);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -863,59 +658,20 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVoice(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['voice'])) {
-            throw new TelegramBotAPIException('`voice` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['voice'] = $parameters['voice'];
-
-        if (isset($parameters['caption'])) {
-
-            $caption = (string) $parameters['caption'];
-
-            if (!$this->checkCaptionLimit($caption)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit.
-                    Voice message caption,
-                    0-200 characters.
-                ');
-            } else {
-                $payload['caption'] = $caption;
-            }
-        }
-
-        if (isset($parameters['duration'])) {
-            $payload['duration'] = (int) $parameters['duration'];
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'voice'                => true,
+            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'duration'             => false,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VOICE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -934,48 +690,20 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVideoNote(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['video_note'])) {
-            throw new TelegramBotAPIException('`video_note` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['video_note'] = $parameters['video_note'];
-
-        if (isset($parameters['duration'])) {
-            $payload['duration'] = (int) $parameters['duration'];
-        }
-
-        if (isset($parameters['length'])) {
-            $payload['length'] = (int) $parameters['length'];
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'video_note'           => true,
+            'duration'             => false,
+            'length'               => false,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VIDEO_NOTE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -994,45 +722,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendLocation(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['latitude'])) {
-            throw new TelegramBotAPIException('`latitude` is required.');
-        }
-
-        if (empty($parameters['longitude'])) {
-            throw new TelegramBotAPIException('`longitude` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['latitude'] = (float) $parameters['latitude'];
-        $payload['longitude'] = (float) $parameters['longitude'];
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'latitude'             => true,
+            'longitude'            => true,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_LOCATION);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1051,59 +753,22 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVenue(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['latitude'])) {
-            throw new TelegramBotAPIException('`latitude` is required.');
-        }
-
-        if (empty($parameters['longitude'])) {
-            throw new TelegramBotAPIException('`longitude` is required.');
-        }
-
-        if (empty($parameters['title'])) {
-            throw new TelegramBotAPIException('`title` is required.');
-        }
-
-        if (empty($parameters['address'])) {
-            throw new TelegramBotAPIException('`address` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['latitude'] = (float) $parameters['latitude'];
-        $payload['longitude'] = (float) $parameters['longitude'];
-        $payload['title'] = (string) $parameters['title'];
-        $payload['address'] = (string) $parameters['address'];
-
-        if (isset($parameters['foursquare_id'])) {
-            $payload['foursquare_id'] = (string) $parameters['foursquare_id'];
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'latitude'             => true,
+            'longitude'            => true,
+            'title'                => true,
+            'address'              => true,
+            'foursquare_id'        => false,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VENUE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1122,49 +787,20 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendContact(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['phone_number'])) {
-            throw new TelegramBotAPIException('`phone_number` is required.');
-        }
-
-        if (empty($parameters['first_name'])) {
-            throw new TelegramBotAPIException('`first_name` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['phone_number'] = (string) $parameters['phone_number'];
-        $payload['first_name'] = (string) $parameters['first_name'];
-
-        if (isset($parameters['last_name'])) {
-            $payload['last_name'] = (string) $parameters['last_name'];
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'phone_number'         => true,
+            'first_name'           => true,
+            'last_name'            => false,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_CONTACT);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1183,29 +819,15 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendChatAction(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['action'])) {
-            throw new TelegramBotAPIException('`action` is required.');
-        }
-
-        $action = (string) $parameters['action'];
-
-        if (!$this->checkActionType($action)) {
-            throw new TelegramBotAPIException('Type of action to broadcast.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['action'] = $action;
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+            'action'  => PrivateConst::CHECK_ACTION_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_CHAT_ACTION);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
-        unset($parameters, $action, $url, $data);
+        unset($parameters, $url, $payload);
 
         return $result;
     }
@@ -1221,110 +843,33 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendInvoice(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['title'])) {
-            throw new TelegramBotAPIException('`title` is required.');
-        }
-
-        if (empty($parameters['description'])) {
-            throw new TelegramBotAPIException('`description` is required.');
-        }
-
-        if (empty($parameters['payload'])) {
-            throw new TelegramBotAPIException('`payload` is required.');
-        }
-
-        if (empty($parameters['provider_token'])) {
-            throw new TelegramBotAPIException('`provider_token` is required.');
-        }
-
-        if (empty($parameters['start_parameter'])) {
-            throw new TelegramBotAPIException('`start_parameter` is required.');
-        }
-
-        if (empty($parameters['currency'])) {
-            throw new TelegramBotAPIException('`currency` is required.');
-        }
-
-        if (empty($parameters['prices'])) {
-            throw new TelegramBotAPIException('`prices` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = (int) $parameters['chat_id'];
-        $payload['title'] = (string) $parameters['title'];
-        $payload['description'] = (string) $parameters['description'];
-        $payload['payload'] = (string) $parameters['payload'];
-        $payload['provider_token'] = (string) $parameters['provider_token'];
-        $payload['start_parameter'] = (string) $parameters['start_parameter'];
-        $payload['currency'] = (string) $parameters['currency'];
-
-        foreach ($parameters['prices'] as $price) {
-            /** @var LabeledPrice $price */
-            $payload['prices'] = $price;
-        }
-
-        if (isset($parameters['photo_url'])) {
-            $payload['photo_url'] = $parameters['photo_url'];
-        }
-
-        if (isset($parameters['photo_size'])) {
-            $payload['photo_size'] = $parameters['photo_size'];
-        }
-
-        if (isset($parameters['photo_width'])) {
-            $payload['photo_width'] = $parameters['photo_width'];
-        }
-
-        if (isset($parameters['photo_height'])) {
-            $payload['photo_height'] = $parameters['photo_height'];
-        }
-
-        if (isset($parameters['need_name'])) {
-            $payload['need_name'] = $parameters['need_name'];
-        }
-
-        if (isset($parameters['need_phone_number'])) {
-            $payload['need_phone_number'] = $parameters['need_phone_number'];
-        }
-
-        if (isset($parameters['need_email'])) {
-            $payload['need_email'] = $parameters['need_email'];
-        }
-
-        if (isset($parameters['need_shipping_address'])) {
-            $payload['need_shipping_address'] = $parameters['need_shipping_address'];
-        }
-
-        if (isset($parameters['is_flexible'])) {
-            $payload['is_flexible'] = $parameters['is_flexible'];
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'               => true,
+            'title'                 => true,
+            'description'           => true,
+            'payload'               => true,
+            'provider_token'        => true,
+            'start_parameter'       => true,
+            'currency'              => true,
+            'prices'                => true,
+            'photo_url'             => false,
+            'photo_size'            => false,
+            'photo_width'           => false,
+            'photo_height'          => false,
+            'need_name'             => false,
+            'need_phone_number'     => false,
+            'need_email'            => false,
+            'need_shipping_address' => false,
+            'is_flexible'           => false,
+            'disable_notification'  => false,
+            'reply_to_message_id'   => false,
+            'reply_markup'          => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_INVOICE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1343,34 +888,16 @@ class TelegramBotAPI extends HTTP {
      */
     public function getUserProfilePhotos(array $parameters) {
 
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['user_id'] = (int) $parameters['user_id'];
-
-        if (isset($parameters['offset'])) {
-            $payload['offset'] = (int) $parameters['offset'];
-        }
-
-        if (isset($parameters['limit'])) {
-
-            $limit = (int) $parameters['limit'];
-
-            if (!$this->checkLimit($limit)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit limits the number of photos to be retrieved.
-                    Values between 1—100 are accepted. Defaults to 100.
-                ');
-            } else {
-                $payload['limit'] = $limit;
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'user_id' => true,
+            'offset'  => false,
+            'limit'   => PrivateConst::CHECK_LIMIT
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_USER_PROFILE_PHOTOS);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new UserProfilePhotos($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1427,25 +954,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function kickChatMember(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['user_id'] = (int) $parameters['user_id'];
-
-        if (isset($parameters['until_date'])) {
-            $payload['until_date'] = $parameters['until_date'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'    => true,
+            'user_id'    => true,
+            'until_date' => false
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::KICK_CHAT_MEMBER);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1463,16 +979,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function leaveChat(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::LEAVE_CHAT);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1490,21 +1002,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function unbanChatMember(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['user_id'] = (int) $parameters['user_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+            'user_id' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::UNBAN_CHAT_MEMBER);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
