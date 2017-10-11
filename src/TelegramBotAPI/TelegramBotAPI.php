@@ -83,6 +83,14 @@ class TelegramBotAPI extends HTTP {
                     $payload[$field] = json_encode($parameters[$field]);
                     break;
 
+                case PrivateConst::CHECK_ACTION_TYPE:
+                    if (!$this->checkActionType($parameters[$field])) {
+                        new TelegramBotAPIWarning('Invalid action type.');
+                    }
+
+                    $payload[$field] = $parameters[$field];
+                    break;
+
                 case PrivateConst::CHECK_LIMIT:
                     if (!$this->checkLimit($parameters[$field])) {
                         new TelegramBotAPIWarning('
