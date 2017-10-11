@@ -445,8 +445,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_MESSAGE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         $result = new Message($data);
 
