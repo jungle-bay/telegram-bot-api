@@ -1148,59 +1148,20 @@ class TelegramBotAPI extends HTTP {
      */
     public function editMessageText(array $parameters) {
 
-        if (empty($parameters['text'])) {
-            throw new TelegramBotAPIException('`text` is required.');
-        }
-
-        $payload = array();
-
-        if (isset($parameters['chat_id'])) {
-            $payload['chat_id'] = $parameters['chat_id'];
-        }
-
-        if (isset($parameters['message_id'])) {
-            $payload['message_id'] = (int) $parameters['message_id'];
-        }
-
-        if (isset($parameters['inline_message_id'])) {
-            $payload['inline_message_id'] = (string) $parameters['inline_message_id'];
-        }
-
-        $payload['text'] = (string) $parameters['text'];
-
-        if (isset($parameters['parse_mode'])) {
-
-            $parseMode = (string) $parameters['parse_mode'];
-
-            if (!$this->checkParseModeType($parseMode)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct parse mode.
-                    Send Markdown or HTML, if you want Telegram apps to show bold, italic,
-                    fixed-width text or inline URLs in your bot\'s message.
-                ');
-            } else {
-                $payload['parse_mode'] = $parseMode;
-            }
-        }
-
-        if (isset($parameters['disable_web_page_preview'])) {
-            $payload['disable_web_page_preview'] = (bool) $parameters['disable_web_page_preview'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            if (!$parameters['reply_markup'] instanceof InlineKeyboardMarkup) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct object reply markup.
-                    Most be InlineKeyboardMarkup.
-                ');
-            } else {
-                $payload['reply_markup'] = json_encode($parameters['reply_markup']);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'text'                     => true,
+            'chat_id'                  => false,
+            'message_id'               => false,
+            'inline_message_id'        => false,
+            'parse_mode'               => PrivateConst::CHECK_PARSE_MODE_TYPE,
+            'disable_web_page_preview' => false,
+            'reply_markup'             => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::EDIT_MESSAGE_TEXT);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
