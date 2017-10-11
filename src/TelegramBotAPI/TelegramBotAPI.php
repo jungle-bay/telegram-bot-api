@@ -56,7 +56,6 @@ class TelegramBotAPI extends HTTP {
             switch ($howCheck) {
 
                 case true:
-
                     if (empty($parameters[$field])) {
                         throw new TelegramBotAPIException($field . ' is required field.');
                     }
@@ -65,7 +64,6 @@ class TelegramBotAPI extends HTTP {
                     break;
 
                 case PrivateConst::CHECK_PARSE_MODE_TYPE:
-
                     if (!$this->checkParseModeType($parameters[$field])) {
                         new TelegramBotAPIWarning('
                             Used not by the correct parse mode.
@@ -78,7 +76,6 @@ class TelegramBotAPI extends HTTP {
                     break;
 
                 case PrivateConst::CHECK_KEYBOARD_TYPE:
-
                     if (!$this->checkKeyboardType($parameters[$field])) {
                         new TelegramBotAPIWarning('Invalid keyboard type.');
                     }
@@ -87,7 +84,6 @@ class TelegramBotAPI extends HTTP {
                     break;
 
                 case PrivateConst::CHECK_LIMIT:
-
                     if (!$this->checkLimit($parameters[$field])) {
                         new TelegramBotAPIWarning('
                             Used not by the correct limit limits the number of updates that are updated.
@@ -99,7 +95,6 @@ class TelegramBotAPI extends HTTP {
                     break;
 
                 case PrivateConst::CHECK_CAPTION_LIMIT:
-
                     if (!$this->checkCaptionLimit($parameters[$field])) {
                         new TelegramBotAPIWarning('
                             Used not by the correct limit.
@@ -112,7 +107,6 @@ class TelegramBotAPI extends HTTP {
                     break;
 
                 default:
-
                     if (isset($parameters[$field])) {
                         $payload[$field] = $parameters[$field];
                     }
