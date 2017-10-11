@@ -17,7 +17,7 @@ class HTTP {
 
 
     /**
-     * @param resource $ch
+     * @param $ch
      * @return string
      *
      * @throws TelegramBotAPIRuntimeException
