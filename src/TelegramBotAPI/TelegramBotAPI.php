@@ -916,7 +916,7 @@ class TelegramBotAPI extends HTTP {
             $payload['file_id'] = (string) $parameters['file_id'];
 
             $url = $this->generateUrl(TBAPrivateConst::GET_FILE);
-            $data = $this->post($url, $payload);
+            $data = $this->send(PrivateConst::POST, $url, $payload);
             $result = new File($data);
 
             unset($parameters, $url, $payload, $data);
