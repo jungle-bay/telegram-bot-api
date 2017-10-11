@@ -1026,16 +1026,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChat(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Chat($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1054,16 +1052,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChatAdministrators(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT_ADMINISTRATORS);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
         $result = array();
 
         foreach ($data as $obj) {
@@ -1086,16 +1081,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChatMembersCount(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT_MEMBERS_COUNT);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1113,21 +1104,15 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChatMember(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['user_id'] = (int) $parameters['user_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+            'user_id' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT_MEMBER);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new ChatMember($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1146,44 +1131,16 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerCallbackQuery(array $parameters) {
 
-        if (empty($parameters['callback_query_id'])) {
-            throw new TelegramBotAPIException('`callback_query_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['callback_query_id'] = (string) $parameters['callback_query_id'];
-
-        if (isset($parameters['text'])) {
-
-            $text = (string) $parameters['text'];
-
-            if (!$this->checkCaptionLimit($text)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit.
-                    Text of the notification. If not specified,
-                    nothing will be shown to the user,
-                    0-200 characters.
-                ');
-            } else {
-                $payload['text'] = $text;
-            }
-        }
-
-        if (isset($parameters['show_alert'])) {
-            $payload['show_alert'] = (bool) $parameters['show_alert'];
-        }
-
-        if (isset($parameters['url'])) {
-            $payload['url'] = (string) $parameters['url'];
-        }
-
-        if (isset($parameters['cache_time'])) {
-            $payload['cache_time'] = (int) $parameters['cache_time'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'callback_query_id' => true,
+            'text'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'show_alert'        => false,
+            'url'               => false,
+            'cache_time'        => false
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_CALLBACK_QUERY);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
