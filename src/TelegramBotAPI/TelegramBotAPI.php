@@ -269,18 +269,6 @@ class TelegramBotAPI extends HTTP {
         return $this->token;
     }
 
-    /**
-     * @param $data
-     *
-     * @throws TelegramBotAPIRuntimeException
-     */
-    private function checkDataToArray($data) {
-
-        if (!is_array($data)) {
-            throw new TelegramBotAPIRuntimeException('$data mast be array.');
-        }
-    }
-
 
     /**
      * @api
@@ -293,8 +281,7 @@ class TelegramBotAPI extends HTTP {
      */
     public function takeUpdates($response) {
 
-        $data = $this->checkForBadRequest($response);
-        $this->checkDataToArray($data);
+        $data = (array) $this->checkForBadRequest($response);
         $result = array();
 
         foreach ($data as $obj) {
@@ -325,9 +312,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_UPDATES);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = array();
 
         foreach ($data as $obj) {
@@ -392,8 +377,7 @@ class TelegramBotAPI extends HTTP {
     public function getWebhookInfo() {
 
         $url = $this->generateUrl(TBAPrivateConst::GET_WEBHOOK_INFO);
-        $data = $this->send(TBAPrivateConst::GET, $url, array());
-        $this->checkDataToArray($data);
+        $data = (array) $this->send(TBAPrivateConst::GET, $url, array());
 
         $result = new WebhookInfo($data);
 
@@ -413,8 +397,7 @@ class TelegramBotAPI extends HTTP {
     public function getMe() {
 
         $url = $this->generateUrl(TBAPrivateConst::GET_ME);
-        $data = $this->send(TBAPrivateConst::GET, $url, array());
-        $this->checkDataToArray($data);
+        $data = (array) $this->send(TBAPrivateConst::GET, $url, array());
 
         $result = new User($data);
 
@@ -446,7 +429,6 @@ class TelegramBotAPI extends HTTP {
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_MESSAGE);
         $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
-
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -473,9 +455,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::FORWARD_MESSAGE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -504,9 +484,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_PHOTO);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -538,9 +516,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_AUDIO);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -569,9 +545,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_DOCUMENT);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -599,9 +573,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_STICKER);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -633,9 +605,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VIDEO);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -665,9 +635,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VOICE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -697,9 +665,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VIDEO_NOTE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -728,9 +694,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_LOCATION);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -762,9 +726,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_VENUE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -794,9 +756,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_CONTACT);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -863,9 +823,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_INVOICE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -891,9 +849,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_USER_PROFILE_PHOTOS);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new UserProfilePhotos($data);
 
         unset($parameters, $url, $payload, $data);
@@ -957,7 +913,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::KICK_CHAT_MEMBER);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -980,7 +936,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::LEAVE_CHAT);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1004,7 +960,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::UNBAN_CHAT_MEMBER);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1027,9 +983,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Chat($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1053,8 +1007,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT_ADMINISTRATORS);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = array();
 
         foreach ($data as $obj) {
@@ -1082,7 +1035,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT_MEMBERS_COUNT);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (int) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1106,9 +1059,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_CHAT_MEMBER);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new ChatMember($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1136,7 +1087,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_CALLBACK_QUERY);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1166,9 +1117,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::EDIT_MESSAGE_TEXT);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1195,9 +1144,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::EDIT_MESSAGE_CAPTION);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1223,9 +1170,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::EDIT_MESSAGE_REPLY_MARKUP);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1250,7 +1195,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_MESSAGE);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1290,7 +1235,7 @@ class TelegramBotAPI extends HTTP {
         }
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_INLINE_QUERY);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1316,7 +1261,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_SHIPPING_QUERY);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1341,7 +1286,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_SHIPPING_QUERY);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1369,9 +1314,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_GAME);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1401,9 +1344,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_GAME_SCORE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1430,8 +1371,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_GAME_HIGH_SCORES);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = array();
 
         foreach ($data as $obj) {
@@ -1460,7 +1400,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::EXPORT_CHAT_INVITE_LINK);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1484,7 +1424,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_CHAT_PHOTO);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1507,7 +1447,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_CHAT_PHOTO);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1531,7 +1471,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_CHAT_TITLE);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1555,7 +1495,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_CHAT_DESCRIPTION);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1580,7 +1520,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::PIN_CHAT_MESSAGE);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1603,7 +1543,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::UNPIN_CHAT_MESSAGE);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1632,7 +1572,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::RESTRICT_CHAT_MEMBER);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1664,7 +1604,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::PROMOTE_CHAT_MEMBER);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1676,7 +1616,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#getstickerset
      * @param array $parameters
-     * @return string
+     * @return StickerSet
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -1688,9 +1628,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_STICKER_SET);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new StickerSet($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1702,7 +1640,7 @@ class TelegramBotAPI extends HTTP {
      * @pai
      * @link https://core.telegram.org/bots/api#promotechatmember
      * @param array $parameters
-     * @return string
+     * @return File
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -1715,9 +1653,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::UPLOAD_STICKER_FILE);
-        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
-        $this->checkDataToArray($data);
-
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
         $result = new File($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1748,7 +1684,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::CREATE_NEW_STICKER_SET);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1775,7 +1711,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::ADD_STICKER_TO_SET);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1799,7 +1735,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_STICKER_POSITION_IN_SET);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1822,7 +1758,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_STICKER_FROM_SET);
-        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
