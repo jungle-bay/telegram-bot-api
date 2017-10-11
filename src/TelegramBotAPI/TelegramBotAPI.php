@@ -1179,38 +1179,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function editMessageCaption(array $parameters) {
 
-        $payload = array();
-
-        if (isset($parameters['chat_id'])) {
-            $payload['chat_id'] = $parameters['chat_id'];
-        }
-
-        if (isset($parameters['message_id'])) {
-            $payload['message_id'] = (int) $parameters['message_id'];
-        }
-
-        if (isset($parameters['inline_message_id'])) {
-            $payload['inline_message_id'] = (string) $parameters['inline_message_id'];
-        }
-
-        if (isset($parameters['caption'])) {
-            $payload['caption'] = $parameters['caption'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            if (!$parameters['reply_markup'] instanceof InlineKeyboardMarkup) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct object reply markup.
-                    Most be InlineKeyboardMarkup.
-                ');
-            } else {
-                $payload['reply_markup'] = json_encode($parameters['reply_markup']);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'           => false,
+            'message_id'        => false,
+            'inline_message_id' => false,
+            'caption'           => PrivateConst::CHECK_CAPTION_LIMIT,
+            'reply_markup'      => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::EDIT_MESSAGE_CAPTION);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1228,34 +1208,17 @@ class TelegramBotAPI extends HTTP {
      */
     public function editMessageReplyMarkup(array $parameters) {
 
-        $payload = array();
-
-        if (isset($parameters['chat_id'])) {
-            $payload['chat_id'] = $parameters['chat_id'];
-        }
-
-        if (isset($parameters['message_id'])) {
-            $payload['message_id'] = (int) $parameters['message_id'];
-        }
-
-        if (isset($parameters['inline_message_id'])) {
-            $payload['inline_message_id'] = (string) $parameters['inline_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            if (!$parameters['reply_markup'] instanceof InlineKeyboardMarkup) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct object reply markup.
-                    Most be InlineKeyboardMarkup.
-                ');
-            } else {
-                $payload['reply_markup'] = json_encode($parameters['reply_markup']);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'           => false,
+            'message_id'        => false,
+            'inline_message_id' => false,
+            'reply_markup'      => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::EDIT_MESSAGE_REPLY_MARKUP);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1274,25 +1237,17 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteMessage(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['message_id'])) {
-            throw new TelegramBotAPIException('`message_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['message_id'] = (int) $parameters['message_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'    => true,
+            'message_id' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_MESSAGE);
-        $data = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
-        return $data;
+        return $result;
     }
 
 
@@ -1307,56 +1262,30 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerInlineQuery(array $parameters) {
 
-        if (empty($parameters['inline_query_id'])) {
-            throw new TelegramBotAPIException('`inline_query_id` is required.');
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'inline_query_id'     => true,
+            'results'             => true,
+            'cache_time'          => false,
+            'is_personal'         => false,
+            'next_offset'         => false,
+            'switch_pm_text'      => false,
+            'switch_pm_parameter' => false
+        ));
 
-        if (empty($parameters['results'])) {
-            throw new TelegramBotAPIException('`results` is required.');
-        }
-
-        $results = $parameters['results'];
-
-        if (count($results) > 50) {
+        if (count($payload['results']) > 50) {
             throw new TelegramBotAPIException('No more than 50 results per query are allowed');
         }
 
-        $payload = array();
+        $payload['results'] = json_encode($payload['results']);
 
-        $payload['inline_query_id'] = (string) $parameters['inline_query_id'];
-        $payload['results'] = json_encode($results);
-
-        if (isset($parameters['cache_time'])) {
-            $payload['cache_time'] = (int) $parameters['cache_time'];
-        }
-
-        if (isset($parameters['is_personal'])) {
-            $payload['is_personal'] = (bool) $parameters['is_personal'];
-        }
-
-        if (isset($parameters['next_offset'])) {
-            $payload['next_offset'] = (string) $parameters['next_offset'];
-        }
-
-        if (isset($parameters['switch_pm_text'])) {
-            $payload['switch_pm_text'] = (string) $parameters['switch_pm_text'];
-        }
-
-        if (isset($parameters['switch_pm_parameter'])) {
-
-            $switchPmParameter = (string) $parameters['switch_pm_parameter'];
-
-            if (!preg_match(TBAPrivateConst::SWITCH_PM_PARAM_PATTERN, $switchPmParameter)) {
-                throw new TelegramBotAPIException('Switch pm parameter only A-Z, a-z, 0-9, _ and - are allowed.');
-            }
-
-            $payload['switch_pm_parameter'] = $switchPmParameter;
+        if (!preg_match(TBAPrivateConst::SWITCH_PM_PARAM_PATTERN, $payload['switch_pm_parameter'])) {
+            throw new TelegramBotAPIException('Switch pm parameter only A-Z, a-z, 0-9, _ and - are allowed.');
         }
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_INLINE_QUERY);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
-        unset($parameters, $results, $url, $payload);
+        unset($parameters, $url, $payload);
 
         return $result;
     }
@@ -1372,29 +1301,15 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerShippingQuery(array $parameters) {
 
-        if (empty($parameters['shipping_query_id'])) {
-            throw new TelegramBotAPIException('`shipping_query_id` is required.');
-        }
-
-        if (empty($parameters['ok'])) {
-            throw new TelegramBotAPIException('`ok` is required.');
-        }
-
-        $payload = array();
-
-        $payload['shipping_query_id'] = $parameters['shipping_query_id'];
-        $payload['ok'] = $parameters['ok'];
-
-        foreach ($parameters['shipping_options'] as $option) {
-            $payload['shipping_options'][] = $option;
-        }
-
-        if (isset($parameters['error_message'])) {
-            $payload['error_message'] = $parameters['error_message'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'shipping_query_id' => true,
+            'ok'                => true,
+            'shipping_options'  => false,
+            'error_message'     => false
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_SHIPPING_QUERY);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1412,25 +1327,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerPreCheckoutQuery(array $parameters) {
 
-        if (empty($parameters['pre_checkout_query_id'])) {
-            throw new TelegramBotAPIException('`pre_checkout_query_id` is required.');
-        }
-
-        if (empty($parameters['ok'])) {
-            throw new TelegramBotAPIException('`ok` is required.');
-        }
-
-        $payload = array();
-
-        $payload['pre_checkout_query_id'] = $parameters['pre_checkout_query_id'];
-        $payload['ok'] = $parameters['ok'];
-
-        if (isset($parameters['error_message'])) {
-            $payload['error_message'] = $parameters['error_message'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'pre_checkout_query_id' => true,
+            'ok'                    => true,
+            'error_message'         => false
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::ANSWER_SHIPPING_QUERY);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1449,41 +1353,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendGame(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['game_short_name'])) {
-            throw new TelegramBotAPIException('`game_short_name` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = (int) $parameters['chat_id'];
-        $payload['game_short_name'] = (string) $parameters['game_short_name'];
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            if (!$parameters['reply_markup'] instanceof InlineKeyboardMarkup) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct object reply markup.
-                    Most be InlineKeyboardMarkup.
-                ');
-            } else {
-                $payload['reply_markup'] = json_encode($parameters['reply_markup']);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'game_short_name'      => true,
+            'disable_notification' => false,
+            'reply_to_message_id'  => false,
+            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_GAME);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1502,46 +1383,20 @@ class TelegramBotAPI extends HTTP {
      */
     public function setGameScore(array $parameters) {
 
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        if (empty($parameters['score'])) {
-            throw new TelegramBotAPIException('`score` is required.');
-        }
-
-        $payload = array();
-
-        $payload['user_id'] = (int) $parameters['user_id'];
-
-        if ($parameters['score'] < 0) {
-            throw new TelegramBotAPIException('New score, must be non-negative');
-        } else {
-            $payload['score'] = (int) $parameters['score'];
-        }
-
-        if (isset($parameters['force'])) {
-            $payload['force'] = (bool) $parameters['force'];
-        }
-
-        if (isset($parameters['disable_edit_message'])) {
-            $payload['disable_edit_message'] = (bool) $parameters['disable_edit_message'];
-        }
-
-        if (isset($parameters['chat_id'])) {
-            $payload['chat_id'] = (int) $parameters['chat_id'];
-        }
-
-        if (isset($parameters['message_id'])) {
-            $payload['message_id'] = (int) $parameters['message_id'];
-        }
-
-        if (isset($parameters['inline_message_id'])) {
-            $payload['inline_message_id'] = (string) $parameters['inline_message_id'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'user_id'              => true,
+            'score'                => true,
+            'force'                => false,
+            'disable_edit_message' => false,
+            'chat_id'              => false,
+            'message_id'           => false,
+            'inline_message_id'    => false
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_GAME_SCORE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1560,28 +1415,16 @@ class TelegramBotAPI extends HTTP {
      */
     public function getGameHighScores(array $parameters) {
 
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['user_id'] = (int) $parameters['user_id'];
-
-        if (isset($parameters['chat_id'])) {
-            $payload['chat_id'] = (int) $parameters['chat_id'];
-        }
-
-        if (isset($parameters['message_id'])) {
-            $payload['message_id'] = (int) $parameters['message_id'];
-        }
-
-        if (isset($parameters['inline_message_id'])) {
-            $payload['inline_message_id'] = (string) $parameters['inline_message_id'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'user_id'           => true,
+            'chat_id'           => false,
+            'message_id'        => false,
+            'inline_message_id' => false,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_GAME_HIGH_SCORES);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
         $result = array();
 
         foreach ($data as $obj) {
@@ -1605,16 +1448,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function exportChatInviteLink(array $parameters) {
 
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['user_id'] = (int) $parameters['user_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'user_id' => true,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::EXPORT_CHAT_INVITE_LINK);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1632,21 +1471,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setChatPhoto(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['photo'])) {
-            throw new TelegramBotAPIException('`title` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['title'] = $parameters['title'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+            'photo'   => true,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_CHAT_PHOTO);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1664,16 +1495,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteChatPhoto(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_CHAT_PHOTO);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1691,21 +1518,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setChatTitle(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['title'])) {
-            throw new TelegramBotAPIException('`title` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['title'] = $parameters['title'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true,
+            'title'   => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_CHAT_TITLE);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1723,21 +1542,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setChatDescription(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['description'])) {
-            throw new TelegramBotAPIException('`description` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['description'] = $parameters['description'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'     => true,
+            'description' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_CHAT_DESCRIPTION);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1755,25 +1566,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function pinChatMessage(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['message_id'])) {
-            throw new TelegramBotAPIException('`message_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['message_id'] = $parameters['message_id'];
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'message_id'           => true,
+            'disable_notification' => false,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::PIN_CHAT_MESSAGE);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1791,16 +1591,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function unpinChatMessage(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::UNPIN_CHAT_MESSAGE);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1818,41 +1614,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function restrictChatMember(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['user_id'] = $parameters['user_id'];
-
-        if (isset($parameters['until_date'])) {
-            $payload['until_date'] = $parameters['until_date'];
-        }
-
-        if (isset($parameters['can_send_messages'])) {
-            $payload['can_send_messages'] = $parameters['can_send_messages'];
-        }
-
-        if (isset($parameters['can_send_media_messages'])) {
-            $payload['can_send_media_messages'] = $parameters['can_send_media_messages'];
-        }
-
-        if (isset($parameters['can_send_other_messages'])) {
-            $payload['can_send_other_messages'] = $parameters['can_send_other_messages'];
-        }
-
-        if (isset($parameters['can_add_web_page_previews'])) {
-            $payload['can_add_web_page_previews'] = $parameters['can_add_web_page_previews'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'                   => true,
+            'user_id'                   => true,
+            'until_date'                => false,
+            'can_send_messages'         => false,
+            'can_send_media_messages'   => false,
+            'can_send_other_messages'   => false,
+            'can_add_web_page_previews' => false,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::RESTRICT_CHAT_MEMBER);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1870,53 +1643,21 @@ class TelegramBotAPI extends HTTP {
      */
     public function promoteChatMember(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['user_id'] = $parameters['user_id'];
-
-        if (isset($parameters['can_change_info'])) {
-            $payload['can_change_info'] = $parameters['can_change_info'];
-        }
-
-        if (isset($parameters['can_post_messages'])) {
-            $payload['can_post_messages'] = $parameters['can_post_messages'];
-        }
-
-        if (isset($parameters['can_edit_messages'])) {
-            $payload['can_edit_messages'] = $parameters['can_edit_messages'];
-        }
-
-        if (isset($parameters['can_delete_messages'])) {
-            $payload['can_delete_messages'] = $parameters['can_delete_messages'];
-        }
-
-        if (isset($parameters['can_invite_users'])) {
-            $payload['can_invite_users'] = $parameters['can_invite_users'];
-        }
-
-        if (isset($parameters['can_restrict_members'])) {
-            $payload['can_restrict_members'] = $parameters['can_restrict_members'];
-        }
-
-        if (isset($parameters['can_pin_messages'])) {
-            $payload['can_pin_messages'] = $parameters['can_pin_messages'];
-        }
-
-        if (isset($parameters['can_promote_members'])) {
-            $payload['can_promote_members'] = $parameters['can_promote_members'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'              => true,
+            'user_id'              => true,
+            'can_change_info'      => false,
+            'can_post_messages'    => false,
+            'can_edit_messages'    => false,
+            'can_delete_messages'  => false,
+            'can_invite_users'     => false,
+            'can_restrict_members' => false,
+            'can_pin_messages'     => false,
+            'can_promote_members'  => false,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::PROMOTE_CHAT_MEMBER);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1935,19 +1676,17 @@ class TelegramBotAPI extends HTTP {
      */
     public function getStickerSet(array $parameters) {
 
-        if (empty($parameters['name'])) {
-            throw new TelegramBotAPIException('`name` is required.');
-        }
-
-        $payload = array();
-
-        $payload['name'] = $parameters['name'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'name' => true,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_STICKER_SET);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new StickerSet($data);
 
-        unset($parameters, $url, $payload);
+        unset($parameters, $url, $payload, $data);
 
         return $result;
     }
@@ -1963,24 +1702,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function uploadStickerFile(array $parameters) {
 
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        if (empty($parameters['png_sticker'])) {
-            throw new TelegramBotAPIException('`png_sticker` is required.');
-        }
-
-        $payload = array();
-
-        $payload['user_id'] = $parameters['user_id'];
-        $payload['png_sticker'] = $parameters['png_sticker'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'     => true,
+            'png_sticker' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::UPLOAD_STICKER_FILE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new File($data);
 
-        unset($parameters, $url, $payload);
+        unset($parameters, $url, $payload, $data);
 
         return $result;
     }
@@ -1996,44 +1729,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function createNewStickerSet(array $parameters) {
 
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'user_id'       => true,
+            'name'          => true,
+            'title'         => true,
+            'png_sticker'   => true,
+            'emojis'        => true,
+            'is_masks'      => false,
+            'mask_position' => false,
 
-        if (empty($parameters['name'])) {
-            throw new TelegramBotAPIException('`name` is required.');
-        }
-
-        if (empty($parameters['title'])) {
-            throw new TelegramBotAPIException('`title` is required.');
-        }
-
-        if (empty($parameters['png_sticker'])) {
-            throw new TelegramBotAPIException('`png_sticker` is required.');
-        }
-
-        if (empty($parameters['emojis'])) {
-            throw new TelegramBotAPIException('`emojis` is required.');
-        }
-
-        $payload = array();
-
-        $payload['user_id'] = $parameters['user_id'];
-        $payload['name'] = $parameters['name'];
-        $payload['title'] = $parameters['title'];
-        $payload['png_sticker'] = $parameters['png_sticker'];
-        $payload['emojis'] = $parameters['emojis'];
-
-        if (isset($parameters['is_masks'])) {
-            $payload['is_masks'] = $parameters['is_masks'];
-        }
-
-        if (isset($parameters['mask_position'])) {
-            $payload['mask_position'] = $parameters['mask_position'];
-        }
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::CREATE_NEW_STICKER_SET);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -2051,35 +1759,16 @@ class TelegramBotAPI extends HTTP {
      */
     public function addStickerToSet(array $parameters) {
 
-        if (empty($parameters['user_id'])) {
-            throw new TelegramBotAPIException('`user_id` is required.');
-        }
-
-        if (empty($parameters['name'])) {
-            throw new TelegramBotAPIException('`name` is required.');
-        }
-
-        if (empty($parameters['png_sticker'])) {
-            throw new TelegramBotAPIException('`png_sticker` is required.');
-        }
-
-        if (empty($parameters['emojis'])) {
-            throw new TelegramBotAPIException('`emojis` is required.');
-        }
-
-        $payload = array();
-
-        $payload['user_id'] = $parameters['user_id'];
-        $payload['name'] = $parameters['name'];
-        $payload['png_sticker'] = $parameters['png_sticker'];
-        $payload['emojis'] = $parameters['emojis'];
-
-        if (isset($parameters['mask_position'])) {
-            $payload['mask_position'] = $parameters['mask_position'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'user_id'       => true,
+            'name'          => true,
+            'png_sticker'   => true,
+            'emojis'        => true,
+            'mask_position' => false
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::ADD_STICKER_TO_SET);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -2097,21 +1786,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setStickerPositionInSet(array $parameters) {
 
-        if (empty($parameters['sticker'])) {
-            throw new TelegramBotAPIException('`sticker` is required.');
-        }
-
-        if (empty($parameters['position'])) {
-            throw new TelegramBotAPIException('`position` is required.');
-        }
-
-        $payload = array();
-
-        $payload['sticker'] = $parameters['sticker'];
-        $payload['position'] = $parameters['position'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'sticker'  => true,
+            'position' => true
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SET_STICKER_POSITION_IN_SET);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -2129,16 +1810,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteStickerFromSet(array $parameters) {
 
-        if (empty($parameters['sticker'])) {
-            throw new TelegramBotAPIException('`sticker` is required.');
-        }
-
-        $payload = array();
-
-        $payload['sticker'] = $parameters['sticker'];
+        $payload = $this->checkParameterToSend($parameters, array(
+            'sticker' => true,
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_STICKER_FROM_SET);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
