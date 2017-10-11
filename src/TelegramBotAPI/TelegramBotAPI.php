@@ -55,7 +55,7 @@ class TelegramBotAPI extends HTTP {
 
             switch ($howCheck) {
 
-                case true: {
+                case true:
 
                     if (empty($parameters[$field])) {
                         throw new TelegramBotAPIException($field . ' is required field.');
@@ -63,9 +63,8 @@ class TelegramBotAPI extends HTTP {
 
                     $payload[$field] = $parameters[$field];
                     break;
-                }
 
-                case PrivateConst::CHECK_PARSE_MODE_TYPE: {
+                case PrivateConst::CHECK_PARSE_MODE_TYPE:
 
                     if (!$this->checkParseModeType($parameters[$field])) {
                         new TelegramBotAPIWarning('
@@ -77,9 +76,8 @@ class TelegramBotAPI extends HTTP {
 
                     $payload[$field] = $parameters[$field];
                     break;
-                }
 
-                case PrivateConst::CHECK_KEYBOARD_TYPE: {
+                case PrivateConst::CHECK_KEYBOARD_TYPE:
 
                     if (!$this->checkKeyboardType($parameters[$field])) {
                         new TelegramBotAPIWarning('Invalid keyboard type.');
@@ -87,9 +85,8 @@ class TelegramBotAPI extends HTTP {
 
                     $payload[$field] = json_encode($parameters[$field]);
                     break;
-                }
 
-                case PrivateConst::CHECK_LIMIT: {
+                case PrivateConst::CHECK_LIMIT:
 
                     if (!$this->checkLimit($parameters[$field])) {
                         new TelegramBotAPIWarning('
@@ -100,9 +97,8 @@ class TelegramBotAPI extends HTTP {
 
                     $payload[$field] = $parameters[$field];
                     break;
-                }
 
-                case PrivateConst::CHECK_CAPTION_LIMIT: {
+                case PrivateConst::CHECK_CAPTION_LIMIT:
 
                     if (!$this->checkCaptionLimit($parameters[$field])) {
                         new TelegramBotAPIWarning('
@@ -114,16 +110,15 @@ class TelegramBotAPI extends HTTP {
 
                     $payload[$field] = $parameters[$field];
                     break;
-                }
 
-                default: {
+                default:
 
                     if (isset($parameters[$field])) {
                         $payload[$field] = $parameters[$field];
                     }
 
                     break;
-                }
+
             }
         }
 
