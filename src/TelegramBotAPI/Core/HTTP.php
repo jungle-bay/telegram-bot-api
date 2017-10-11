@@ -22,7 +22,7 @@ class HTTP {
      *
      * @throws TelegramBotAPIRuntimeException
      */
-    private function exec(resource $ch) {
+    private function exec($ch) {
 
         $response = curl_exec($ch);
         $codeError = curl_errno($ch);
