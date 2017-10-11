@@ -24,7 +24,7 @@ class HTTPTest extends TelegramBotAPITestCase {
     /**
      * @return int
      */
-    protected function getUserId() {
+    protected function getId() {
         return 59673324;
     }
 

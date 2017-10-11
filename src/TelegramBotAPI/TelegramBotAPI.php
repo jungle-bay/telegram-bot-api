@@ -40,6 +40,116 @@ class TelegramBotAPI extends HTTP {
 
 
     /**
+     * @param array $parameters
+     * @param array $fields
+     * @return array
+     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    private function checkParameterToSend(array $parameters, array $fields) {
+
+        $payload = array();
+
+        foreach ($fields as $field => $howCheck) {
+
+            switch ($howCheck) {
+
+                case true: {
+
+                    if (empty($parameters[$field])) {
+                        throw new TelegramBotAPIException($field . ' is required field.');
+                    }
+
+                    $payload[$field] = $parameters[$field];
+                    break;
+                }
+
+                case PrivateConst::CHECK_PARSE_MODE_TYPE: {
+
+                    if (!$this->checkParseModeType($parameters[$field])) {
+                        new TelegramBotAPIWarning('
+                            Used not by the correct parse mode.
+                            Send Markdown or HTML, if you want Telegram apps to show bold, italic,
+                            fixed-width text or inline URLs in your bot\'s message.
+                        ');
+                    }
+
+                    $payload[$field] = $parameters[$field];
+                    break;
+                }
+
+                case PrivateConst::CHECK_KEYBOARD_TYPE: {
+
+                    if (!$this->checkKeyboardType($parameters[$field])) {
+                        new TelegramBotAPIWarning('Invalid keyboard type.');
+                    }
+
+                    $payload[$field] = json_encode($parameters[$field]);
+                    break;
+                }
+
+                case PrivateConst::CHECK_LIMIT: {
+
+                    if (!$this->checkLimit($parameters[$field])) {
+                        new TelegramBotAPIWarning('
+                            Used not by the correct limit limits the number of updates that are updated.
+                            Values from 1 to 100 are accepted. Default is 100.
+                        ');
+                    }
+
+                    $payload[$field] = $parameters[$field];
+                    break;
+                }
+
+                default: {
+
+                    if (isset($parameters[$field])) {
+                        $payload[$field] = $parameters[$field];
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return $payload;
+    }
+
+    /**
+     * @param string $response
+     * @return bool|array
+     * @throws TelegramBotAPIRuntimeException
+     */
+    private function checkForBadRequest($response) {
+
+        $data = json_decode($response, true);
+
+        if ($data === null) {
+            throw new TelegramBotAPIRuntimeException('I can not spread the answer', self::INTERNAL_SERVER_ERROR);
+        }
+
+        if ($data['ok'] !== true) {
+            throw new TelegramBotAPIRuntimeException($data['description'], $data['error_code']);
+        }
+
+        return $data['result'];
+    }
+
+    private function send($method, $url, $payload) {
+
+        if ($method === TBAPrivateConst::POST) {
+            $response = $this->post($url, $payload);
+        } else {
+            $response = $this->get($url, $payload);
+        }
+
+        $data = $this->checkForBadRequest($response);
+
+        return $data;
+    }
+
+    /**
      * @param $keyboard
      * @return bool
      */
@@ -119,9 +229,10 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @param string $token
-     * @throws TelegramBotAPIException
      * @link https://core.telegram.org/bots/api#authorizing-your-bot
+     * @param string $token
+     *
+     * @throws TelegramBotAPIException
      */
     public function setToken($token) {
 
@@ -141,10 +252,22 @@ class TelegramBotAPI extends HTTP {
     public function getToken() {
 
         if (empty($this->token)) {
-            throw new TelegramBotAPIException('`token` require');
+            throw new TelegramBotAPIException('`token` empty');
         }
 
         return $this->token;
+    }
+
+    /**
+     * @param $data
+     *
+     * @throws TelegramBotAPIRuntimeException
+     */
+    private function checkDataToArray($data) {
+
+        if (!is_array($data)) {
+            throw new TelegramBotAPIRuntimeException('$data mast be array.');
+        }
     }
 
 
@@ -160,6 +283,7 @@ class TelegramBotAPI extends HTTP {
     public function takeUpdates($response) {
 
         $data = $this->checkForBadRequest($response);
+        $this->checkDataToArray($data);
         $result = array();
 
         foreach ($data as $obj) {
@@ -182,40 +306,16 @@ class TelegramBotAPI extends HTTP {
      */
     public function getUpdates($parameters = array()) {
 
-        $payload = array();
-
-        if (isset($parameters['offset'])) {
-            $payload['offset'] = (int) $parameters['offset'];
-        }
-
-        if (isset($parameters['limit'])) {
-
-            $limit = (int) $parameters['limit'];
-
-            if (!$this->checkLimit($limit)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit limits the number of updates that are updated.
-                    Values from 1 to 100 are accepted. Default is 100.
-                ');
-            } else {
-                $payload['limit'] = $limit;
-            }
-        }
-
-        if (isset($parameters['timeout'])) {
-            $payload['timeout'] = (int) $parameters['timeout'];
-        }
-
-        if (isset($parameters['allowed_updates'])) {
-            $payload['allowed_updates'] = (array) $parameters['allowed_updates'];
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'offset'          => false,
+            'limit'           => false,
+            'timeout'         => TBAPrivateConst::CHECK_LIMIT,
+            'allowed_updates' => false
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::GET_UPDATES);
-        $data = $this->post($url, $payload);
-
-        if (!is_array($data)) {
-            throw new TelegramBotAPIRuntimeException('data updates must be an array.');
-        }
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
 
         $result = array();
 
@@ -239,13 +339,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setWebhook(array $parameters) {
 
-        if (empty($parameters['url'])) {
-            throw new TelegramBotAPIException('`url` is required.');
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'url'             => true,
+            'certificate'     => false,
+            'max_connections' => TBAPrivateConst::CHECK_LIMIT,
+            'allowed_updates' => false
+        ));
 
-        $payload = array();
-
-        $payload['url'] = (string) $parameters['url'];
 
         if (isset($parameters['certificate'])) {
 
@@ -262,28 +362,8 @@ class TelegramBotAPI extends HTTP {
             }
         }
 
-        if (isset($parameters['max_connections'])) {
-
-            $maxConnections = (int) $parameters['max_connections'];
-
-            if (!$this->checkLimit($maxConnections)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct limit.
-                    Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100.
-                    Defaults to 40. Use lower values to limit the load on your bot‘s server,
-                    and higher values to increase your bot’s throughput.
-                ');
-            } else {
-                $payload['max_connections'] = $maxConnections;
-            }
-        }
-
-        if (isset($parameters['allowed_updates'])) {
-            $payload['allowed_updates'] = (array) $parameters['allowed_updates'];
-        }
-
         $url = $this->generateUrl(TBAPrivateConst::SET_WEBHOOK);
-        $result = $this->post($url, $payload);
+        $result = $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -365,59 +445,20 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendMessage(array $parameters) {
 
-        if (empty($parameters['chat_id'])) {
-            throw new TelegramBotAPIException('`chat_id` is required.');
-        }
-
-        if (empty($parameters['text'])) {
-            throw new TelegramBotAPIException('`text` is required.');
-        }
-
-        $payload = array();
-
-        $payload['chat_id'] = $parameters['chat_id'];
-        $payload['text'] = (string) $parameters['text'];
-
-        if (isset($parameters['parse_mode'])) {
-
-            $parseMode = (string) $parameters['parse_mode'];
-
-            if (!$this->checkParseModeType($parseMode)) {
-                new TelegramBotAPIWarning('
-                    Used not by the correct parse mode.
-                    Send Markdown or HTML, if you want Telegram apps to show bold, italic,
-                    fixed-width text or inline URLs in your bot\'s message.
-                ');
-            } else {
-                $payload['parse_mode'] = $parseMode;
-            }
-        }
-
-        if (isset($parameters['disable_web_page_preview'])) {
-            $payload['disable_web_page_preview'] = (bool) $parameters['disable_web_page_preview'];
-        }
-
-        if (isset($parameters['disable_notification'])) {
-            $payload['disable_notification'] = (bool) $parameters['disable_notification'];
-        }
-
-        if (isset($parameters['reply_to_message_id'])) {
-            $payload['reply_to_message_id'] = (int) $parameters['reply_to_message_id'];
-        }
-
-        if (isset($parameters['reply_markup'])) {
-
-            $replyMarkup = $parameters['reply_markup'];
-
-            if (!$this->checkKeyboardType($replyMarkup)) {
-                new TelegramBotAPIWarning('Invalid keyboard type.');
-            } else {
-                $payload['reply_markup'] = json_encode($replyMarkup);
-            }
-        }
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'                  => true,
+            'text'                     => true,
+            'parse_mode'               => PrivateConst::CHECK_PARSE_MODE_TYPE,
+            'disable_web_page_preview' => false,
+            'disable_notification'     => false,
+            'reply_to_message_id'      => false,
+            'reply_markup'             => PrivateConst::CHECK_KEYBOARD_TYPE
+        ));
 
         $url = $this->generateUrl(TBAPrivateConst::SEND_MESSAGE);
-        $data = $this->post($url, $payload);
+        $data = $this->send(TBAPrivateConst::POST, $url, $payload);
+        $this->checkDataToArray($data);
+
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);

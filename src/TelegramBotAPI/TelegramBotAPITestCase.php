@@ -23,5 +23,5 @@ abstract class TelegramBotAPITestCase extends TestCase {
      *
      * @return int|string
      */
-    abstract protected function getUserId();
+    abstract protected function getId();
 }

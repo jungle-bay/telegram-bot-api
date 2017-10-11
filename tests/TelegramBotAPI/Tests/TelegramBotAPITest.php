@@ -39,7 +39,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
      *
      * @return int|string
      */
-    protected function getUserId() {
+    protected function getId() {
         return 59673324;
     }
 
@@ -114,13 +114,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendMessage(array(
-            'chat_id' => $this->getUserId(),
+            'chat_id' => $this->getId(),
             'text'    => 'Hello World!'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testForwardMessage() {
@@ -129,8 +129,8 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->forwardMessage(array(
-            'chat_id'      => $this->getUserId(),
-            'from_chat_id' => $this->getUserId(),
+            'chat_id'      => $this->getId(),
+            'from_chat_id' => $this->getId(),
             'message_id'   => 5
         ));
 
@@ -144,13 +144,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendPhoto(array(
-            'chat_id' => $this->getUserId(),
+            'chat_id' => $this->getId(),
             'photo'   => 'AgADAgADuKcxG4QF6EsMJMijbYLItaREtw0ABOLuWOpqmQUotH4CAAEC'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendAudio() {
@@ -159,13 +159,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendAudio(array(
-            'chat_id' => $this->getUserId(),
+            'chat_id' => $this->getId(),
             'audio'   => 'CQADAgADCQADhAXoS508c_4-8vv3Ag'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendDocument() {
@@ -174,13 +174,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendDocument(array(
-            'chat_id'  => $this->getUserId(),
+            'chat_id'  => $this->getId(),
             'document' => 'BQADAgADCwADhAXoS9zbiySyGOe0Ag'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendSticker() {
@@ -189,13 +189,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendSticker(array(
-            'chat_id' => $this->getUserId(),
+            'chat_id' => $this->getId(),
             'sticker' => 'CAADBAADUQcAAhXc8gKpKJYytxw9CwI'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendVideo() {
@@ -204,13 +204,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendVideo(array(
-            'chat_id' => $this->getUserId(),
+            'chat_id' => $this->getId(),
             'video'   => 'BAADAgADCgADhAXoSwGEHSLhDt6EAg'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendVoice() {
@@ -219,13 +219,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendVoice(array(
-            'chat_id' => $this->getUserId(),
+            'chat_id' => $this->getId(),
             'voice'   => 'AwADAgADCAADhAXoS6dX4441hqLVAg'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendLocation() {
@@ -234,14 +234,14 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendLocation(array(
-            'chat_id'   => $this->getUserId(),
+            'chat_id'   => $this->getId(),
             'latitude'  => 48.424740,
             'longitude' => 35.023963
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendVenue() {
@@ -250,7 +250,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendVenue(array(
-            'chat_id'   => $this->getUserId(),
+            'chat_id'   => $this->getId(),
             'latitude'  => 48.424740,
             'longitude' => 35.023963,
             'title'     => 'Star square',
@@ -259,7 +259,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendContact() {
@@ -268,14 +268,14 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendContact(array(
-            'chat_id'      => $this->getUserId(),
+            'chat_id'      => $this->getId(),
             'phone_number' => '+300003690000',
             'first_name'   => 'Bot'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     public function testSendChatAction() {
@@ -284,7 +284,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $chatAction = $tba->sendChatAction(array(
-            'chat_id' => $this->getUserId(),
+            'chat_id' => $this->getId(),
             'action'  => TBAConst::TYPING_TYPE_ACTION,
         ));
 
@@ -298,7 +298,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $userProfilePhotos = $tba->getUserProfilePhotos(array(
-            'user_id' => $this->getUserId()
+            'user_id' => $this->getId()
         ));
 
         $this->assertNotNull($userProfilePhotos);
@@ -335,8 +335,8 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $isKickChatMember = $tba->kickChatMember(array(
-            'chat_id' => $this->getUserId(),
-            'user_id' => $this->getUserId()
+            'chat_id' => $this->getId(),
+            'user_id' => $this->getId()
         ));
 
         $this->assertNotNull($isKickChatMember);
@@ -352,7 +352,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $isLeaveChat = $tba->leaveChat(array(
-            'chat_id' => $this->getUserId()
+            'chat_id' => $this->getId()
         ));
 
         $this->assertNotNull($isLeaveChat);
@@ -368,8 +368,8 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $isUnbanChatMember = $tba->unbanChatMember(array(
-            'chat_id' => $this->getUserId(),
-            'user_id' => $this->getUserId()
+            'chat_id' => $this->getId(),
+            'user_id' => $this->getId()
         ));
 
         $this->assertNotNull($isUnbanChatMember);
@@ -382,12 +382,12 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $chat = $tba->getChat(array(
-            'chat_id' => $this->getUserId()
+            'chat_id' => $this->getId()
         ));
 
         $this->assertNotNull($chat);
         $this->assertInstanceOf(Chat::class, $chat);
-        $this->assertEquals($this->getUserId(), $chat->getId());
+        $this->assertEquals($this->getId(), $chat->getId());
     }
 
     /**
@@ -399,7 +399,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $chatAdministrators = $tba->getChatAdministrators(array(
-            'chat_id' => $this->getUserId()
+            'chat_id' => $this->getId()
         ));
 
         foreach ($chatAdministrators as $chatMember) {
@@ -415,7 +415,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $count = $tba->getChatMembersCount(array(
-            'chat_id' => $this->getUserId()
+            'chat_id' => $this->getId()
         ));
 
         $this->assertNotNull($count);
@@ -428,13 +428,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $chatMember = $tba->getChatMember(array(
-            'chat_id' => $this->getUserId(),
-            'user_id' => $this->getUserId()
+            'chat_id' => $this->getId(),
+            'user_id' => $this->getId()
         ));
 
         $this->assertNotNull($chatMember);
         $this->assertInstanceOf(ChatMember::class, $chatMember);
-        $this->assertEquals($this->getUserId(), $chatMember->getUser()->getId());
+        $this->assertEquals($this->getId(), $chatMember->getUser()->getId());
     }
 
     /** Tests Updating messages */
@@ -448,14 +448,14 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->editMessageText(array(
-            'chat_id'    => $this->getUserId(),
+            'chat_id'    => $this->getId(),
             'message_id' => 5,
             'text'       => 'Hello World!!!'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
         $this->assertEquals(5, $feedback->getMessageId());
     }
 
@@ -468,14 +468,14 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->editMessageCaption(array(
-            'chat_id'    => $this->getUserId(),
+            'chat_id'    => $this->getId(),
             'message_id' => 5,
             'caption'    => 'Caption'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
         $this->assertEquals(5, $feedback->getMessageId());
     }
 
@@ -535,14 +535,14 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
         // begin test
 
         $feedback = $tba->editMessageReplyMarkup(array(
-            'chat_id'      => $this->getUserId(),
+            'chat_id'      => $this->getId(),
             'message_id'   => 5,
             'reply_markup' => $replyMarkup
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
         $this->assertEquals(5, $feedback->getMessageId());
     }
 
@@ -556,13 +556,13 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->sendGame(array(
-            'chat_id'         => $this->getUserId(),
+            'chat_id'         => $this->getId(),
             'game_short_name' => 'J1G'
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     /**
@@ -574,16 +574,16 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $feedback = $tba->setGameScore(array(
-            'user_id'    => $this->getUserId(),
-            'chat_id'    => $this->getUserId(),
+            'user_id'    => $this->getId(),
+            'chat_id'    => $this->getId(),
             'message_id' => 5,
             'score'      => 1
         ));
 
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getUserId(), $feedback->getFrom()->getId());
-        $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
+        $this->assertEquals($this->getId(), $feedback->getFrom()->getId());
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
         $this->assertEquals(5, $feedback->getMessageId());
     }
 
@@ -596,8 +596,8 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
 
         $gameHighScores = $tba->getGameHighScores(array(
-            'user_id'    => $this->getUserId(),
-            'chat_id'    => $this->getUserId(),
+            'user_id'    => $this->getId(),
+            'chat_id'    => $this->getId(),
             'message_id' => 5
         ));
 

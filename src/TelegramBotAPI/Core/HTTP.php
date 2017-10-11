@@ -17,12 +17,12 @@ class HTTP {
 
 
     /**
-     * @param $ch
+     * @param resource $ch
      * @return string
      *
      * @throws TelegramBotAPIRuntimeException
      */
-    private function exec($ch) {
+    private function exec(resource $ch) {
 
         $response = curl_exec($ch);
         $codeError = curl_errno($ch);
@@ -41,36 +41,19 @@ class HTTP {
 
 
     /**
-     * @param string $response
-     * @return array
-     * @throws TelegramBotAPIRuntimeException
-     */
-    protected function checkForBadRequest($response) {
-
-        $data = json_decode($response, true);
-
-        if ($data === null) {
-            throw new TelegramBotAPIRuntimeException('I can not spread the answer', self::INTERNAL_SERVER_ERROR);
-        }
-
-        if ($data['ok'] === false) {
-            throw new TelegramBotAPIRuntimeException($data['description'], $data['error_code']);
-        }
-
-        return $data['result'];
-    }
-
-
-    /**
      * @api
      * @param $url
      * @param array $parameters
-     * @return bool|array
+     * @return string
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
      */
     public function get($url, $parameters = array()) {
+
+        if (empty($url)) {
+            throw new TelegramBotAPIException('[http get] URL empty', self::INTERNAL_SERVER_ERROR);
+        }
 
         $ch = curl_init();
 
@@ -81,16 +64,15 @@ class HTTP {
         ));
 
         $response = $this->exec($ch);
-        $result = $this->checkForBadRequest($response);
 
-        return $result;
+        return $response;
     }
 
     /**
      * @api
      * @param $url
      * @param array $parameters
-     * @return bool|array
+     * @return string
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -98,7 +80,7 @@ class HTTP {
     public function post($url, $parameters = array()) {
 
         if (empty($url)) {
-            throw new TelegramBotAPIException('URL Empty', self::INTERNAL_SERVER_ERROR);
+            throw new TelegramBotAPIException('[http post] URL empty', self::INTERNAL_SERVER_ERROR);
         }
 
         $ch = curl_init();
@@ -112,8 +94,7 @@ class HTTP {
         ));
 
         $response = $this->exec($ch);
-        $result = $this->checkForBadRequest($response);
 
-        return $result;
+        return $response;
     }
 }
