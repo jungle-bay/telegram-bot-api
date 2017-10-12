@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#chat
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Chat implements JsonDeserializerInterface {
+class Chat extends Type {
 
     /**
      * @var int $id
@@ -244,44 +244,25 @@ class Chat implements JsonDeserializerInterface {
         $this->pinnedMessage = $pinnedMessage;
     }
 
+
     /**
-     * @param array $data
+     * @return array
      */
-    public function __construct(array $data = array()) {
-
-        $this->setId($data['id']);
-        $this->setType($data['type']);
-
-        if (isset($data['title'])) {
-            $this->setTitle($data['title']);
-        }
-
-        if (isset($data['username'])) {
-            $this->setUsername($data['username']);
-        }
-
-        if (isset($data['first_name'])) {
-            $this->setFirstName($data['first_name']);
-        }
-
-        if (isset($data['last_name'])) {
-            $this->setLastName($data['last_name']);
-        }
-
-        if (isset($data['all_members_are_administrators'])) {
-            $this->setAllMembersAreAdministrators($data['all_members_are_administrators']);
-        }
-
-        if (isset($data['photo'])) {
-            $this->setPhoto(new ChatPhoto($data['photo']));
-        }
-
-        if (isset($data['description'])) {
-            $this->setDescription($data['description']);
-        }
-
-        if (isset($data['invite_link'])) {
-            $this->setInviteLink($data['invite_link']);
-        }
+    public function getSchemaValid() {
+        return array(
+            'id'                             => true,
+            'type'                           => true,
+            'title'                          => false,
+            'username'                       => false,
+            'first_name'                     => false,
+            'last_name'                      => false,
+            'all_members_are_administrators' => false,
+            'photo'                          => array(
+                'value'   => ChatPhoto::class,
+                'require' => false
+            ),
+            'description'                    => false,
+            'invite_link'                    => false
+        );
     }
 }
