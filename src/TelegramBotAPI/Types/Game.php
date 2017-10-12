@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#game
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Game implements JsonDeserializerInterface {
+class Game extends Type {
 
     /**
      * @var string $title
@@ -42,34 +42,6 @@ class Game implements JsonDeserializerInterface {
      */
     private $animation;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setTitle($data['title']);
-        $this->setDescription($data['description']);
-
-        $photos = array();
-
-        foreach ($data['photo'] as $photo) $photos[] = new PhotoSize($photo);;
-
-        $this->setPhoto($photos);
-
-        if (isset($data['text'])) $this->setText($data['text']);
-
-        if (isset($data['text_entities'])) {
-
-            $entities = array();
-
-            foreach ($data['text_entities'] as $message) $entities[] = new Message($message);
-
-            $this->setTextEntities($entities);
-        }
-
-        if (isset($data['animation'])) $this->setAnimation(new Animation($data['animation']));
-    }
 
     /**
      * @return string
@@ -153,5 +125,30 @@ class Game implements JsonDeserializerInterface {
      */
     public function setAnimation($animation) {
         $this->animation = $animation;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSchemaValid() {
+        return array(
+            'title'         => true,
+            'description'   => true,
+            'photo'         => array(
+                'value'   => PhotoSize::class,
+                'require' => false,
+                'array'   => true
+            ),
+            'text'          => true,
+            'text_entities' => array(
+                'value'   => Message::class,
+                'require' => false,
+                'array'   => true
+            ),
+            'animation'     => array(
+                'value'   => Animation::class,
+                'require' => false
+            )
+        );
     }
 }

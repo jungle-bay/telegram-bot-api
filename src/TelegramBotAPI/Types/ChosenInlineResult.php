@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#choseninlineresult
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ChosenInlineResult implements JsonDeserializerInterface {
+class ChosenInlineResult extends Type {
 
     /**
      * @var string $resultId
@@ -118,22 +118,23 @@ class ChosenInlineResult implements JsonDeserializerInterface {
         $this->query = $query;
     }
 
+
     /**
-     * @param array $data
+     * @return array
      */
-    public function __construct(array $data = array()) {
-
-        $this->setResultId($data['result_id']);
-        $this->setFrom(new User($data['from']));
-
-        if (isset($data['location'])) {
-            $this->setLocation(new Location($data['location']));
-        }
-
-        if (isset($data['inline_message_id'])) {
-            $this->setInlineMessageId($data['inline_message_id']);
-        }
-
-        $this->setQuery($data['query']);
+    protected function getSchemaValid() {
+        return array(
+            'result_id'         => true,
+            'from'              => array(
+                'value'   => User::class,
+                'require' => true
+            ),
+            'location'          => array(
+                'value'   => Location::class,
+                'require' => false
+            ),
+            'inline_message_id' => false,
+            'query'             => true
+        );
     }
 }

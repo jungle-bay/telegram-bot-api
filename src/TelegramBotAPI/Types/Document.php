@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#document
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Document implements JsonDeserializerInterface {
+class Document extends Type {
 
     /**
      * @var string $fileId
@@ -37,19 +37,6 @@ class Document implements JsonDeserializerInterface {
      */
     private $fileSize;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setFileId($data['file_id']);
-
-        if (isset($data['thumb'])) $this->setThumb(new PhotoSize($data['thumb']));
-        if (isset($data['file_name'])) $this->setFileName($data['file_name']);
-        if (isset($data['mime_type'])) $this->setMimeType($data['mime_type']);
-        if (isset($data['file_size'])) $this->setFileSize($data['file_size']);
-    }
 
     /**
      * @return string
@@ -119,5 +106,21 @@ class Document implements JsonDeserializerInterface {
      */
     public function setFileSize($fileSize) {
         $this->fileSize = $fileSize;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSchemaValid() {
+        return array(
+            'file_id'   => true,
+            'thumb'     => array(
+                'value'   => PhotoSize::class,
+                'require' => false
+            ),
+            'file_name' => false,
+            'mime_type' => false,
+            'file_size' => false
+        );
     }
 }

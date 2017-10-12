@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#contact
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Contact implements JsonDeserializerInterface {
+class Contact extends Type {
 
     /**
      * @var string $phoneNumber
@@ -97,20 +97,16 @@ class Contact implements JsonDeserializerInterface {
         $this->userId = $userId;
     }
 
+
     /**
-     * @param array $data
+     * @return array
      */
-    public function __construct(array $data = array()) {
-
-        $this->setPhoneNumber($data['phone_number']);
-        $this->setFirstName($data['first_name']);
-
-        if (isset($data['last_name'])) {
-            $this->setLastName($data['last_name']);
-        }
-
-        if (isset($data['user_id'])) {
-            $this->setUserId($data['user_id']);
-        }
+    protected function getSchemaValid() {
+        return array(
+            'phone_number' => true,
+            'first_name'   => true,
+            'last_name'    => false,
+            'user_id'      => false
+        );
     }
 }

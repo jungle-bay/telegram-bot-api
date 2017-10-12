@@ -3,15 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#forcereply
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ForceReply implements JsonSerializable, JsonDeserializerInterface {
+class ForceReply extends Type {
 
     /**
      * @var bool $forceReply
@@ -23,18 +22,6 @@ class ForceReply implements JsonSerializable, JsonDeserializerInterface {
      */
     private $selective;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        if (empty($data)) return;
-
-        $this->setForceReply($data['force_reply']);
-
-        if (isset($data['selective'])) $this->setSelective($data['selective']);
-    }
 
     /**
      * @return bool
@@ -66,20 +53,12 @@ class ForceReply implements JsonSerializable, JsonDeserializerInterface {
 
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
+     * @return array
      */
-    public function jsonSerialize() {
-
-        $data = array();
-
-        $data['force_reply'] = $this->getForceReply();
-
-        if (isset($this->selective)) $data['selective'] = $this->getSelective();
-
-        return $data;
+    protected function getSchemaValid() {
+        return array(
+            'force_reply' => true,
+            'selective'   => false,
+        );
     }
 }

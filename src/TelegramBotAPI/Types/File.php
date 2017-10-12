@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#file
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class File implements JsonDeserializerInterface {
+class File extends Type {
 
     /**
      * @var string $fileId
@@ -27,17 +27,6 @@ class File implements JsonDeserializerInterface {
      */
     private $filePath;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setFileId($data['file_id']);
-
-        if (isset($data['file_size'])) $this->setFileSize($data['file_size']);
-        if (isset($data['file_path'])) $this->setFilePath($data['file_path']);
-    }
 
     /**
      * @return string
@@ -79,5 +68,16 @@ class File implements JsonDeserializerInterface {
      */
     public function setFilePath($filePath) {
         $this->filePath = $filePath;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSchemaValid() {
+        return array(
+            'file_id'   => true,
+            'file_size' => false,
+            'file_path' => false
+        );
     }
 }
