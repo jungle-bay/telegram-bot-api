@@ -777,7 +777,7 @@ class Message extends Type {
     /**
      * @return array
      */
-    public function getSchemaValid() {
+    protected function getSchemaValid() {
         return array(
             'message_id'              => true,
             'from'                    => array(

@@ -132,7 +132,7 @@ abstract class Type implements JsonSerializable, JsonDeserializerInterface {
     /**
      * @return array
      */
-    abstract public function getSchemaValid();
+    abstract protected function getSchemaValid();
 
 
     /**

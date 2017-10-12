@@ -248,7 +248,7 @@ class Chat extends Type {
     /**
      * @return array
      */
-    public function getSchemaValid() {
+    protected function getSchemaValid() {
         return array(
             'id'                             => true,
             'type'                           => true,

@@ -353,7 +353,7 @@ class ChatMember extends Type {
     /**
      * @return array
      */
-    public function getSchemaValid() {
+    protected function getSchemaValid() {
         return array(
             'user'                      => array(
                 'value'   => User::class,
