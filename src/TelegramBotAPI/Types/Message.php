@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#message
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Message implements JsonDeserializerInterface {
+class Message extends Type {
 
     /**
      * @var int $messageId
@@ -212,91 +212,6 @@ class Message implements JsonDeserializerInterface {
      */
     private $forwardSignature;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setMessageId($data['message_id']);
-
-        if (isset($data['from'])) $this->setFrom(new User($data['from']));
-
-        $this->setDate($data['date']);
-        $this->setChat(new Chat($data['chat']));
-
-        if (isset($data['forward_from'])) $this->setForwardFrom(new User($data['forward_from']));
-        if (isset($data['forward_from_chat'])) $this->setForwardFromChat(new Chat($data['forward_from_chat']));
-        if (isset($data['forward_from_message_id'])) $this->setForwardFromMessageId($data['forward_from_message_id']);
-        if (isset($data['forward_date'])) $this->setForwardDate($data['forward_date']);
-        if (isset($data['reply_to_message'])) $this->setReplyToMessage(new Message($data['reply_to_message']));
-        if (isset($data['edit_date'])) $this->setEditDate($data['edit_date']);
-        if (isset($data['text'])) $this->setText($data['text']);
-
-        if (isset($data['entities'])) {
-
-            $entities = array();
-
-            foreach ($data['entities'] as $entity) $entities[] = new MessageEntity($entity);
-
-            $this->setEntities($entities);
-        }
-
-        if (isset($data['audio'])) $this->setAudio(new Audio($data['audio']));
-        if (isset($data['document'])) $this->setDocument(new Document($data['document']));
-        if (isset($data['game'])) $this->setGame(new Game($data['game']));
-
-        if (isset($data['photo'])) {
-
-            $photos = array();
-
-            foreach ($data['photo'] as $photo) $photos[] = new PhotoSize($photo);
-
-            $this->setPhoto($photos);
-        }
-
-        if (isset($data['sticker'])) $this->setSticker(new Sticker($data['sticker']));
-        if (isset($data['video'])) $this->setVideo(new Video($data['video']));
-        if (isset($data['video_note'])) $this->setVideoNote(new VideoNote($data['video_note']));
-
-        if (isset($data['new_chat_members'])) {
-
-            $users = array();
-
-            foreach ($data['new_chat_members'] as $user) $users[] = new User($user);
-
-            $this->setNewChatPhoto($users);
-        }
-
-        if (isset($data['voice'])) $this->setVoice(new Voice($data['voice']));
-        if (isset($data['caption'])) $this->setCaption($data['caption']);
-        if (isset($data['contact'])) $this->setContact(new Contact($data['contact']));
-        if (isset($data['location'])) $this->setLocation(new Location($data['location']));
-        if (isset($data['venue'])) $this->setVenue(new Venue($data['venue']));
-        if (isset($data['new_chat_member'])) $this->setNewChatMember(new User($data['new_chat_member']));
-        if (isset($data['left_chat_member'])) $this->setLeftChatMember(new User($data['left_chat_member']));
-        if (isset($data['new_chat_title'])) $this->setNewChatTitle($data['new_chat_title']);
-
-        if (isset($data['new_chat_photo'])) {
-
-            $photos = array();
-
-            foreach ($data['new_chat_photo'] as $photo) $photos[] = new PhotoSize($photo);
-
-            $this->setNewChatPhoto($photos);
-        }
-
-        if (isset($data['delete_chat_photo'])) $this->setDeleteChatPhoto($data['delete_chat_photo']);
-        if (isset($data['group_chat_created'])) $this->setGroupChatCreated($data['group_chat_created']);
-        if (isset($data['supergroup_chat_created'])) $this->setSupergroupChatCreated($data['supergroup_chat_created']);
-        if (isset($data['migrate_to_chat_id'])) $this->setChannelChatCreated($data['channel_chat_created']);
-        if (isset($data['migrate_to_chat_id'])) $this->setMigrateToChatId($data['migrate_to_chat_id']);
-        if (isset($data['migrate_from_chat_id'])) $this->setMigrateFromChatId($data['migrate_from_chat_id']);
-        if (isset($data['pinned_message'])) $this->setPinnedMessage(new Message($data['pinned_message']));
-
-        if (isset($data['invoice'])) $this->setInvoice(new Invoice($data['invoice']));
-        if (isset($data['successful_payment'])) $this->setSuccessfulPayment(new SuccessfulPayment($data['successful_payment']));
-    }
 
     /**
      * @return int
@@ -856,5 +771,128 @@ class Message implements JsonDeserializerInterface {
      */
     public function setForwardSignature($forwardSignature) {
         $this->forwardSignature = $forwardSignature;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getSchemaValid() {
+        return array(
+            'message_id'              => true,
+            'from'                    => array(
+                'value'   => User::class,
+                'require' => false
+            ),
+            'date'                    => true,
+            'chat'                    => array(
+                'value'   => Chat::class,
+                'require' => true
+            ),
+            'forward_from'            => array(
+                'value'   => User::class,
+                'require' => false
+            ),
+            'forward_from_chat'       => array(
+                'value'   => Chat::class,
+                'require' => false
+            ),
+            'forward_from_message_id' => false,
+            'forward_date'            => false,
+            'reply_to_message'        => array(
+                'value'   => Message::class,
+                'require' => false
+            ),
+            'edit_date'               => false,
+            'text'                    => false,
+            'entities'                => array(
+                'value'   => MessageEntity::class,
+                'require' => false,
+                'array'   => true
+            ),
+            'audio'                   => array(
+                'value'   => Audio::class,
+                'require' => false
+            ),
+            'document'                => array(
+                'value'   => Document::class,
+                'require' => false
+            ),
+            'game'                    => array(
+                'value'   => Game::class,
+                'require' => false
+            ),
+            'photo'                   => array(
+                'value'   => PhotoSize::class,
+                'require' => false,
+                'array'   => true
+            ),
+            'sticker'                 => array(
+                'value'   => Sticker::class,
+                'require' => false
+            ),
+            'video'                   => array(
+                'value'   => Video::class,
+                'require' => false
+            ),
+            'video_note'              => array(
+                'value'   => VideoNote::class,
+                'require' => false
+            ),
+            'new_chat_members'        => array(
+                'value'   => User::class,
+                'require' => false,
+                'array'   => true
+            ),
+            'voice'                   => array(
+                'value'   => Voice::class,
+                'require' => false
+            ),
+            'caption'                 => false,
+            'contact'                 => array(
+                'value'   => Contact::class,
+                'require' => false
+            ),
+            'location'                => array(
+                'value'   => Location::class,
+                'require' => false
+            ),
+            'venue'                   => array(
+                'value'   => Venue::class,
+                'require' => false
+            ),
+            'new_chat_member'         => array(
+                'value'   => User::class,
+                'require' => false
+            ),
+            'left_chat_member'        => array(
+                'value'   => User::class,
+                'require' => false
+            ),
+            'new_chat_title'          => false,
+            'new_chat_photo'          => array(
+                'value'   => PhotoSize::class,
+                'require' => false,
+                'array'   => true
+            ),
+            'delete_chat_photo'       => false,
+            'group_chat_created'      => false,
+            'supergroup_chat_created' => false,
+            'channel_chat_created'    => false,
+            'migrate_to_chat_id'      => false,
+            'migrate_from_chat_id'    => false,
+            'pinned_message'          => array(
+                'value'   => Message::class,
+                'require' => false,
+            ),
+            'invoice'                 => array(
+                'value'   => Invoice::class,
+                'require' => false,
+            ),
+            'successful_payment'      => array(
+                'value'   => SuccessfulPayment::class,
+                'require' => false,
+            )
+        );
     }
 }
