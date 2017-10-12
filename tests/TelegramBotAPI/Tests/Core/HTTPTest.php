@@ -37,7 +37,7 @@ class HTTPTest extends TelegramBotAPITestCase {
         $result = $http->get($url);
 
         $this->assertNotNull($result);
-        $this->assertEquals('array', gettype($result));
+        $this->assertEquals('string', gettype($result));
     }
 
     public function testPost() {
@@ -50,6 +50,6 @@ class HTTPTest extends TelegramBotAPITestCase {
         ));
 
         $this->assertNotNull($result);
-        $this->assertEquals('array', gettype($result));
+        $this->assertEquals('string', gettype($result));
     }
 }
