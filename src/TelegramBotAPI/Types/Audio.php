@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#audio
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Audio implements JsonDeserializerInterface {
+class Audio extends Type {
 
     /**
      * @var string $fileId
@@ -139,28 +139,18 @@ class Audio implements JsonDeserializerInterface {
         $this->fileSize = $fileSize;
     }
 
+
     /**
-     * @param array $data
+     * @return array
      */
-    public function __construct(array $data = array()) {
-
-        $this->setFileId($data['file_id']);
-        $this->setDuration($data['duration']);
-
-        if (isset($data['performer'])) {
-            $this->setPerformer($data['performer']);
-        }
-
-        if (isset($data['title'])) {
-            $this->setTitle($data['title']);
-        }
-
-        if (isset($data['mime_type'])) {
-            $this->setMimeType($data['mime_type']);
-        }
-
-        if (isset($data['file_size'])) {
-            $this->setFileSize($data['file_size']);
-        }
+    protected function getSchemaValid() {
+        return array(
+            'file_id'   => true,
+            'duration'  => true,
+            'performer' => false,
+            'title'     => false,
+            'mime_type' => false,
+            'file_size' => false,
+        );
     }
 }

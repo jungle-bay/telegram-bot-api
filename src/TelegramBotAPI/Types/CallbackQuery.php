@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#callbackquery
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class CallbackQuery implements JsonDeserializerInterface {
+class CallbackQuery extends Type {
 
     /**
      * @var string $id
@@ -160,32 +160,26 @@ class CallbackQuery implements JsonDeserializerInterface {
         $this->gameShortName = $gameShortName;
     }
 
+
     /**
-     * @param array $data
+     * @return array
      */
-    public function __construct(array $data = array()) {
+    protected function getSchemaValid() {
+        return array(
+            'id'                => true,
+            'from'              => array(
+                'value'   => User::class,
+                'require' => true
+            ),
+            'message'           => array(
+                'value'   => Message::class,
+                'require' => false
+            ),
+            'inline_message_id' => false,
+            'chat_instance'     => false,
+            'data'              => false,
+            'game_short_name'   => false,
 
-        $this->setId($data['id']);
-        $this->setFrom(new User($data['from']));
-
-        if (isset($data['message'])) {
-            $this->setMessage(new Message($data['message']));
-        }
-
-        if (isset($data['inline_message_id'])) {
-            $this->setInlineMessageId($data['inline_message_id']);
-        }
-
-        if (isset($data['chat_instance'])) {
-            $this->setChatInstance($data['chat_instance']);
-        }
-
-        if (isset($data['data'])) {
-            $this->setData($data['data']);
-        }
-
-        if (isset($data['game_short_name'])) {
-            $this->setGameShortName($data['game_short_name']);
-        }
+        );
     }
 }

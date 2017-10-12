@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#chatphoto
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ChatPhoto implements JsonDeserializerInterface {
+class ChatPhoto extends Type {
 
     /**
      * @var string $smallFileId
@@ -55,12 +55,14 @@ class ChatPhoto implements JsonDeserializerInterface {
         $this->bigFileId = $bigFileId;
     }
 
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
 
-        $this->setSmallFileId($data['small_file_id']);
-        $this->setBigFileId($data['big_file_id']);
+    /**
+     * @return array
+     */
+    protected function getSchemaValid() {
+        return array(
+            'small_file_id' => true,
+            'big_file_id'   => true,
+        );
     }
 }
