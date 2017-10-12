@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#chatmember
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ChatMember implements JsonDeserializerInterface {
+class ChatMember extends Type {
 
     /**
      * @var User $user
@@ -349,68 +349,31 @@ class ChatMember implements JsonDeserializerInterface {
         $this->canAddWebPagePreviews = $canAddWebPagePreviews;
     }
 
+
     /**
-     * @param array $data
+     * @return array
      */
-    public function __construct(array $data = array()) {
-
-        $this->setUser(new User($data['user']));
-        $this->setStatus($data['status']);
-
-        if (isset($data['until_date'])) {
-            $this->setUntilDate($data['until_date']);
-        }
-
-        if (isset($data['can_be_edited'])) {
-            $this->setCanBeEdited($data['can_be_edited']);
-        }
-
-        if (isset($data['can_change_info'])) {
-            $this->setCanChangeInfo($data['can_change_info']);
-        }
-
-        if (isset($data['can_post_messages'])) {
-            $this->setCanPostMessages($data['can_post_messages']);
-        }
-
-        if (isset($data['can_edit_messages'])) {
-            $this->setCanEditMessages($data['can_edit_messages']);
-        }
-
-        if (isset($data['can_delete_messages'])) {
-            $this->setCanDeleteMessages($data['can_delete_messages']);
-        }
-
-        if (isset($data['can_invite_users'])) {
-            $this->setCanInviteUsers($data['can_invite_users']);
-        }
-
-        if (isset($data['can_restrict_members'])) {
-            $this->setCanRestrictMembers($data['can_restrict_members']);
-        }
-
-        if (isset($data['can_pin_messages'])) {
-            $this->setCanPinMessages($data['can_pin_messages']);
-        }
-
-        if (isset($data['can_promote_members'])) {
-            $this->setCanPromoteMembers($data['can_promote_members']);
-        }
-
-        if (isset($data['can_send_messages'])) {
-            $this->setCanSendMessages($data['can_send_messages']);
-        }
-
-        if (isset($data['can_send_media_messages'])) {
-            $this->setCanSendMediaMessages($data['can_send_media_messages']);
-        }
-
-        if (isset($data['can_send_other_messages'])) {
-            $this->setCanSendOtherMessages($data['can_send_other_messages']);
-        }
-
-        if (isset($data['can_add_web_page_previews'])) {
-            $this->setCanAddWebPagePreviews($data['can_add_web_page_previews']);
-        }
+    public function getSchemaValid() {
+        return array(
+            'user'                      => array(
+                'value'   => User::class,
+                'require' => true
+            ),
+            'status'                    => true,
+            'until_date'                => false,
+            'can_be_edited'             => false,
+            'can_change_info'           => false,
+            'can_post_messages'         => false,
+            'can_edit_messages'         => false,
+            'can_delete_messages'       => false,
+            'can_invite_users'          => false,
+            'can_restrict_members'      => false,
+            'can_pin_messages'          => false,
+            'can_promote_members'       => false,
+            'can_send_messages'         => false,
+            'can_send_media_messages'   => false,
+            'can_send_other_messages'   => false,
+            'can_add_web_page_previews' => false
+        );
     }
 }

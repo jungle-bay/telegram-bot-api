@@ -86,35 +86,32 @@ abstract class Type implements JsonSerializable, JsonDeserializerInterface {
                                 }
                             }
                         }
+                    }
 
-                }
+                } elseif (isset($value['value'])) {
 
-            } elseif (isset($value['value'])) {
+                    if (isset($value['require'])) {
 
-                if (isset($value['require'])) {
+                        $obj = $value['value'];
 
-                    $obj = $value['value'];
+                        if ($value['require'] === true) {
 
-                    if ($value['require'] === true) {
+                            if (!isset($data[$key])) {
+                                throw new TelegramBotAPIRuntimeException('error empty require field');
+                            }
 
-                        if (!isset($data[$key])) {
-                            throw new TelegramBotAPIRuntimeException('error empty require field');
-                        }
-
-                        $this->copyValue($key, new $obj($data[$key]));
-
-                    } else {
-
-                        if (!isset($data[$key])) {
                             $this->copyValue($key, new $obj($data[$key]));
+
+                        } else {
+
+                            if (!isset($data[$key])) {
+                                $this->copyValue($key, new $obj($data[$key]));
+                            }
                         }
                     }
                 }
-            }
 
-        }
-    elseif
-        ($value === true){
+            } elseif ($value === true) {
 
                 if (!isset($data[$key])) {
                     throw new TelegramBotAPIRuntimeException('error empty require field');
@@ -122,20 +119,20 @@ abstract class Type implements JsonSerializable, JsonDeserializerInterface {
 
                 $this->copyValue($key, $value);
 
-            } elseif ($value === false){
+            } elseif ($value === false) {
 
                 if (!isset($data[$key])) {
                     $this->copyValue($key, $value);
                 }
             }
         }
-}
+    }
 
 
-/**
- * @return array
- */
-abstract public function getSchemaValid();
+    /**
+     * @return array
+     */
+    abstract public function getSchemaValid();
 
 
     /**
@@ -147,23 +144,23 @@ abstract public function getSchemaValid();
      */
     public function jsonSerialize() {
 
-    $props = get_object_vars($this);
-    $props = array_filter($props);
-    $json = array();
+        $props = get_object_vars($this);
+        $props = array_filter($props);
+        $json = array();
 
-    foreach ($props as $key => $value) {
-        $json[$this->unCamelize($key)] = $value;
+        foreach ($props as $key => $value) {
+            $json[$this->unCamelize($key)] = $value;
+        }
+
+        unset($props);
+
+        return $json;
     }
-
-    unset($props);
-
-    return $json;
-}
 
     /**
      * @param array $data
      */
     public function __construct(array $data = array()) {
-    $this->deserializer($this->getSchemaValid(), $data);
-}
+        $this->deserializer($this->getSchemaValid(), $data);
+    }
 }
