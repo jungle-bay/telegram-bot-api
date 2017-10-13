@@ -21,6 +21,8 @@ final class PrivateConst {
     const CHECK_ACTION_TYPE = 'CHECK_ACTION_TYPE';
     const CHECK_LIMIT = 'CHECK_LIMIT';
     const CHECK_CAPTION_LIMIT = 'CHECK_CAPTION_LIMIT';
+    const CHECK_NO_REQUIRED = 'CHECK_NO_REQUIRED';
+    const CHECK_REQUIRED = 'CHECK_REQUIRED';
 
     const TELEGRAM_BOT_API = 'https://api.telegram.org/bot%s/%s';
     const TELEGRAM_BOT_FILE = 'https://api.telegram.org/file/bot%s/%s';

@@ -18,7 +18,7 @@ class UserProfilePhotos extends Type {
     private $totalCount;
 
     /**
-     * @var array PhotoSize[] $photos
+     * @var PhotoSize[][] $photos
      */
     private $photos;
 

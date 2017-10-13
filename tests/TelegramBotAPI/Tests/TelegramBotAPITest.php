@@ -292,6 +292,11 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
         $this->assertTrue($chatAction);
     }
 
+    /**
+     * !!! Warning !!!
+     *
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
     public function testGetUserProfilePhotos() {
 
         $tba = new TBA($this->getToken());

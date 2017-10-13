@@ -43,7 +43,7 @@ class Sticker extends Type {
     private $setName;
 
     /**
-     * @var MaskPosition $maskPosition
+     * @var null|MaskPosition $maskPosition
      */
     private $maskPosition;
 
@@ -138,7 +138,7 @@ class Sticker extends Type {
     }
 
     /**
-     * @return MaskPosition
+     * @return null|MaskPosition
      */
     public function getMaskPosition() {
         return $this->maskPosition;

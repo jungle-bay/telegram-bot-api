@@ -27,7 +27,13 @@ abstract class Type implements JsonSerializable {
 
     private function copyValue($key, $value) {
 
-        $method = 'set' . $this->camelize($key);
+        $name = $this->camelize($key);
+
+        if (substr($name, 0, 2) === 'Is') {
+            $name = str_replace('Is', '', $name);
+        }
+
+        $method = 'set' . $name;
 
         if (!method_exists($this, $method)) {
             throw new TelegramBotAPIRuntimeException('Fatal error method: ' . $method . ' absent');
@@ -149,6 +155,10 @@ abstract class Type implements JsonSerializable {
 
         if ($this->isObj($value)) {
 
+            $class = get_class($this);
+            $ns = substr($class, 0, strrpos($class, '\\'));
+            $value = $ns . '\\' . $value;
+
             return new $value($data, $proxiesDir);
         } else {
 
@@ -167,22 +177,25 @@ abstract class Type implements JsonSerializable {
                 }
             }
 
-            if ($value['array'] === true) {
+            if (isset($data[$key])) {
 
-                $type = $value['value'];
-                $objs = array();
+                if ($value['array'] === true) {
 
-                foreach ($data[$key] as $item) {
-                    $objs[] = $this->iniObj($type, $item, $proxiesDir);
+                    $type = $value['value'];
+                    $objs = array();
+
+                    foreach ($data[$key] as $item) {
+                        $objs[] = $this->iniObj($type, $item, $proxiesDir);
+                    }
+
+                    $this->copyValue($key, $objs);
+
+                    return;
                 }
 
-                $this->copyValue($key, $objs);
-
-                return;
+                $obj = $this->iniObj($value['value'], $data[$key], $proxiesDir);
+                $this->copyValue($key, $obj);
             }
-
-            $obj = $this->iniObj($value['value'], $data[$key], $proxiesDir);
-            $this->copyValue($key, $obj);
         }
     }
 
