@@ -17,11 +17,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultCachedVoice extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var string $voiceFileId
      */
     private $voiceFileId;
@@ -52,20 +47,6 @@ class InlineQueryResultCachedVoice extends InlineQueryResult {
      */
     public function getType() {
         return 'voice';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

@@ -17,11 +17,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultCachedPhoto extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var string $photoFileId
      */
     private $photoFileId;
@@ -57,20 +52,6 @@ class InlineQueryResultCachedPhoto extends InlineQueryResult {
      */
     public function getType() {
         return 'photo';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

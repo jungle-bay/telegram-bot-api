@@ -16,11 +16,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultContact extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var string $phoneNumber
      */
     private $phoneNumber;
@@ -66,20 +61,6 @@ class InlineQueryResultContact extends InlineQueryResult {
      */
     public function getType() {
         return 'contact';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

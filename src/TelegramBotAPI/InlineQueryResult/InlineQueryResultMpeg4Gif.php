@@ -17,11 +17,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultMpeg4Gif extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var string $mpeg4Url
      */
     private $mpeg4Url;
@@ -72,20 +67,6 @@ class InlineQueryResultMpeg4Gif extends InlineQueryResult {
      */
     public function getType() {
         return 'mpeg4_gif';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

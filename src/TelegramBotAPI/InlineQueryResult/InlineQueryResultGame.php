@@ -17,11 +17,6 @@ class InlineQueryResultGame extends InlineQueryResult {
     /**
      * @var string $type
      */
-    private $id;
-
-    /**
-     * @var string $type
-     */
     private $gameShortName;
 
     /**
@@ -35,20 +30,6 @@ class InlineQueryResultGame extends InlineQueryResult {
      */
     public function getType() {
         return 'game';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

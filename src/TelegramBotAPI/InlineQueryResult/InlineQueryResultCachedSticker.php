@@ -16,11 +16,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultCachedSticker extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var string $stickerFileId
      */
     private $stickerFileId;
@@ -41,20 +36,6 @@ class InlineQueryResultCachedSticker extends InlineQueryResult {
      */
     public function getType() {
         return 'sticker';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

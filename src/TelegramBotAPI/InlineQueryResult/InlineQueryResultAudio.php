@@ -17,11 +17,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultAudio extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var string $audioUrl
      */
     private $audioUrl;
@@ -62,20 +57,6 @@ class InlineQueryResultAudio extends InlineQueryResult {
      */
     public function getType() {
         return 'audio';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

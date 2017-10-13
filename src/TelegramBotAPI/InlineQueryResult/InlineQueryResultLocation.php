@@ -16,11 +16,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultLocation extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var float $latitude
      */
     private $latitude;
@@ -66,20 +61,6 @@ class InlineQueryResultLocation extends InlineQueryResult {
      */
     public function getType() {
         return 'location';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**

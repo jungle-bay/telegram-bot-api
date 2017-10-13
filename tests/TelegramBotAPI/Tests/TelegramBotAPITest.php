@@ -48,9 +48,6 @@ class TelegramBotAPITest extends TestCase {
 
     public function testGetUpdates() {
 
-        $start = microtime(true);
-        printf("Время начала %.4F сек.\n", $start);
-
         $tba = new TBA($this->getToken());
 
 
@@ -61,10 +58,6 @@ class TelegramBotAPITest extends TestCase {
             $this->assertNotNull($update);
             $this->assertInstanceOf(Update::class, $update);
         }
-
-        $time = microtime(true) - $start;
-        printf("Скрипт выполнялся %.4F сек.\n", $time);
-
     }
 
     public function testSetWebhook() {

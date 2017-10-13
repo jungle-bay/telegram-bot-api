@@ -18,11 +18,6 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 class InlineQueryResultVideo extends InlineQueryResult {
 
     /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
      * @var string $videoUrl
      */
     private $videoUrl;
@@ -83,20 +78,6 @@ class InlineQueryResultVideo extends InlineQueryResult {
      */
     public function getType() {
         return 'video';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
     }
 
     /**
