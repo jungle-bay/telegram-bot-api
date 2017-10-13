@@ -38,11 +38,6 @@ class TelegramBotAPI extends HTTP {
      */
     private $token;
 
-    /**
-     * @var string $proxiesDir
-     */
-    private $proxiesDir;
-
 
     /**
      * @param array $parameters
@@ -278,22 +273,6 @@ class TelegramBotAPI extends HTTP {
         return $url;
     }
 
-
-    /**
-     * @api
-     * @return string
-     */
-    public function getProxiesDir() {
-        return $this->proxiesDir;
-    }
-
-    /**
-     * @api
-     * @param string $proxiesDir
-     */
-    public function setProxiesDir($proxiesDir) {
-        $this->proxiesDir = $proxiesDir;
-    }
 
     /**
      * @api

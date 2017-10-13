@@ -6,15 +6,15 @@ namespace TelegramBotAPI\Tests;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
+use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\Types\Message;
 use TelegramBotAPI\Types\ChatMember;
 use TelegramBotAPI\Types\WebhookInfo;
 use TelegramBotAPI\Types\GameHighScore;
 use TelegramBotAPI\TelegramBotAPI as TBA;
-use TelegramBotAPI\TelegramBotAPITestCase;
-use TelegramBotAPI\Types\UserProfilePhotos;
 use TelegramBotAPI\Constants as TBAConst;
+use TelegramBotAPI\Types\UserProfilePhotos;
 use TelegramBotAPI\Types\InlineKeyboardButton;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
 
@@ -22,7 +22,7 @@ use TelegramBotAPI\Types\InlineKeyboardMarkup;
  * @package TelegramBotAPI\Tests
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class TelegramBotAPITest extends TelegramBotAPITestCase {
+class TelegramBotAPITest extends TestCase {
 
     /**
      * Return test bot token
@@ -48,6 +48,9 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
     public function testGetUpdates() {
 
+        $start = microtime(true);
+        printf("Время начала %.4F сек.\n", $start);
+
         $tba = new TBA($this->getToken());
 
 
@@ -58,6 +61,10 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
             $this->assertNotNull($update);
             $this->assertInstanceOf(Update::class, $update);
         }
+
+        $time = microtime(true) - $start;
+        printf("Скрипт выполнялся %.4F сек.\n", $time);
+
     }
 
     public function testSetWebhook() {

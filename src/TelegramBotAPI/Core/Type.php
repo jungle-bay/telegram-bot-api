@@ -8,8 +8,19 @@ use ReflectionClass;
 use JsonSerializable;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
+/**
+ * @package TelegramBotAPI\Core
+ * @link https://core.telegram.org/bots/api#making-requests
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 abstract class Type implements JsonSerializable {
 
+    /**
+     * Thank you: (https://github.com/symfony/property-access/blob/master/PropertyAccessor.php#L733)
+     *
+     * @param string $value
+     * @return string
+     */
     private function camelize($value) {
 
         $value = str_replace('_', ' ', $value);
@@ -43,37 +54,7 @@ abstract class Type implements JsonSerializable {
         $this->{$method}($value);
     }
 
-    private function getSchemaObject($proxiesDir) {
-
-        if ($proxiesDir === null) {
-
-            $schema = $this->createSchema();
-        } else {
-
-            $fileName = 'schema' . str_replace('\\', '', $this->unCamelize(get_class($this))) . '.txt';
-            $pathSchema = $proxiesDir . DIRECTORY_SEPARATOR . $fileName;
-
-            if (file_exists($pathSchema)) {
-
-                $schema = unserialize(file_get_contents($pathSchema));
-            } else {
-
-                $schema = $this->createSchema();
-
-                if (!file_exists($proxiesDir)) {
-                    if (!mkdir($proxiesDir, 0755, true)) {
-                        throw new Exception('Not create folder', HTTP::INTERNAL_SERVER_ERROR);
-                    }
-                }
-
-                file_put_contents($pathSchema, serialize($schema), LOCK_EX);
-            }
-        }
-
-        return $schema;
-    }
-
-    private function createSchema() {
+    private function getSchemaObject() {
 
         $schema = array();
         $refClass = new ReflectionClass($this);
@@ -166,7 +147,7 @@ abstract class Type implements JsonSerializable {
         }
     }
 
-    private function iniObj($value, $data, $proxiesDir) {
+    private function iniObj($value, $data) {
 
         if ($this->isObj($value)) {
 
@@ -174,14 +155,14 @@ abstract class Type implements JsonSerializable {
             $ns = substr($class, 0, strrpos($class, '\\'));
             $value = $ns . '\\' . $value;
 
-            return new $value($data, $proxiesDir);
+            return new $value($data);
         } else {
 
             return $data;
         }
     }
 
-    private function deserializer(array $schema, array $data, $proxiesDir) {
+    private function deserializer(array $schema, array $data) {
 
         foreach ($schema as $key => $value) {
 
@@ -204,7 +185,7 @@ abstract class Type implements JsonSerializable {
                         $objs = array();
 
                         foreach ($item as $value) {
-                            $objs[] = $this->iniObj($type, $value, $proxiesDir);
+                            $objs[] = $this->iniObj($type, $value);
                         }
 
                         $arr[] = $objs;
@@ -221,7 +202,7 @@ abstract class Type implements JsonSerializable {
                     $objs = array();
 
                     foreach ($data[$key] as $item) {
-                        $objs[] = $this->iniObj($type, $item, $proxiesDir);
+                        $objs[] = $this->iniObj($type, $item);
                     }
 
                     $this->copyValue($key, $objs);
@@ -229,7 +210,7 @@ abstract class Type implements JsonSerializable {
                     return;
                 }
 
-                $obj = $this->iniObj($value['value'], $data[$key], $proxiesDir);
+                $obj = $this->iniObj($value['value'], $data[$key]);
                 $this->copyValue($key, $obj);
             }
         }
@@ -251,11 +232,9 @@ abstract class Type implements JsonSerializable {
         return $json;
     }
 
-    public function __construct(array $data = array(), $proxiesDir = null) {
+    public function __construct(array $data = array()) {
 
-        $proxiesDir = __DIR__ . '/../../../var';
-
-        $schema = $this->getSchemaObject($proxiesDir);
-        $this->deserializer($schema, $data, $proxiesDir);
+        $schema = $this->getSchemaObject();
+        $this->deserializer($schema, $data);
     }
 }

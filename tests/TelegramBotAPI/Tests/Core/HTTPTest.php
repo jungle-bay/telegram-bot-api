@@ -4,14 +4,14 @@ namespace TelegramBotAPI\Tests\Core;
 
 
 use TelegramBotAPI\Core\HTTP;
-use TelegramBotAPI\TelegramBotAPITestCase;
+use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\PrivateConst as TBAConst;
 
 /**
  * @package TelegramBotAPI\Tests
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class HTTPTest extends TelegramBotAPITestCase {
+class HTTPTest extends TestCase {
 
     /**
      * @return string
