@@ -3,6 +3,7 @@
 namespace TelegramBotAPI\Core;
 
 
+use Exception;
 use ReflectionClass;
 use JsonSerializable;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
@@ -49,7 +50,7 @@ abstract class Type implements JsonSerializable {
             $schema = $this->createSchema();
         } else {
 
-            $fileName = 'schema_' . $this->unCamelize(get_class($this));
+            $fileName = 'schema' . str_replace('\\', '', $this->unCamelize(get_class($this))) . '.txt';
             $pathSchema = $proxiesDir . DIRECTORY_SEPARATOR . $fileName;
 
             if (file_exists($pathSchema)) {
@@ -59,7 +60,13 @@ abstract class Type implements JsonSerializable {
 
                 $schema = $this->createSchema();
 
-                file_put_contents($pathSchema, serialize($schema));
+                if (!file_exists($proxiesDir)) {
+                    if (!mkdir($proxiesDir, 0755, true)) {
+                        throw new Exception('Not create folder', HTTP::INTERNAL_SERVER_ERROR);
+                    }
+                }
+
+                file_put_contents($pathSchema, serialize($schema), LOCK_EX);
             }
         }
 
@@ -89,13 +96,21 @@ abstract class Type implements JsonSerializable {
 
                 if ($isArray) {
 
-                    $type = str_replace('[]', '', $type);
+                    $type = substr($type, 0, -2);
+                }
+
+                $isArrayArray = $this->checkForArray($type);
+
+                if ($isArrayArray) {
+
+                    $type = substr($type, 0, -2);
                 }
 
                 $schema[$this->unCamelize($refProperty->name)] = array(
-                    'value'   => $type,
-                    'require' => $isRequired,
-                    'array'   => $isArray
+                    'value'       => $type,
+                    'require'     => $isRequired,
+                    'array'       => $isArray,
+                    'array_array' => $isArrayArray
                 );
             }
         }
@@ -179,6 +194,27 @@ abstract class Type implements JsonSerializable {
 
             if (isset($data[$key])) {
 
+                if ($value['array_array'] === true) {
+
+                    $type = $value['value'];
+                    $arr = array();
+
+                    foreach ($data[$key] as $item) {
+
+                        $objs = array();
+
+                        foreach ($item as $value) {
+                            $objs[] = $this->iniObj($type, $value, $proxiesDir);
+                        }
+
+                        $arr[] = $objs;
+                    }
+
+                    $this->copyValue($key, $arr);
+
+                    return;
+                }
+
                 if ($value['array'] === true) {
 
                     $type = $value['value'];
@@ -216,6 +252,8 @@ abstract class Type implements JsonSerializable {
     }
 
     public function __construct(array $data = array(), $proxiesDir = null) {
+
+        $proxiesDir = __DIR__ . '/../../../var';
 
         $schema = $this->getSchemaObject($proxiesDir);
         $this->deserializer($schema, $data, $proxiesDir);
