@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#responseparameters
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ResponseParameters implements JsonDeserializerInterface {
+class ResponseParameters extends Type {
 
     /**
      * @var null|int $migrateToChatId
@@ -22,15 +22,6 @@ class ResponseParameters implements JsonDeserializerInterface {
      */
     private $retryAfter;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        if (isset($data['migrate_to_chat_id'])) $this->setMigrateToChatId($data['migrate_to_chat_id']);
-        if (isset($data['retry_after'])) $this->setRetryAfter($data['retry_after']);
-    }
 
     /**
      * @return int|null

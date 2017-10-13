@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#webhookinfo
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class WebhookInfo implements JsonDeserializerInterface {
+class WebhookInfo extends Type {
 
     /**
      * @var string $url
@@ -47,21 +47,6 @@ class WebhookInfo implements JsonDeserializerInterface {
      */
     private $allowedUpdates;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setUrl($data['url']);
-        $this->setHasCustomCertificate($data['has_custom_certificate']);
-        $this->setPendingUpdateCount($data['pending_update_count']);
-
-        if (isset($data['last_error_date'])) $this->setLastErrorDate($data['last_error_date']);
-        if (isset($data['last_error_message'])) $this->setLastErrorMessage($data['last_error_message']);
-        if (isset($data['max_connections'])) $this->setMaxConnections($data['max_connections']);
-        if (isset($data['allowed_updates'])) $this->setAllowedUpdates($data['allowed_updates']);
-    }
 
     /**
      * @return string

@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#messageentity
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class MessageEntity implements JsonDeserializerInterface {
+class MessageEntity extends Type {
 
     /**
      * @var string $type
@@ -37,19 +37,6 @@ class MessageEntity implements JsonDeserializerInterface {
      */
     private $user;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setType($data['type']);
-        $this->setOffset($data['offset']);
-        $this->setLength($data['length']);
-
-        if (isset($data['url'])) $this->setUrl($data['url']);
-        if (isset($data['user'])) $this->setUser(new User($data['user']));
-    }
 
     /**
      * @return string

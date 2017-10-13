@@ -159,27 +159,4 @@ class CallbackQuery extends Type {
     public function setGameShortName($gameShortName) {
         $this->gameShortName = $gameShortName;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'id'                => true,
-            'from'              => array(
-                'value'   => User::class,
-                'require' => true
-            ),
-            'message'           => array(
-                'value'   => Message::class,
-                'require' => false
-            ),
-            'inline_message_id' => false,
-            'chat_instance'     => false,
-            'data'              => false,
-            'game_short_name'   => false,
-
-        );
-    }
 }

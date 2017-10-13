@@ -3,15 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#inlinekeyboardbutton
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class InlineKeyboardButton implements JsonSerializable, JsonDeserializerInterface {
+class InlineKeyboardButton extends Type {
 
     /**
      * @var string $text
@@ -146,48 +145,5 @@ class InlineKeyboardButton implements JsonSerializable, JsonDeserializerInterfac
      */
     public function setPay($pay) {
         $this->pay = $pay;
-    }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        $data = array();
-
-        $data['text'] = $this->getText();
-
-        if (!empty($this->pay)) $data['pay'] = $this->getPay();
-        if (isset($this->url)) $data['url'] = $this->getUrl();
-        if (isset($this->callbackData)) $data['callback_data'] = $this->getCallbackData();
-        if (isset($this->switchInlineQuery)) $data['switch_inline_query'] = $this->getSwitchInlineQuery();
-        if (isset($this->switchInlineQueryCurrentChat)) $data['switch_inline_query_current_chat'] = $this->getSwitchInlineQueryCurrentChat();
-        if (isset($this->callbackGame)) $data['callback_game'] = $this->getCallbackGame();
-
-        return $data;
-    }
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        if (empty($data)) return;
-
-        $this->setText($data['text']);
-
-        if (isset($data['url'])) $this->setUrl($data['url']);
-        if (isset($data['callback_data'])) $this->setCallbackData($data['callback_data']);
-        if (isset($data['switch_inline_query'])) $this->setSwitchInlineQuery($data['switch_inline_query']);
-        if (isset($data['switch_inline_query_current_chat'])) {
-            $this->setSwitchInlineQueryCurrentChat($data['switch_inline_query_current_chat']);
-        }
-        if (isset($data['callback_game'])) $this->setCallbackGame(new CallbackGame($data['callback_game']));
-        if (!empty($data['pay'])) $this->setPay($data['pay']);
     }
 }

@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#update
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Update implements JsonDeserializerInterface {
+class Update extends Type {
 
     /**
      * @var int $updateId
@@ -62,24 +62,6 @@ class Update implements JsonDeserializerInterface {
      */
     private $preCheckoutQuery;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setUpdateId($data['update_id']);
-
-        if (isset($data['message'])) $this->setMessage(new Message($data['message']));
-        if (isset($data['edited_message'])) $this->setEditedMessage(new Message($data['edited_message']));
-        if (isset($data['channel_post'])) $this->setChannelPost(new Message($data['channel_post']));
-        if (isset($data['edited_channel_post'])) $this->setEditedChannelPost(new Message($data['edited_channel_post']));
-        if (isset($data['inline_query'])) $this->setInlineQuery(new InlineQuery($data['inline_query']));
-        if (isset($data['chosen_inline_result'])) $this->setChosenInlineResult(new ChosenInlineResult($data['chosen_inline_result']));
-        if (isset($data['callback_query'])) $this->setCallbackQuery(new CallbackQuery($data['callback_query']));
-        if (isset($data['shipping_query'])) $this->setShippingQuery(new ShippingQuery($data['shipping_query']));
-        if (isset($data['pre_checkout_query'])) $this->setPreCheckoutQuery(new PreCheckoutQuery($data['pre_checkout_query']));
-    }
 
     /**
      * @return int

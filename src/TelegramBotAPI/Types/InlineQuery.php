@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#inlinequery
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class InlineQuery implements JsonDeserializerInterface {
+class InlineQuery extends Type {
 
     /**
      * @var string $id
@@ -37,20 +37,6 @@ class InlineQuery implements JsonDeserializerInterface {
      */
     private $offset;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setId($data['id']);
-        $this->setFrom(new User($data['from']));
-
-        if (isset($data['location'])) $this->setLocation(new Location($data['location']));
-
-        $this->setQuery($data['query']);
-        $this->setOffset($data['offset']);
-    }
 
     /**
      * @return string

@@ -143,48 +143,4 @@ class InlineQueryResultCachedGif extends InlineQueryResult {
     public function setInputMessageContent(InputMessageContent $inputMessageContent) {
         $this->inputMessageContent = $inputMessageContent;
     }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @throws TelegramBotAPIException
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        if (empty($this->id)) {
-            throw new TelegramBotAPIException('id require');
-        }
-
-        if (empty($this->gifFileId)) {
-            throw new TelegramBotAPIException('gif file id require');
-        }
-
-        $data = array();
-
-        $data['type'] = $this->getType();
-        $data['id'] = $this->getId();
-        $data['gif_file_id'] = $this->getGifFileId();
-
-        if (isset($this->title)) {
-            $data['title'] = $this->getTitle();
-        }
-
-        if (isset($this->caption)) {
-            $data['caption'] = $this->getCaption();
-        }
-
-        if (isset($this->replyMarkup)) {
-            $data['reply_markup'] = $this->getReplyMarkup();
-        }
-
-        if (isset($this->inputMessageContent)) {
-            $data['input_message_content'] = $this->getInputMessageContent();
-        }
-
-        return $data;
-    }
 }

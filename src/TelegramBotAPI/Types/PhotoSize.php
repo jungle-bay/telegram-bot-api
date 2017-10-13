@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#photosize
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class PhotoSize implements JsonDeserializerInterface {
+class PhotoSize extends Type {
 
     /**
      * @var string $fileId
@@ -32,18 +32,6 @@ class PhotoSize implements JsonDeserializerInterface {
      */
     private $fileSize;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setFileId($data['file_id']);
-        $this->setWidth($data['width']);
-        $this->setHeight($data['height']);
-
-        if (isset($data['file_size'])) $this->setFileSize($data['file_size']);
-    }
 
     /**
      * @return string

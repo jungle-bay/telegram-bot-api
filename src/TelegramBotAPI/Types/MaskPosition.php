@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#maskposition
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class MaskPosition implements JsonDeserializerInterface {
+class MaskPosition extends Type {
 
     /**
      * @var string $point
@@ -32,17 +32,6 @@ class MaskPosition implements JsonDeserializerInterface {
      */
     private $zoom;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setPoint($data['point']);
-        $this->setXShift($data['x_shift']);
-        $this->setYShift($data['y_shift']);
-        $this->setZoom($data['zoom']);
-    }
 
     /**
      * @return string

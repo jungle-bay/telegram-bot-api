@@ -138,19 +138,4 @@ class Audio extends Type {
     public function setFileSize($fileSize) {
         $this->fileSize = $fileSize;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'file_id'   => true,
-            'duration'  => true,
-            'performer' => false,
-            'title'     => false,
-            'mime_type' => false,
-            'file_size' => false,
-        );
-    }
 }

@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#video
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Video implements JsonDeserializerInterface {
+class Video extends Type {
 
     /**
      * @var string $fileId
@@ -47,21 +47,6 @@ class Video implements JsonDeserializerInterface {
      */
     private $fileSize;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setFileId($data['file_id']);
-        $this->setWidth($data['width']);
-        $this->setHeight($data['height']);
-        $this->setDuration($data['duration']);
-
-        if (isset($data['thumb'])) $this->setThumb(new PhotoSize($data['thumb']));
-        if (isset($data['mime_type'])) $this->setMimeType($data['mime_type']);
-        if (isset($data['file_size'])) $this->setFileSize($data['file_size']);
-    }
 
     /**
      * @return string

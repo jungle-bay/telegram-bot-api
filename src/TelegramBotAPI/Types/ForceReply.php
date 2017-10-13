@@ -50,15 +50,4 @@ class ForceReply extends Type {
     public function setSelective($selective) {
         $this->selective = $selective;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'force_reply' => true,
-            'selective'   => false,
-        );
-    }
 }

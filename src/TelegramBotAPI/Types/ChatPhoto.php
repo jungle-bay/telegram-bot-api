@@ -54,15 +54,4 @@ class ChatPhoto extends Type {
     public function setBigFileId($bigFileId) {
         $this->bigFileId = $bigFileId;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'small_file_id' => true,
-            'big_file_id'   => true,
-        );
-    }
 }

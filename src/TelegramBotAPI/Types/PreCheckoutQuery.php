@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#precheckoutquery
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class PreCheckoutQuery implements JsonDeserializerInterface {
+class PreCheckoutQuery extends Type {
 
     /**
      * @var string $id
@@ -47,21 +47,6 @@ class PreCheckoutQuery implements JsonDeserializerInterface {
      */
     private $orderInfo;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setId($data['id']);
-        $this->setFrom(new User($data['from']));
-        $this->setCurrency($data['currency']);
-        $this->setTotalAmount($data['total_amount']);
-        $this->setInvoicePayload($data['invoice_payload']);
-
-        if (isset($data['shipping_option_id'])) $this->setShippingOptionId($data['shipping_option_id']);
-        if (isset($data['order_info'])) $this->setOrderInfo(new OrderInfo($data['order_info']));
-    }
 
     /**
      * @return string

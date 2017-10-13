@@ -108,45 +108,4 @@ class InputVenueMessageContent extends InputMessageContent {
     public function setFoursquareId($foursquareId) {
         $this->foursquareId = $foursquareId;
     }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @throws TelegramBotAPIException
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        if (empty($this->latitude)) {
-            throw new TelegramBotAPIException('latitude require');
-        }
-
-        if (empty($this->longitude)) {
-            throw new TelegramBotAPIException('longitude require');
-        }
-
-        if (empty($this->title)) {
-            throw new TelegramBotAPIException('title require');
-        }
-
-        if (empty($this->address)) {
-            throw new TelegramBotAPIException('address require');
-        }
-
-        $data = array();
-
-        $data['latitude'] = $this->getLatitude();
-        $data['longitude'] = $this->getLongitude();
-        $data['title'] = $this->getTitle();
-        $data['address'] = $this->getAddress();
-
-        if (isset($this->foursquareId)) {
-            $data['foursquare_id'] = $this->getFoursquareId();
-        }
-
-        return $data;
-    }
 }

@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#successfulpayment
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class SuccessfulPayment implements JsonDeserializerInterface {
+class SuccessfulPayment extends Type {
 
     /**
      * @var string $currency
@@ -47,22 +47,6 @@ class SuccessfulPayment implements JsonDeserializerInterface {
      */
     private $providerPaymentChargeId;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setCurrency($data['currency']);
-        $this->setTotalAmount($data['total_amount']);
-        $this->setInvoicePayload($data['invoice_payload']);
-
-        if (isset($data['shipping_option_id'])) $this->setShippingOptionId($data['shipping_option_id']);
-        if (isset($data['order_info'])) $this->setOrderInfo(new OrderInfo($data['order_info']));
-
-        $this->setTelegramPaymentChargeId($data['telegram_payment_charge_id']);
-        $this->setProviderPaymentChargeId($data['provider_payment_charge_id']);
-    }
 
     /**
      * @return string

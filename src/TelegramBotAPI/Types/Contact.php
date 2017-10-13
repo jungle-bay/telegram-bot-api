@@ -96,17 +96,4 @@ class Contact extends Type {
     public function setUserId($userId) {
         $this->userId = $userId;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'phone_number' => true,
-            'first_name'   => true,
-            'last_name'    => false,
-            'user_id'      => false
-        );
-    }
 }

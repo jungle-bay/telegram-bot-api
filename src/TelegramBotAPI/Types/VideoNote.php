@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#videonote
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class VideoNote implements JsonDeserializerInterface {
+class VideoNote extends Type {
 
     /**
      * @var string $fileId
@@ -37,19 +37,6 @@ class VideoNote implements JsonDeserializerInterface {
      */
     private $fileSize;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setFileId($data['file_id']);
-        $this->setLength($data['length']);
-        $this->setDuration($data['duration']);
-
-        if (isset($data['thumb'])) $this->setThumb(new PhotoSize($data['thumb']));
-        if (isset($data['file_size'])) $this->setFileSize($data['file_size']);
-    }
 
     /**
      * @return string

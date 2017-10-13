@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#orderinfo
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class OrderInfo implements JsonDeserializerInterface {
+class OrderInfo extends Type {
 
     /**
      * @var null|string $name
@@ -32,28 +32,6 @@ class OrderInfo implements JsonDeserializerInterface {
      */
     private $shippingAddress;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        if (isset($data['name'])) {
-            $this->setName($data['name']);
-        }
-
-        if (isset($data['phone_number'])) {
-            $this->setPhoneNumber($data['phone_number']);
-        }
-
-        if (isset($data['email'])) {
-            $this->setEmail($data['email']);
-        }
-
-        if (isset($data['shipping_address'])) {
-            $this->setShippingAddress(new ShippingAddress($data['shipping_address']));
-        }
-    }
 
     /**
      * @return null|string

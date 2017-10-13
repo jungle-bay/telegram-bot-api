@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#location
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Location implements JsonDeserializerInterface {
+class Location extends Type {
 
     /**
      * @var float $longitude
@@ -22,15 +22,6 @@ class Location implements JsonDeserializerInterface {
      */
     private $latitude;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setLongitude($data['longitude']);
-        $this->setLatitude($data['latitude']);
-    }
 
     /**
      * @return float

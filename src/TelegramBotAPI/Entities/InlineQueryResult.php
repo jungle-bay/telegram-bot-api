@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Entities;
 
 
-use JsonSerializable;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Entities
  * @link https://core.telegram.org/bots/api#inlinequeryresult
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-abstract class InlineQueryResult implements JsonSerializable {
+abstract class InlineQueryResult extends Type {
 
     /**
      * @return string

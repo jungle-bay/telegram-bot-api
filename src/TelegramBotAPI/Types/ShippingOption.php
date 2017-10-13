@@ -3,15 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#shippingoption
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ShippingOption implements JsonSerializable, JsonDeserializerInterface {
+class ShippingOption extends Type {
 
     /**
      * @var string $id
@@ -28,21 +27,6 @@ class ShippingOption implements JsonSerializable, JsonDeserializerInterface {
      */
     private $prices;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setId($data['id']);
-        $this->setTitle($data['title']);
-
-        $prices = array();
-
-        foreach ($data['prices'] as $price) $prices[] = new LabeledPrice($price);
-
-        $this->setPrices($prices);
-    }
 
     /**
      * @return string
@@ -84,28 +68,5 @@ class ShippingOption implements JsonSerializable, JsonDeserializerInterface {
      */
     public function setPrices($prices) {
         $this->prices = $prices;
-    }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        $data = array();
-
-
-        $data['id'] = $this->getId();
-        $data['title'] = $this->getTitle();
-
-        foreach ($this->getPrices() as $price) {
-            $data['price'][] = $price;
-        }
-
-        return $data;
     }
 }

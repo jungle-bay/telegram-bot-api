@@ -117,24 +117,4 @@ class ChosenInlineResult extends Type {
     public function setQuery($query) {
         $this->query = $query;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'result_id'         => true,
-            'from'              => array(
-                'value'   => User::class,
-                'require' => true
-            ),
-            'location'          => array(
-                'value'   => Location::class,
-                'require' => false
-            ),
-            'inline_message_id' => false,
-            'query'             => true
-        );
-    }
 }

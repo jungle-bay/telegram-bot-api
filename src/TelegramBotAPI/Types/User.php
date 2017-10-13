@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#user
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class User implements JsonDeserializerInterface {
+class User extends Type {
 
     /**
      * @var int $id
@@ -42,19 +42,6 @@ class User implements JsonDeserializerInterface {
      */
     private $isBot;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setId($data['id']);
-        $this->setFirstName($data['first_name']);
-
-        if (isset($data['last_name'])) $this->setLastName($data['last_name']);
-        if (isset($data['username'])) $this->setUsername($data['username']);
-        if (isset($data['language_code'])) $this->setLanguageCode($data['language_code']);
-    }
 
     /**
      * @return int

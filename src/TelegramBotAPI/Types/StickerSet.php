@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#stickerset
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class StickerSet implements JsonDeserializerInterface {
+class StickerSet extends Type {
 
     /**
      * @var string $name
@@ -32,24 +32,6 @@ class StickerSet implements JsonDeserializerInterface {
      */
     private $stickers;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setName($data['name']);
-        $this->setTitle($data['title']);
-        $this->setMasks($data['is_masks']);
-
-        $stickers = array();
-
-        foreach ($data['stickers'] as $sticker) {
-            $stickers[] = new Sticker($sticker);
-        }
-
-        $this->setStickers($stickers);
-    }
 
     /**
      * @return string

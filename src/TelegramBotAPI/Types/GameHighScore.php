@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#gamehighscore
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class GameHighScore implements JsonDeserializerInterface {
+class GameHighScore extends Type {
 
     /**
      * @var int $position
@@ -27,16 +27,6 @@ class GameHighScore implements JsonDeserializerInterface {
      */
     private $score;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setPosition($data['position']);
-        $this->setUser($data['user']);
-        $this->setScore($data['score']);
-    }
 
     /**
      * @return int

@@ -348,32 +348,4 @@ class ChatMember extends Type {
     public function setCanAddWebPagePreviews($canAddWebPagePreviews) {
         $this->canAddWebPagePreviews = $canAddWebPagePreviews;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'user'                      => array(
-                'value'   => User::class,
-                'require' => true
-            ),
-            'status'                    => true,
-            'until_date'                => false,
-            'can_be_edited'             => false,
-            'can_change_info'           => false,
-            'can_post_messages'         => false,
-            'can_edit_messages'         => false,
-            'can_delete_messages'       => false,
-            'can_invite_users'          => false,
-            'can_restrict_members'      => false,
-            'can_pin_messages'          => false,
-            'can_promote_members'       => false,
-            'can_send_messages'         => false,
-            'can_send_media_messages'   => false,
-            'can_send_other_messages'   => false,
-            'can_add_web_page_previews' => false
-        );
-    }
 }

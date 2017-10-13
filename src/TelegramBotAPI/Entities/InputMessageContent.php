@@ -3,13 +3,13 @@
 namespace TelegramBotAPI\Entities;
 
 
-use JsonSerializable;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Entities
  * @link https://core.telegram.org/bots/api#inputmessagecontent
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-abstract class InputMessageContent implements JsonSerializable {
+abstract class InputMessageContent extends Type {
 
 }

@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#invoice
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Invoice implements JsonDeserializerInterface {
+class Invoice extends Type {
 
     /**
      * @var string $title
@@ -37,18 +37,6 @@ class Invoice implements JsonDeserializerInterface {
      */
     private $totalAmount;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setTitle($data['title']);
-        $this->setDescription($data['description']);
-        $this->setStartParameter($data['start_parameter']);
-        $this->setCurrency($data['currency']);
-        $this->setTotalAmount($data['total_amount']);
-    }
 
     /**
      * @return string

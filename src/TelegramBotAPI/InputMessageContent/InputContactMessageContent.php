@@ -70,35 +70,4 @@ class InputContactMessageContent extends InputMessageContent {
     public function setLastName($lastName) {
         $this->lastName = $lastName;
     }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @throws TelegramBotAPIException
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        if (empty($this->phoneNumber)) {
-            throw new TelegramBotAPIException('phone number require');
-        }
-
-        if (empty($this->firstName)) {
-            throw new TelegramBotAPIException('first name require');
-        }
-
-        $data = array();
-
-        $data['phone_number'] = $this->getPhoneNumber();
-        $data['first_name'] = $this->getFirstName();
-
-        if (isset($this->lastName)) {
-            $data['last_name'] = $this->getLastName();
-        }
-
-        return $data;
-    }
 }

@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#shippingquery
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ShippingQuery implements JsonDeserializerInterface {
+class ShippingQuery extends Type {
 
     /**
      * @var string $id
@@ -32,17 +32,6 @@ class ShippingQuery implements JsonDeserializerInterface {
      */
     private $shippingAddress;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setId($data['id']);
-        $this->setFrom(new User($data['from']));
-        $this->setInvoicePayload($data['invoice_payload']);
-        $this->setShippingAddress(new ShippingAddress($data['shipping_address']));
-    }
 
     /**
      * @return string

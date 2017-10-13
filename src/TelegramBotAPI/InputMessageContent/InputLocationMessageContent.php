@@ -51,31 +51,4 @@ class InputLocationMessageContent extends InputMessageContent {
     public function setLongitude($longitude) {
         $this->longitude = $longitude;
     }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @throws TelegramBotAPIException
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        if (empty($this->latitude)) {
-            throw new TelegramBotAPIException('latitude require');
-        }
-
-        if (empty($this->longitude)) {
-            throw new TelegramBotAPIException('longitude require');
-        }
-
-        $data = array();
-
-        $data['latitude'] = $this->getLatitude();
-        $data['longitude'] = $this->getLongitude();
-
-        return $data;
-    }
 }

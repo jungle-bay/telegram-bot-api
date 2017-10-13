@@ -243,26 +243,4 @@ class Chat extends Type {
     public function setPinnedMessage(Message $pinnedMessage) {
         $this->pinnedMessage = $pinnedMessage;
     }
-
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'id'                             => true,
-            'type'                           => true,
-            'title'                          => false,
-            'username'                       => false,
-            'first_name'                     => false,
-            'last_name'                      => false,
-            'all_members_are_administrators' => false,
-            'photo'                          => array(
-                'value'   => ChatPhoto::class,
-                'require' => false
-            ),
-            'description'                    => false,
-            'invite_link'                    => false
-        );
-    }
 }

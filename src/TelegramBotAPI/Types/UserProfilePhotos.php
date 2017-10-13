@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#userprofilephotos
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class UserProfilePhotos implements JsonDeserializerInterface {
+class UserProfilePhotos extends Type {
 
     /**
      * @var int $totalCount
@@ -22,24 +22,6 @@ class UserProfilePhotos implements JsonDeserializerInterface {
      */
     private $photos;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setTotalCount($data['total_count']);
-
-        $photos = array();
-
-        foreach ($data['photos'] as $photo) {
-            foreach ($photo as $image) {
-                $photos[] = new PhotoSize($image);
-            }
-        }
-
-        $this->setPhotos($photos);
-    }
 
     /**
      * @return int

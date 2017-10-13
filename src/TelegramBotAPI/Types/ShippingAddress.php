@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#shippingaddress
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ShippingAddress implements JsonDeserializerInterface {
+class ShippingAddress extends Type {
 
     /**
      * @var string $countryCode
@@ -42,19 +42,6 @@ class ShippingAddress implements JsonDeserializerInterface {
      */
     private $postCode;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setCountryCode($data['country_code']);
-        $this->setState($data['state']);
-        $this->setCity($data['city']);
-        $this->setStreetLine1($data['street_line1']);
-        $this->setStreetLine2($data['street_line2']);
-        $this->setPostCode($data['post_code']);
-    }
 
     /**
      * @return string

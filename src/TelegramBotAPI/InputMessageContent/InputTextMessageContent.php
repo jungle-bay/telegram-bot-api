@@ -90,34 +90,4 @@ class InputTextMessageContent extends InputMessageContent {
     public function setDisableWebPagePreview($disableWebPagePreview) {
         $this->disableWebPagePreview = $disableWebPagePreview;
     }
-
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @throws TelegramBotAPIException
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        if (empty($this->messageText)) {
-            throw new TelegramBotAPIException('message text require');
-        }
-
-        $data = array();
-
-        $data['message_text'] = $this->getMessageText();
-
-        if (isset($this->parseMode)) {
-            $data['parse_mode'] = $this->getParseMode();
-        }
-
-        if (isset($this->disableWebPagePreview)) {
-            $data['disable_web_page_preview'] = $this->getDisableWebPagePreview();
-        }
-
-        return $data;
-    }
 }

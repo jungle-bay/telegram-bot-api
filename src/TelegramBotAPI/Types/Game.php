@@ -126,29 +126,4 @@ class Game extends Type {
     public function setAnimation($animation) {
         $this->animation = $animation;
     }
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'title'         => true,
-            'description'   => true,
-            'photo'         => array(
-                'value'   => PhotoSize::class,
-                'require' => false,
-                'array'   => true
-            ),
-            'text'          => true,
-            'text_entities' => array(
-                'value'   => Message::class,
-                'require' => false,
-                'array'   => true
-            ),
-            'animation'     => array(
-                'value'   => Animation::class,
-                'require' => false
-            )
-        );
-    }
 }

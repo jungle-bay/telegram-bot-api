@@ -12,10 +12,4 @@ use TelegramBotAPI\Core\Type;
  */
 class CallbackGame extends Type {
 
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array();
-    }
 }

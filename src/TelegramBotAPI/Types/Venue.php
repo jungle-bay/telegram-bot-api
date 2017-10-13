@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#venue
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class Venue implements JsonDeserializerInterface {
+class Venue extends Type {
 
     /**
      * @var Location $location
@@ -32,18 +32,6 @@ class Venue implements JsonDeserializerInterface {
      */
     private $foursquareId;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        $this->setLocation(new Location($data['location']));
-        $this->setTitle($data['title']);
-        $this->setAddress($data['address']);
-
-        if (isset($data['foursquare_id'])) $this->setFoursquareId($data['foursquare_id']);
-    }
 
     /**
      * @return Location

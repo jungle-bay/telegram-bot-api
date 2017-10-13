@@ -69,15 +69,4 @@ class File extends Type {
     public function setFilePath($filePath) {
         $this->filePath = $filePath;
     }
-
-    /**
-     * @return array
-     */
-    protected function getSchemaValid() {
-        return array(
-            'file_id'   => true,
-            'file_size' => false,
-            'file_path' => false
-        );
-    }
 }

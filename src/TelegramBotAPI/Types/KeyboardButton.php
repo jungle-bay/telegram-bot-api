@@ -3,15 +3,14 @@
 namespace TelegramBotAPI\Types;
 
 
-use JsonSerializable;
-use TelegramBotAPI\Api\JsonDeserializerInterface;
+use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#keyboardbutton
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class KeyboardButton implements JsonSerializable, JsonDeserializerInterface {
+class KeyboardButton extends Type {
 
     /**
      * @var string $text
@@ -28,19 +27,6 @@ class KeyboardButton implements JsonSerializable, JsonDeserializerInterface {
      */
     private $requestLocation;
 
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array()) {
-
-        if (empty($data)) return;
-
-        $this->setText($data['text']);
-
-        if (isset($data['request_contact'])) $this->setRequestContact($data['request_contact']);
-        if (isset($data['request_location'])) $this->setRequestLocation($data['request_location']);
-    }
 
     /**
      * @return string
@@ -82,24 +68,5 @@ class KeyboardButton implements JsonSerializable, JsonDeserializerInterface {
      */
     public function setRequestLocation($requestLocation) {
         $this->requestLocation = $requestLocation;
-    }
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize() {
-
-        $data = array();
-
-        $data['text'] = $this->getText();
-
-        if (isset($this->requestContact)) $data['request_contact'] = $this->getRequestContact();
-        if (isset($this->requestLocation)) $data['request_location'] = $this->getRequestLocation();
-
-        return $data;
     }
 }
