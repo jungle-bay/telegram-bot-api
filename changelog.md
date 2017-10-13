@@ -1,5 +1,12 @@
 # Changelog for Telegram Bot API
 
+#### 3.4 / 2017-10-11
+
+* Bots can now send and receive [Live Locations](https://telegram.org/blog/live-locations). Added new field ***live_period*** to the [sendLocation](https://core.telegram.org/bots/api#sendlocation) method and the [editMessageLiveLocation](https://core.telegram.org/bots/api#editmessagelivelocation) and [stopMessageLiveLocation](https://core.telegram.org/bots/api#stopmessagelivelocation) methods as well as the necessary objects for inline bots.
+* Bots can use the new [setChatStickerSet](https://core.telegram.org/bots/api#setchatstickerset) and [deleteChatStickerSet](https://core.telegram.org/bots/api#deletechatstickerset) methods to manage group sticker sets.
+* The [getChat](https://core.telegram.org/bots/api#getchat) request now returns the group's sticker set for supergroups if available.
+* Bots now receive entities from media captions in the new field ***caption_entities*** in [Message](https://core.telegram.org/bots/api#message).
+
 #### 3.3 / 2017-08-23
 
 * Bots can now mention users via [inline mentions](https://core.telegram.org/bots/api#formatting-options), without using usernames.
