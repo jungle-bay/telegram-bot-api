@@ -20,7 +20,7 @@ use TelegramBotAPI\Types\UserProfilePhotos;
 use TelegramBotAPI\Types\ReplyKeyboardRemove;
 use TelegramBotAPI\Types\ReplyKeyboardMarkup;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
-use TelegramBotAPI\PublicConst as TBAPublicConst;
+use TelegramBotAPI\Constants as TBAPublicConst;
 use TelegramBotAPI\PrivateConst as TBAPrivateConst;
 use TelegramBotAPI\Exception\TelegramBotAPIWarning;
 use TelegramBotAPI\Exception\TelegramBotAPIException;

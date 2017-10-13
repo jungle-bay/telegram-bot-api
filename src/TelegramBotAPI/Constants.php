@@ -7,7 +7,7 @@ namespace TelegramBotAPI;
  * @package TelegramBotAPI
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-final class PublicConst {
+final class Constants {
 
     const HTML_PARSE_MODE = 'HTML';
     const MARKDOWN_PARSE_MODE = 'Markdown';

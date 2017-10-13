@@ -14,7 +14,7 @@ use TelegramBotAPI\Types\GameHighScore;
 use TelegramBotAPI\TelegramBotAPI as TBA;
 use TelegramBotAPI\TelegramBotAPITestCase;
 use TelegramBotAPI\Types\UserProfilePhotos;
-use TelegramBotAPI\PublicConst as TBAConst;
+use TelegramBotAPI\Constants as TBAConst;
 use TelegramBotAPI\Types\InlineKeyboardButton;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
 
