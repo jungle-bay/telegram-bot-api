@@ -131,6 +131,19 @@ class TelegramBotAPI extends HTTP {
                     }
                     break;
 
+                case PrivateConst::CHECK_LOCATION:
+                    if (isset($parameters[$field])) {
+                        if (!$this->checkLocalLimit($parameters[$field])) {
+                            new TelegramBotAPIWarning('
+                                Period in seconds for which the location will be updated
+                                (see Live Locations, should be between 60 and 86400)
+                        ');
+                        }
+
+                        $payload[$field] = $parameters[$field];
+                    }
+                    break;
+
                 default:
                     if (isset($parameters[$field])) {
                         $payload[$field] = $parameters[$field];
@@ -236,6 +249,14 @@ class TelegramBotAPI extends HTTP {
      */
     private function checkLimit($limit) {
         return (($limit > TBAPrivateConst::LIMIT_MIN) && (TBAPrivateConst::LIMIT_MAX < $limit));
+    }
+
+    /**
+     * @param int $limit
+     * @return bool
+     */
+    private function checkLocalLimit($limit) {
+        return (($limit > TBAPrivateConst::CHECK_LOCATION_MIN) && (TBAPrivateConst::CHECK_LOCATION_MAX < $limit));
     }
 
     /**
@@ -724,6 +745,7 @@ class TelegramBotAPI extends HTTP {
             'chat_id'              => TBAPrivateConst::CHECK_REQUIRED,
             'latitude'             => TBAPrivateConst::CHECK_REQUIRED,
             'longitude'            => TBAPrivateConst::CHECK_REQUIRED,
+            'live_period'          => TBAPrivateConst::CHECK_LOCATION,
             'disable_notification' => TBAPrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => TBAPrivateConst::CHECK_NO_REQUIRED,
             'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
@@ -1795,6 +1817,110 @@ class TelegramBotAPI extends HTTP {
 
         $url = $this->generateUrl(TBAPrivateConst::DELETE_STICKER_FROM_SET);
         $result = (string) $this->send(TBAPrivateConst::POST, $url, $payload);
+
+        unset($parameters, $url, $payload);
+
+        return $result;
+    }
+
+
+    /**
+     * @api
+     * @link https://core.telegram.org/bots/api#editmessagelivelocation
+     * @param array $parameters
+     * @return Message
+     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    public function editMessageLiveLocation(array $parameters) {
+
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'           => TBAPrivateConst::CHECK_NO_REQUIRED,
+            'message_id'        => TBAPrivateConst::CHECK_NO_REQUIRED,
+            'inline_message_id' => TBAPrivateConst::CHECK_NO_REQUIRED,
+            'latitude'          => TBAPrivateConst::CHECK_REQUIRED,
+            'longitude'         => TBAPrivateConst::CHECK_REQUIRED,
+            'reply_markup'      => TBAPrivateConst::CHECK_KEYBOARD_TYPE,
+        ));
+
+        $url = $this->generateUrl(TBAPrivateConst::EDIT_MESSAGE_LIVE_LOCATION);
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = new Message($data);
+
+        unset($parameters, $url, $payload, $data);
+
+        return $result;
+    }
+
+    /**
+     * @api
+     * @link https://core.telegram.org/bots/api#editmessagelivelocation
+     * @param array $parameters
+     * @return Message
+     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    public function stopMessageLiveLocation(array $parameters) {
+
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'           => TBAPrivateConst::CHECK_NO_REQUIRED,
+            'message_id'        => TBAPrivateConst::CHECK_NO_REQUIRED,
+            'inline_message_id' => TBAPrivateConst::CHECK_NO_REQUIRED,
+            'reply_markup'      => TBAPrivateConst::CHECK_KEYBOARD_TYPE,
+        ));
+
+        $url = $this->generateUrl(TBAPrivateConst::STOP_MESSAGE_LIVE_LOCATION);
+        $data = (array) $this->send(TBAPrivateConst::POST, $url, $payload);
+        $result = new Message($data);
+
+        unset($parameters, $url, $payload, $data);
+
+        return $result;
+    }
+
+    /**
+     * @api
+     * @link https://core.telegram.org/bots/api#setchatstickerset
+     * @param array $parameters
+     * @return bool
+     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    public function setChatStickerSet(array $parameters) {
+
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id'          => TBAPrivateConst::CHECK_REQUIRED,
+            'sticker_set_name' => TBAPrivateConst::CHECK_REQUIRED
+        ));
+
+        $url = $this->generateUrl(TBAPrivateConst::SET_CHAT_STICKER_SET);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
+
+        unset($parameters, $url, $payload);
+
+        return $result;
+    }
+
+    /**
+     * @api
+     * @link https://core.telegram.org/bots/api#deletechatstickerset
+     * @param array $parameters
+     * @return bool
+     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    public function deleteChatStickerSet(array $parameters) {
+
+        $payload = $this->checkParameterToSend($parameters, array(
+            'chat_id' => TBAPrivateConst::CHECK_REQUIRED
+        ));
+
+        $url = $this->generateUrl(TBAPrivateConst::DELETE_CHAT_STICKER_SET);
+        $result = (bool) $this->send(TBAPrivateConst::POST, $url, $payload);
 
         unset($parameters, $url, $payload);
 

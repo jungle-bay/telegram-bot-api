@@ -23,6 +23,7 @@ final class PrivateConst {
     const CHECK_CAPTION_LIMIT = 'CHECK_CAPTION_LIMIT';
     const CHECK_NO_REQUIRED = 'CHECK_NO_REQUIRED';
     const CHECK_REQUIRED = 'CHECK_REQUIRED';
+    const CHECK_LOCATION = 'CHECK_LOCATION';
 
     const TELEGRAM_BOT_API = 'https://api.telegram.org/bot%s/%s';
     const TELEGRAM_BOT_FILE = 'https://api.telegram.org/file/bot%s/%s';
@@ -33,6 +34,8 @@ final class PrivateConst {
     const CAPTION_MIN_SIZE = 1;
     const CAPTION_MAX_SIZE = 200;
 
+    const CHECK_LOCATION_MIN = 60;
+    const CHECK_LOCATION_MAX = 86400;
 
     const GET_UPDATES = 'getUpdates';
     const SET_WEBHOOK = 'setWebhook';
@@ -94,4 +97,10 @@ final class PrivateConst {
     const ADD_STICKER_TO_SET = 'addStickerToSet';
     const SET_STICKER_POSITION_IN_SET = 'setStickerPositionInSet';
     const DELETE_STICKER_FROM_SET = 'deleteStickerFromSet';
+
+    const EDIT_MESSAGE_LIVE_LOCATION = 'editMessageLiveLocation';
+    const STOP_MESSAGE_LIVE_LOCATION = 'stopMessageLiveLocation';
+
+    const SET_CHAT_STICKER_SET = 'setChatStickerSet';
+    const DELETE_CHAT_STICKER_SET = 'deleteChatStickerSet';
 }

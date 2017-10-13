@@ -67,6 +67,16 @@ class Chat extends Type {
      */
     private $pinnedMessage;
 
+    /**
+     * @var null|string $stickerSetName
+     */
+    private $stickerSetName;
+
+    /**
+     * @var null|bool $canSetStickerSet
+     */
+    private $canSetStickerSet;
+
 
     /**
      * @api
@@ -242,5 +252,33 @@ class Chat extends Type {
      */
     public function setPinnedMessage(Message $pinnedMessage) {
         $this->pinnedMessage = $pinnedMessage;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getStickerSetName() {
+        return $this->stickerSetName;
+    }
+
+    /**
+     * @param string $stickerSetName
+     */
+    public function setStickerSetName($stickerSetName) {
+        $this->stickerSetName = $stickerSetName;
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function getCanSetStickerSet() {
+        return $this->canSetStickerSet;
+    }
+
+    /**
+     * @param bool $canSetStickerSet
+     */
+    public function setCanSetStickerSet($canSetStickerSet) {
+        $this->canSetStickerSet = $canSetStickerSet;
     }
 }

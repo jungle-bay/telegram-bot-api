@@ -68,9 +68,14 @@ class Message extends Type {
     private $text;
 
     /**
-     * @var null|Message[] $entities
+     * @var null|MessageEntity[] $entities
      */
     private $entities;
+
+    /**
+     * @var null|MessageEntity[] $captionEntities
+     */
+    private $captionEntities;
 
     /**
      * @var null|Audio $audio
@@ -368,14 +373,14 @@ class Message extends Type {
     }
 
     /**
-     * @return null|Message[]
+     * @return null|MessageEntity[]
      */
     public function getEntities() {
         return $this->entities;
     }
 
     /**
-     * @param null|Message[] $entities
+     * @param null|MessageEntity[] $entities
      */
     public function setEntities($entities) {
         $this->entities = $entities;
@@ -771,5 +776,19 @@ class Message extends Type {
      */
     public function setForwardSignature($forwardSignature) {
         $this->forwardSignature = $forwardSignature;
+    }
+
+    /**
+     * @return null|MessageEntity[]
+     */
+    public function getCaptionEntities() {
+        return $this->captionEntities;
+    }
+
+    /**
+     * @param null|MessageEntity[] $captionEntities
+     */
+    public function setCaptionEntities($captionEntities) {
+        $this->captionEntities = $captionEntities;
     }
 }
