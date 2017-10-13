@@ -23,6 +23,11 @@ class InputLocationMessageContent extends InputMessageContent {
      */
     private $longitude;
 
+    /**
+     * @var null|int $longitude
+     */
+    private $livePeriod;
+
 
     /**
      * @return float
@@ -50,5 +55,19 @@ class InputLocationMessageContent extends InputMessageContent {
      */
     public function setLongitude($longitude) {
         $this->longitude = $longitude;
+    }
+
+    /**
+     * @return null|int
+     */
+    public function getLivePeriod() {
+        return $this->livePeriod;
+    }
+
+    /**
+     * @param int $livePeriod
+     */
+    public function setLivePeriod($livePeriod) {
+        $this->livePeriod = $livePeriod;
     }
 }
