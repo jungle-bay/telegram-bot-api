@@ -293,7 +293,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
     }
 
     /**
-     * !!! Warning !!!
+     * !!! Warning !!! I should think
      *
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
