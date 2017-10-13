@@ -1,10 +1,10 @@
 <?php
 
-namespace TelegramBotAPI\Tests\Core;
+namespace TelegramBotAPI\Tests\Entities;
 
 
-use TelegramBotAPI\Core\HTTP;
 use PHPUnit\Framework\TestCase;
+use TelegramBotAPI\Entities\HTTP;
 use TelegramBotAPI\PrivateConst as TBAConst;
 
 /**

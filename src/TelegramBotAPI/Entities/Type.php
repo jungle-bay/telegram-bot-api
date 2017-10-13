@@ -1,9 +1,8 @@
 <?php
 
-namespace TelegramBotAPI\Core;
+namespace TelegramBotAPI\Entities;
 
 
-use Exception;
 use ReflectionClass;
 use JsonSerializable;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;

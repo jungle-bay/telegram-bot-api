@@ -3,12 +3,12 @@
 namespace TelegramBotAPI;
 
 
-use TelegramBotAPI\Core\HTTP;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\File;
 use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\Types\Message;
+use TelegramBotAPI\Entities\HTTP;
 use TelegramBotAPI\Types\InputFile;
 use TelegramBotAPI\Types\StickerSet;
 use TelegramBotAPI\Types\ForceReply;

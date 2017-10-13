@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBotAPI\Core;
+namespace TelegramBotAPI\Entities;
 
 
 use TelegramBotAPI\Exception\TelegramBotAPIException;
