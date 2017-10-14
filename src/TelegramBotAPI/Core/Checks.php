@@ -207,31 +207,26 @@ class Checks {
         switch ($check['type']) {
 
             case PrivateConst::CHECK_PARSE_MODE_TYPE:
-                $obj = $this->checkParseModeType($parameters[$key]);
-                break;
+                return $this->checkParseModeType($parameters[$key]);
 
             case PrivateConst::CHECK_KEYBOARD_TYPE:
-                $obj = $this->checkKeyboardType($parameters[$key]);
-                break;
+                return $this->checkKeyboardType($parameters[$key]);
 
             case PrivateConst::CHECK_ACTION_TYPE:
-                $obj = $this->checkActionType($parameters[$key]);
-                break;
+                return $this->checkActionType($parameters[$key]);
 
             case PrivateConst::CHECK_LIMIT:
-                $obj = $this->checkLimit($parameters[$key]);
-                break;
+                return $this->checkLimit($parameters[$key]);
 
             case PrivateConst::CHECK_CAPTION_LIMIT:
-                $obj = $this->checkCaptionLimit($parameters[$key]);
-                break;
+                return $this->checkCaptionLimit($parameters[$key]);
 
             case PrivateConst::CHECK_LOCATION:
-                $obj = $this->checkLocalLimit($parameters[$key]);
-                break;
-        }
+                return $this->checkLocalLimit($parameters[$key]);
 
-        return $obj;
+            default:
+                return null;
+        }
     }
 
     /**
