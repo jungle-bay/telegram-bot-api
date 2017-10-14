@@ -5,129 +5,149 @@ namespace TelegramBotAPI\Core;
 
 use TelegramBotAPI\Types\InputFile;
 use TelegramBotAPI\Types\LabeledPrice;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
+use TelegramBotAPI\Constants;
 use TelegramBotAPI\PrivateConst;
 use TelegramBotAPI\Types\ForceReply;
 use TelegramBotAPI\Types\ReplyKeyboardRemove;
 use TelegramBotAPI\Types\ReplyKeyboardMarkup;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
-use TelegramBotAPI\Constants;
 use TelegramBotAPI\Exception\TelegramBotAPIWarning;
+use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
 class Checks {
 
-    /**
-     * @param array $parameters
-     * @param array $fields
-     * @return array
-     *
-     * @throws TelegramBotAPIException
-     * @throws TelegramBotAPIRuntimeException
-     */
-    protected function checkParameterToSend(array $parameters, array $fields) {
 
-        $payload = array();
+    private function checkRequired($parameters, $key) {
 
-        foreach ($fields as $field => $howCheck) {
-
-            switch ($howCheck) {
-
-                case PrivateConst::CHECK_REQUIRED:
-                    if (empty($parameters[$field])) {
-                        throw new TelegramBotAPIException($field . ' is required field.');
-                    }
-
-                    $payload[$field] = $parameters[$field];
-                    break;
-
-                case PrivateConst::CHECK_PARSE_MODE_TYPE:
-                    if (isset($parameters[$field])) {
-
-                        if (!$this->checkParseModeType($parameters[$field])) {
-                            new TelegramBotAPIWarning('
-                            Used not by the correct parse mode.
-                            Send Markdown or HTML, if you want Telegram apps to show bold, italic,
-                            fixed-width text or inline URLs in your bot\'s message.
-                        ');
-                        }
-
-                        $payload[$field] = $parameters[$field];
-                    }
-
-                    break;
-
-                case PrivateConst::CHECK_KEYBOARD_TYPE:
-                    if (isset($parameters[$field])) {
-                        if (!$this->checkKeyboardType($parameters[$field])) {
-                            new TelegramBotAPIWarning('Invalid keyboard type.');
-                        }
-
-                        $payload[$field] = json_encode($parameters[$field]);
-                    }
-                    break;
-
-                case PrivateConst::CHECK_ACTION_TYPE:
-                    if (isset($parameters[$field])) {
-                        if (!$this->checkActionType($parameters[$field])) {
-                            new TelegramBotAPIWarning('Invalid action type.');
-                        }
-
-                        $payload[$field] = $parameters[$field];
-                    }
-                    break;
-
-                case PrivateConst::CHECK_LIMIT:
-                    if (isset($parameters[$field])) {
-                        if (!$this->checkLimit($parameters[$field])) {
-                            new TelegramBotAPIWarning('
-                            Used not by the correct limit limits the number of updates that are updated.
-                            Values from 1 to 100 are accepted. Default is 100.
-                        ');
-                        }
-
-                        $payload[$field] = $parameters[$field];
-                    }
-                    break;
-
-                case PrivateConst::CHECK_CAPTION_LIMIT:
-                    if (isset($parameters[$field])) {
-                        if (!$this->checkCaptionLimit($parameters[$field])) {
-                            new TelegramBotAPIWarning('
-                            Used not by the correct limit.
-                            Photo caption (may also be used when resending photos by file_id),
-                            0-200 characters.
-                        ');
-                        }
-
-                        $payload[$field] = $parameters[$field];
-                    }
-                    break;
-
-                case PrivateConst::CHECK_LOCATION:
-                    if (isset($parameters[$field])) {
-                        if (!$this->checkLocalLimit($parameters[$field])) {
-                            new TelegramBotAPIWarning('
-                                Period in seconds for which the location will be updated
-                                (see Live Locations, should be between 60 and 86400)
-                        ');
-                        }
-
-                        $payload[$field] = $parameters[$field];
-                    }
-                    break;
-
-                default:
-                    if (isset($parameters[$field])) {
-                        $payload[$field] = $parameters[$field];
-                    }
-
-                    break;
-
-            }
+        if (empty($parameters[$key])) {
+            throw new TelegramBotAPIException($key . ' is required field.');
         }
 
-        return $payload;
+        return $parameters[$key];
+    }
+
+    private function checkNoRequired($parameters, $key) {
+
+        if (!isset($parameters[$key])) {
+            return null;
+        }
+
+        return $parameters[$key];
+    }
+
+
+    /**
+     * @param int $limit
+     * @return bool
+     */
+    protected function checkLimit($limit) {
+
+        $isOK = ((PrivateConst::LIMIT_MIN < $limit) && ($limit < PrivateConst::LIMIT_MAX));
+
+        if (!$isOK) {
+            new TelegramBotAPIWarning('Values from 1 to 100 are accepted. Default is 100.');
+
+            return null;
+        }
+
+        return $limit;
+    }
+
+    /**
+     * @param int $limit
+     * @return bool
+     */
+    protected function checkLocalLimit($limit) {
+
+        $isOK = ((PrivateConst::LOCATION_MIN < $limit) && ($limit < PrivateConst::LOCATION_MAX));
+
+        if (!$isOK) {
+            new TelegramBotAPIWarning('See Live Locations, should be between 60 and 86400.');
+
+            return null;
+        }
+
+        return $limit;
+    }
+
+    /**
+     * @param string $caption
+     * @return bool
+     */
+    protected function checkCaptionLimit($caption) {
+
+        $length = strlen($caption);
+        $isOK = ((PrivateConst::CAPTION_SIZE_MIN < $length) && ($length < PrivateConst::CAPTION_SIZE_MAX));
+
+        if (!$isOK) {
+            new TelegramBotAPIWarning('Values from 0 to 200 are characters.');
+
+            return null;
+        }
+
+        return $caption;
+    }
+
+    /**
+     * @param $keyboard
+     * @return bool
+     */
+    protected function checkKeyboardType($keyboard) {
+
+        switch (true) {
+
+            case $keyboard instanceof InlineKeyboardMarkup:
+            case $keyboard instanceof ReplyKeyboardMarkup:
+            case $keyboard instanceof ReplyKeyboardRemove:
+            case $keyboard instanceof ForceReply:
+                return json_encode($keyboard);
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * @param string $actionType
+     * @return bool
+     */
+    protected function checkActionType($actionType) {
+
+        switch ($actionType) {
+
+            case Constants::TYPING_TYPE_ACTION:
+            case Constants::UPLOAD_PHOTO_TYPE_ACTION:
+            case Constants::RECORD_VIDEO_TYPE_ACTION:
+            case Constants::UPLOAD_VIDEO_TYPE_ACTION:
+            case Constants::RECORD_AUDIO_TYPE_ACTION:
+            case Constants::UPLOAD_AUDIO_TYPE_ACTION:
+            case Constants::UPLOAD_DOCUMENT_TYPE_ACTION:
+            case Constants::FIND_LOCATION_TYPE_ACTION:
+            case Constants::RECORD_VIDEO_NOTE:
+            case Constants::UPLOAD_VIDEO_NOTE:
+                return $actionType;
+            default:
+                new TelegramBotAPIWarning('Invalid action type.');
+
+                return null;
+        }
+    }
+
+    /**
+     * @param string $mode
+     * @return bool
+     */
+    protected function checkParseModeType($mode) {
+
+        $isOK = ((Constants::HTML_PARSE_MODE === $mode) || (Constants::MARKDOWN_PARSE_MODE === $mode));
+
+        if (!$isOK) {
+            new TelegramBotAPIWarning('Send Markdown or HTML.');
+
+            return null;
+        }
+
+        return $mode;
     }
 
     /**
@@ -150,80 +170,97 @@ class Checks {
         return $data['result'];
     }
 
+
     /**
-     * @param $keyboard
-     * @return bool
+     * @param array $parameters
+     * @param string $key
+     * @param array $check
+     * @return mixed|null
      */
-    protected function checkKeyboardType($keyboard) {
+    private function checkValue(array $parameters, $key, $check) {
 
-        switch (true) {
-
-            case $keyboard instanceof InlineKeyboardMarkup:
-            case $keyboard instanceof ReplyKeyboardMarkup:
-            case $keyboard instanceof ReplyKeyboardRemove:
-            case $keyboard instanceof ForceReply:
-                return true;
-            default:
-                return false;
+        if ($check === PrivateConst::CHECK_REQUIRED) {
+            return $this->checkRequired($parameters, $key);
         }
-    }
 
-    /**
-     * @param string $actionType
-     * @return bool
-     */
-    protected function checkActionType($actionType) {
-
-        switch ($actionType) {
-
-            case Constants::TYPING_TYPE_ACTION:
-            case Constants::UPLOAD_PHOTO_TYPE_ACTION:
-            case Constants::RECORD_VIDEO_TYPE_ACTION:
-            case Constants::UPLOAD_VIDEO_TYPE_ACTION:
-            case Constants::RECORD_AUDIO_TYPE_ACTION:
-            case Constants::UPLOAD_AUDIO_TYPE_ACTION:
-            case Constants::UPLOAD_DOCUMENT_TYPE_ACTION:
-            case Constants::FIND_LOCATION_TYPE_ACTION:
-            case Constants::RECORD_VIDEO_NOTE:
-            case Constants::UPLOAD_VIDEO_NOTE:
-                return true;
-            default:
-                return false;
+        if ($check === PrivateConst::CHECK_NO_REQUIRED) {
+            return $this->checkNoRequired($parameters, $key);
         }
+
+        return null;
     }
 
     /**
-     * @param string $caption
-     * @return bool
+     * @param array $parameters
+     * @param string $key
+     * @param array $check
+     * @return mixed|null
      */
-    protected function checkCaptionLimit($caption) {
+    private function checkObj(array $parameters, $key, array $check) {
 
-        $len = strlen($caption);
+        $obj = $this->checkValue($parameters, $key, $check['required']);
 
-        return (($len > PrivateConst::CAPTION_MIN_SIZE) && (PrivateConst::CAPTION_MAX_SIZE > $len));
+        if ($obj === null) {
+            return null;
+        }
+
+        switch ($check['type']) {
+
+            case PrivateConst::CHECK_PARSE_MODE_TYPE:
+                $obj = $this->checkParseModeType($parameters[$key]);
+                break;
+
+            case PrivateConst::CHECK_KEYBOARD_TYPE:
+                $obj = $this->checkKeyboardType($parameters[$key]);
+                break;
+
+            case PrivateConst::CHECK_ACTION_TYPE:
+                $obj = $this->checkActionType($parameters[$key]);
+                break;
+
+            case PrivateConst::CHECK_LIMIT:
+                $obj = $this->checkLimit($parameters[$key]);
+                break;
+
+            case PrivateConst::CHECK_CAPTION_LIMIT:
+                $obj = $this->checkCaptionLimit($parameters[$key]);
+                break;
+
+            case PrivateConst::CHECK_LOCATION:
+                $obj = $this->checkLocalLimit($parameters[$key]);
+                break;
+        }
+
+        return $obj;
     }
 
     /**
-     * @param int $limit
-     * @return bool
+     * @param array $parameters
+     * @param array $scheme
+     * @return array
+     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      */
-    protected function checkLimit($limit) {
-        return (($limit > PrivateConst::LIMIT_MIN) && (PrivateConst::LIMIT_MAX < $limit));
-    }
+    protected function checkParameter(array $parameters, array $scheme) {
 
-    /**
-     * @param int $limit
-     * @return bool
-     */
-    protected function checkLocalLimit($limit) {
-        return (($limit > PrivateConst::CHECK_LOCATION_MIN) && (PrivateConst::CHECK_LOCATION_MAX < $limit));
-    }
+        $payload = array();
 
-    /**
-     * @param string $mode
-     * @return bool
-     */
-    protected function checkParseModeType($mode) {
-        return ((Constants::HTML_PARSE_MODE === $mode) || (Constants::MARKDOWN_PARSE_MODE === $mode));
+        foreach ($scheme as $key => $check) {
+
+            $obj = null;
+
+            if (is_array($check)) {
+                $obj = $this->checkObj($parameters, $key, $check);
+            } else {
+                $obj = $this->checkValue($parameters, $key, $check);
+            }
+
+            if ($obj !== null) {
+                $payload[$key] = $obj;
+            }
+        }
+
+        return $payload;
     }
 }

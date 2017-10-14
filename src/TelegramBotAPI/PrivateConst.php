@@ -31,11 +31,11 @@ final class PrivateConst {
     const LIMIT_MIN = 1;
     const LIMIT_MAX = 100;
 
-    const CAPTION_MIN_SIZE = 1;
-    const CAPTION_MAX_SIZE = 200;
+    const CAPTION_SIZE_MIN = 1;
+    const CAPTION_SIZE_MAX = 200;
 
-    const CHECK_LOCATION_MIN = 60;
-    const CHECK_LOCATION_MAX = 86400;
+    const LOCATION_MIN = 60;
+    const LOCATION_MAX = 86400;
 
     const GET_UPDATES = 'getUpdates';
     const SET_WEBHOOK = 'setWebhook';

@@ -155,7 +155,7 @@ class InlineQueryResultVideo extends InlineQueryResult {
      */
     public function setCaption($caption) {
 
-        if (empty($caption) || (strlen($caption) > TBAConstPrivate::CAPTION_MAX_SIZE)) {
+        if (empty($caption) || (strlen($caption) > TBAConstPrivate::CAPTION_SIZE_MAX)) {
             throw new TelegramBotAPIException('Caption, 0-200 characters');
         }
 
