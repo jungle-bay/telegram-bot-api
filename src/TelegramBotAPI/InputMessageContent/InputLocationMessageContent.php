@@ -3,8 +3,7 @@
 namespace TelegramBotAPI\InputMessageContent;
 
 
-use TelegramBotAPI\Entities\InputMessageContent;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\Core\InputMessageContent;
 
 /**
  * @package TelegramBotAPI\InputMessageContent

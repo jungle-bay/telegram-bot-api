@@ -50,7 +50,6 @@ class TelegramBotAPITest extends TestCase {
 
         $tba = new TBA($this->getToken());
 
-
         $updates = $tba->getUpdates();
 
         foreach ($updates as $update) {

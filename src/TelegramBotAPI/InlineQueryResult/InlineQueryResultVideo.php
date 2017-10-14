@@ -4,8 +4,8 @@ namespace TelegramBotAPI\InlineQueryResult;
 
 
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
-use TelegramBotAPI\Entities\InlineQueryResult;
-use TelegramBotAPI\Entities\InputMessageContent;
+use TelegramBotAPI\Core\InlineQueryResult;
+use TelegramBotAPI\Core\InputMessageContent;
 use TelegramBotAPI\Constants as TBAConstPublic;
 use TelegramBotAPI\PrivateConst as TBAConstPrivate;
 use TelegramBotAPI\Exception\TelegramBotAPIException;

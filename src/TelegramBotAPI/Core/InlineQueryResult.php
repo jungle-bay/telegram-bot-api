@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBotAPI\Entities;
+namespace TelegramBotAPI\Core;
 
 
 /**

@@ -3,8 +3,8 @@
 namespace TelegramBotAPI\InputMessageContent;
 
 
-use TelegramBotAPI\Entities\InputMessageContent;
 use TelegramBotAPI\Constants as TBAConstPublic;
+use TelegramBotAPI\Core\InputMessageContent;
 use TelegramBotAPI\PrivateConst as TBAConstPrivate;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
