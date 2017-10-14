@@ -213,8 +213,8 @@ abstract class Type implements JsonSerializable {
         foreach ($schema as $key => $check) {
 
             if ($check['require'] === true) {
-                if (!isset($data[$key])) {
-                    throw new TelegramBotAPIRuntimeException('error empty require field');
+                if (empty($data[$key])) {
+                    throw new TelegramBotAPIRuntimeException('Error empty require field.');
                 }
             }
 

@@ -66,12 +66,12 @@ class Checks {
     }
 
     /**
-     * @param int $limit
+     * @param int $local
      * @return bool
      */
-    protected function checkLocalLimit($limit) {
+    protected function checkLocal($local) {
 
-        $isOK = ((PrivateConst::LOCATION_MIN < $limit) && ($limit < PrivateConst::LOCATION_MAX));
+        $isOK = ((PrivateConst::LOCATION_MIN < $local) && ($local < PrivateConst::LOCATION_MAX));
 
         if (!$isOK) {
             new TelegramBotAPIWarning('See Live Locations, should be between 60 and 86400.');
@@ -79,7 +79,7 @@ class Checks {
             return null;
         }
 
-        return $limit;
+        return $local;
     }
 
     /**
@@ -233,7 +233,7 @@ class Checks {
                 return $this->checkCaptionLimit($parameters[$key]);
 
             case PrivateConst::CHECK_LOCATION:
-                return $this->checkLocalLimit($parameters[$key]);
+                return $this->checkLocal($parameters[$key]);
 
             default:
                 return null;
@@ -253,8 +253,6 @@ class Checks {
         $payload = array();
 
         foreach ($scheme as $key => $check) {
-
-            $obj = null;
 
             if (is_array($check)) {
                 $obj = $this->checkObj($parameters, $key, $check);

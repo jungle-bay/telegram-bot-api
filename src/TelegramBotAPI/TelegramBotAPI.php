@@ -38,7 +38,10 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'offset'          => PrivateConst::CHECK_NO_REQUIRED,
             'limit'           => PrivateConst::CHECK_NO_REQUIRED,
-            'timeout'         => PrivateConst::CHECK_LIMIT,
+            'timeout'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_LIMIT
+            ),
             'allowed_updates' => PrivateConst::CHECK_NO_REQUIRED
         ));
 
@@ -92,7 +95,10 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'url'             => PrivateConst::CHECK_REQUIRED,
             'certificate'     => PrivateConst::CHECK_NO_REQUIRED,
-            'max_connections' => PrivateConst::CHECK_LIMIT,
+            'max_connections' => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_LIMIT
+            ),
             'allowed_updates' => PrivateConst::CHECK_NO_REQUIRED
         ));
 
@@ -174,11 +180,17 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'chat_id'                  => PrivateConst::CHECK_REQUIRED,
             'text'                     => PrivateConst::CHECK_REQUIRED,
-            'parse_mode'               => PrivateConst::CHECK_PARSE_MODE_TYPE,
+            'parse_mode'               => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_PARSE_MODE_TYPE
+            ),
             'disable_web_page_preview' => PrivateConst::CHECK_NO_REQUIRED,
             'disable_notification'     => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'      => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'             => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'             => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_MESSAGE);
@@ -231,10 +243,16 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'chat_id'              => PrivateConst::CHECK_REQUIRED,
             'photo'                => PrivateConst::CHECK_REQUIRED,
-            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'caption'              => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+            ),
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_PHOTO);
@@ -260,13 +278,19 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'chat_id'              => PrivateConst::CHECK_REQUIRED,
             'audio'                => PrivateConst::CHECK_REQUIRED,
-            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'caption'              => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+            ),
             'duration'             => PrivateConst::CHECK_NO_REQUIRED,
             'performer'            => PrivateConst::CHECK_NO_REQUIRED,
             'title'                => PrivateConst::CHECK_NO_REQUIRED,
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_AUDIO);
@@ -292,10 +316,16 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'chat_id'              => PrivateConst::CHECK_REQUIRED,
             'document'             => PrivateConst::CHECK_REQUIRED,
-            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'caption'              => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+            ),
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_DOCUMENT);
@@ -323,7 +353,10 @@ class TelegramBotAPI extends HTTP {
             'sticker'              => PrivateConst::CHECK_REQUIRED,
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_STICKER);
@@ -352,10 +385,16 @@ class TelegramBotAPI extends HTTP {
             'duration'             => PrivateConst::CHECK_NO_REQUIRED,
             'width'                => PrivateConst::CHECK_NO_REQUIRED,
             'height'               => PrivateConst::CHECK_NO_REQUIRED,
-            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'caption'              => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+            ),
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_VIDEO);
@@ -381,11 +420,17 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'chat_id'              => PrivateConst::CHECK_REQUIRED,
             'voice'                => PrivateConst::CHECK_REQUIRED,
-            'caption'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'caption'              => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+            ),
             'duration'             => PrivateConst::CHECK_NO_REQUIRED,
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_VOICE);
@@ -415,7 +460,10 @@ class TelegramBotAPI extends HTTP {
             'length'               => PrivateConst::CHECK_NO_REQUIRED,
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_VIDEO_NOTE);
@@ -442,10 +490,16 @@ class TelegramBotAPI extends HTTP {
             'chat_id'              => PrivateConst::CHECK_REQUIRED,
             'latitude'             => PrivateConst::CHECK_REQUIRED,
             'longitude'            => PrivateConst::CHECK_REQUIRED,
-            'live_period'          => PrivateConst::CHECK_LOCATION,
+            'live_period'          => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_LOCATION
+            ),
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_LOCATION);
@@ -477,7 +531,10 @@ class TelegramBotAPI extends HTTP {
             'foursquare_id'        => PrivateConst::CHECK_NO_REQUIRED,
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_VENUE);
@@ -507,7 +564,10 @@ class TelegramBotAPI extends HTTP {
             'last_name'            => PrivateConst::CHECK_NO_REQUIRED,
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_CONTACT);
@@ -532,7 +592,10 @@ class TelegramBotAPI extends HTTP {
 
         $payload = $this->checkParameter($parameters, array(
             'chat_id' => PrivateConst::CHECK_REQUIRED,
-            'action'  => PrivateConst::CHECK_ACTION_TYPE
+            'action'  => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_ACTION_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_CHAT_ACTION);
@@ -574,7 +637,10 @@ class TelegramBotAPI extends HTTP {
             'is_flexible'           => PrivateConst::CHECK_NO_REQUIRED,
             'disable_notification'  => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'   => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'          => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'          => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_INVOICE);
@@ -600,7 +666,10 @@ class TelegramBotAPI extends HTTP {
         $payload = $this->checkParameter($parameters, array(
             'user_id' => PrivateConst::CHECK_REQUIRED,
             'offset'  => PrivateConst::CHECK_NO_REQUIRED,
-            'limit'   => PrivateConst::CHECK_LIMIT
+            'limit'   => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_LIMIT
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::GET_USER_PROFILE_PHOTOS);
@@ -835,7 +904,10 @@ class TelegramBotAPI extends HTTP {
 
         $payload = $this->checkParameter($parameters, array(
             'callback_query_id' => PrivateConst::CHECK_REQUIRED,
-            'text'              => PrivateConst::CHECK_CAPTION_LIMIT,
+            'text'              => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+            ),
             'show_alert'        => PrivateConst::CHECK_NO_REQUIRED,
             'url'               => PrivateConst::CHECK_NO_REQUIRED,
             'cache_time'        => PrivateConst::CHECK_NO_REQUIRED
@@ -866,9 +938,15 @@ class TelegramBotAPI extends HTTP {
             'chat_id'                  => PrivateConst::CHECK_NO_REQUIRED,
             'message_id'               => PrivateConst::CHECK_NO_REQUIRED,
             'inline_message_id'        => PrivateConst::CHECK_NO_REQUIRED,
-            'parse_mode'               => PrivateConst::CHECK_PARSE_MODE_TYPE,
+            'parse_mode'               => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_PARSE_MODE_TYPE
+            ),
             'disable_web_page_preview' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'             => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'             => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_TEXT);
@@ -894,8 +972,14 @@ class TelegramBotAPI extends HTTP {
             'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
             'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
             'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
-            'caption'           => PrivateConst::CHECK_CAPTION_LIMIT,
-            'reply_markup'      => PrivateConst::CHECK_KEYBOARD_TYPE
+            'caption'           => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+            ),
+            'reply_markup'      => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_CAPTION);
@@ -921,7 +1005,10 @@ class TelegramBotAPI extends HTTP {
             'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
             'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
             'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'      => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'      => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_REPLY_MARKUP);
@@ -1065,7 +1152,10 @@ class TelegramBotAPI extends HTTP {
             'game_short_name'      => PrivateConst::CHECK_REQUIRED,
             'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
             'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'         => PrivateConst::CHECK_KEYBOARD_TYPE
+            'reply_markup'         => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::SEND_GAME);
@@ -1538,7 +1628,10 @@ class TelegramBotAPI extends HTTP {
             'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
             'latitude'          => PrivateConst::CHECK_REQUIRED,
             'longitude'         => PrivateConst::CHECK_REQUIRED,
-            'reply_markup'      => PrivateConst::CHECK_KEYBOARD_TYPE,
+            'reply_markup'      => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_LIVE_LOCATION);
@@ -1565,7 +1658,10 @@ class TelegramBotAPI extends HTTP {
             'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
             'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
             'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_markup'      => PrivateConst::CHECK_KEYBOARD_TYPE,
+            'reply_markup'      => array(
+                'required' => PrivateConst::CHECK_NO_REQUIRED,
+                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+            )
         ));
 
         $url = $this->generateUrl(PrivateConst::STOP_MESSAGE_LIVE_LOCATION);
