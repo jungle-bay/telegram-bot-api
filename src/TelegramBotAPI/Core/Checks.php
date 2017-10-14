@@ -3,14 +3,16 @@
 namespace TelegramBotAPI\Core;
 
 
-use TelegramBotAPI\Core\HTTP;
 use TelegramBotAPI\Types\InputFile;
 use TelegramBotAPI\Types\LabeledPrice;
+use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
+use TelegramBotAPI\PrivateConst;
 use TelegramBotAPI\Types\ForceReply;
 use TelegramBotAPI\Types\ReplyKeyboardRemove;
 use TelegramBotAPI\Types\ReplyKeyboardMarkup;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
-use TelegramBotAPI\Constants as TBAPublicConst;
+use TelegramBotAPI\Constants;
 use TelegramBotAPI\Exception\TelegramBotAPIWarning;
 
 class Checks {
@@ -31,7 +33,7 @@ class Checks {
 
             switch ($howCheck) {
 
-                case TBAPrivateConst::CHECK_REQUIRED:
+                case PrivateConst::CHECK_REQUIRED:
                     if (empty($parameters[$field])) {
                         throw new TelegramBotAPIException($field . ' is required field.');
                     }
@@ -138,7 +140,7 @@ class Checks {
         $data = json_decode($response, true);
 
         if ($data === null) {
-            throw new TelegramBotAPIRuntimeException('I can not spread the answer', self::INTERNAL_SERVER_ERROR);
+            throw new TelegramBotAPIRuntimeException('I can not spread the answer', HTTP::INTERNAL_SERVER_ERROR);
         }
 
         if ($data['ok'] !== true) {
@@ -174,16 +176,16 @@ class Checks {
 
         switch ($actionType) {
 
-            case TBAPublicConst::TYPING_TYPE_ACTION:
-            case TBAPublicConst::UPLOAD_PHOTO_TYPE_ACTION:
-            case TBAPublicConst::RECORD_VIDEO_TYPE_ACTION:
-            case TBAPublicConst::UPLOAD_VIDEO_TYPE_ACTION:
-            case TBAPublicConst::RECORD_AUDIO_TYPE_ACTION:
-            case TBAPublicConst::UPLOAD_AUDIO_TYPE_ACTION:
-            case TBAPublicConst::UPLOAD_DOCUMENT_TYPE_ACTION:
-            case TBAPublicConst::FIND_LOCATION_TYPE_ACTION:
-            case TBAPublicConst::RECORD_VIDEO_NOTE:
-            case TBAPublicConst::UPLOAD_VIDEO_NOTE:
+            case Constants::TYPING_TYPE_ACTION:
+            case Constants::UPLOAD_PHOTO_TYPE_ACTION:
+            case Constants::RECORD_VIDEO_TYPE_ACTION:
+            case Constants::UPLOAD_VIDEO_TYPE_ACTION:
+            case Constants::RECORD_AUDIO_TYPE_ACTION:
+            case Constants::UPLOAD_AUDIO_TYPE_ACTION:
+            case Constants::UPLOAD_DOCUMENT_TYPE_ACTION:
+            case Constants::FIND_LOCATION_TYPE_ACTION:
+            case Constants::RECORD_VIDEO_NOTE:
+            case Constants::UPLOAD_VIDEO_NOTE:
                 return true;
             default:
                 return false;
@@ -198,7 +200,7 @@ class Checks {
 
         $len = strlen($caption);
 
-        return (($len > TBAPrivateConst::CAPTION_MIN_SIZE) && (TBAPrivateConst::CAPTION_MAX_SIZE > $len));
+        return (($len > PrivateConst::CAPTION_MIN_SIZE) && (PrivateConst::CAPTION_MAX_SIZE > $len));
     }
 
     /**
@@ -206,7 +208,7 @@ class Checks {
      * @return bool
      */
     protected function checkLimit($limit) {
-        return (($limit > TBAPrivateConst::LIMIT_MIN) && (TBAPrivateConst::LIMIT_MAX < $limit));
+        return (($limit > PrivateConst::LIMIT_MIN) && (PrivateConst::LIMIT_MAX < $limit));
     }
 
     /**
@@ -214,7 +216,7 @@ class Checks {
      * @return bool
      */
     protected function checkLocalLimit($limit) {
-        return (($limit > TBAPrivateConst::CHECK_LOCATION_MIN) && (TBAPrivateConst::CHECK_LOCATION_MAX < $limit));
+        return (($limit > PrivateConst::CHECK_LOCATION_MIN) && (PrivateConst::CHECK_LOCATION_MAX < $limit));
     }
 
     /**
@@ -222,6 +224,6 @@ class Checks {
      * @return bool
      */
     protected function checkParseModeType($mode) {
-        return ((TBAPublicConst::HTML_PARSE_MODE === $mode) || (TBAPublicConst::MARKDOWN_PARSE_MODE === $mode));
+        return ((Constants::HTML_PARSE_MODE === $mode) || (Constants::MARKDOWN_PARSE_MODE === $mode));
     }
 }
