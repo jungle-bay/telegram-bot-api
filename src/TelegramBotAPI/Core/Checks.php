@@ -3,8 +3,6 @@
 namespace TelegramBotAPI\Core;
 
 
-use TelegramBotAPI\Types\InputFile;
-use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Constants;
 use TelegramBotAPI\PrivateConst;
 use TelegramBotAPI\Types\ForceReply;
@@ -17,8 +15,14 @@ use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
 class Checks {
 
-
-    private function checkRequired($parameters, $key) {
+    /**
+     * @param array $parameters
+     * @param string $key
+     * @return mixed|null
+     *
+     * @throws TelegramBotAPIException
+     */
+    private function checkRequired(array $parameters, $key) {
 
         if (empty($parameters[$key])) {
             throw new TelegramBotAPIException($key . ' is required field.');
@@ -27,7 +31,14 @@ class Checks {
         return $parameters[$key];
     }
 
-    private function checkNoRequired($parameters, $key) {
+    /**
+     * @param array $parameters
+     * @param string $key
+     * @return mixed|null
+     *
+     * @throws TelegramBotAPIException
+     */
+    private function checkNoRequired(array $parameters, $key) {
 
         if (!isset($parameters[$key])) {
             return null;

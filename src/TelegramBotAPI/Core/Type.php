@@ -28,6 +28,10 @@ abstract class Type implements JsonSerializable {
         return str_replace(' ', '', $value);
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
     private function unCamelize($value) {
 
         $value = preg_replace('/[A-Z]/', ' ${0}', $value);
@@ -36,6 +40,12 @@ abstract class Type implements JsonSerializable {
         return strtolower($value);
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @throws TelegramBotAPIRuntimeException
+     */
     private function copyValue($key, $value) {
 
         $name = $this->camelize($key);
@@ -47,7 +57,7 @@ abstract class Type implements JsonSerializable {
         $method = 'set' . $name;
 
         if (!method_exists($this, $method)) {
-            throw new TelegramBotAPIRuntimeException('Fatal error method: ' . $method . ' absent');
+            throw new TelegramBotAPIRuntimeException('Fatal error method: ' . $method . ' absent.');
         }
 
         $this->{$method}($value);
@@ -161,12 +171,48 @@ abstract class Type implements JsonSerializable {
         }
     }
 
+
+    private function arrayArray($key, $data, $check) {
+
+        $type = $check['value'];
+        $arr = array();
+
+        foreach ($data[$key] as $item) {
+
+            $values = array();
+
+            foreach ($item as $check) {
+                $values[] = $this->iniObj($type, $check);
+            }
+
+            $arr[] = $values;
+        }
+
+        $this->copyValue($key, $arr);
+    }
+
+    private function arrA($key, $data, $check) {
+
+        $type = $check['value'];
+        $values = array();
+
+        foreach ($data[$key] as $item) {
+            $values[] = $this->iniObj($type, $item);
+        }
+
+        $this->copyValue($key, $values);
+    }
+
+    private function obj($key, $data, $check) {
+        $obj = $this->iniObj($check['value'], $data[$key]);
+        $this->copyValue($key, $obj);
+    }
+
     private function deserializer(array $schema, array $data) {
 
-        foreach ($schema as $key => $value) {
+        foreach ($schema as $key => $check) {
 
-            if ($value['require'] === true) {
-
+            if ($check['require'] === true) {
                 if (!isset($data[$key])) {
                     throw new TelegramBotAPIRuntimeException('error empty require field');
                 }
@@ -174,43 +220,19 @@ abstract class Type implements JsonSerializable {
 
             if (isset($data[$key])) {
 
-                if ($value['array_array'] === true) {
-
-                    $type = $value['value'];
-                    $arr = array();
-
-                    foreach ($data[$key] as $item) {
-
-                        $objs = array();
-
-                        foreach ($item as $value) {
-                            $objs[] = $this->iniObj($type, $value);
-                        }
-
-                        $arr[] = $objs;
-                    }
-
-                    $this->copyValue($key, $arr);
+                if ($check['array_array'] === true) {
+                    $this->arrayArray($key, $data, $check);
 
                     return;
                 }
 
-                if ($value['array'] === true) {
-
-                    $type = $value['value'];
-                    $objs = array();
-
-                    foreach ($data[$key] as $item) {
-                        $objs[] = $this->iniObj($type, $item);
-                    }
-
-                    $this->copyValue($key, $objs);
+                if ($check['array'] === true) {
+                    $this->arrA($key, $data, $check);
 
                     return;
                 }
 
-                $obj = $this->iniObj($value['value'], $data[$key]);
-                $this->copyValue($key, $obj);
+                $this->obj($key, $data, $check);
             }
         }
     }
