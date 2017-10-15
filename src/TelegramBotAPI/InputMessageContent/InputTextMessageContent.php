@@ -3,9 +3,9 @@
 namespace TelegramBotAPI\InputMessageContent;
 
 
-use TelegramBotAPI\Constants as TBAConstPublic;
+use TelegramBotAPI\Constants;
+use TelegramBotAPI\PrivateConst;
 use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\PrivateConst as TBAConstPrivate;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
@@ -50,7 +50,7 @@ class InputTextMessageContent extends InputMessageContent {
 
         $size = strlen($messageText);
 
-        if (($size > TBAConstPrivate::MESSAGE_MIN_SIZE) && ($size > TBAConstPrivate::MESSAGE_MAX_SIZE)) {
+        if (($size > PrivateConst::MESSAGE_MIN_SIZE) && ($size > PrivateConst::MESSAGE_MAX_SIZE)) {
             throw new TelegramBotAPIException('Text of the message to be sent, 1-4096 characters');
         }
 
@@ -70,11 +70,12 @@ class InputTextMessageContent extends InputMessageContent {
      */
     public function setParseMode($parseMode) {
 
-        if (($parseMode !== TBAConstPublic::HTML_PARSE_MODE) || ($parseMode !== TBAConstPublic::MARKDOWN_PARSE_MODE)) {
-            throw new TelegramBotAPIException('Send “Markdown“ or “HTML“');
+        if (($parseMode === Constants::HTML_PARSE_MODE) || ($parseMode === Constants::MARKDOWN_PARSE_MODE)) {
+            $this->parseMode = $parseMode;
+            return;
         }
 
-        $this->parseMode = $parseMode;
+        throw new TelegramBotAPIException('Send “Markdown“ or “HTML“');
     }
 
     /**

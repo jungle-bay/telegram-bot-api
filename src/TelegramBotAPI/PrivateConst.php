@@ -31,6 +31,9 @@ final class PrivateConst {
     const LIMIT_MIN = 1;
     const LIMIT_MAX = 100;
 
+    const MESSAGE_MIN_SIZE = 0;
+    const MESSAGE_MAX_SIZE = 4096;
+
     const CAPTION_SIZE_MIN = 1;
     const CAPTION_SIZE_MAX = 200;
 
