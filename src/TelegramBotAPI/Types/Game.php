@@ -33,7 +33,7 @@ class Game extends Type {
     private $text;
 
     /**
-     * @var null|Message[] $textEntities
+     * @var null|MessageEntity[] $textEntities
      */
     private $textEntities;
 
@@ -100,14 +100,14 @@ class Game extends Type {
     }
 
     /**
-     * @return null|Message[]
+     * @return null|MessageEntity[]
      */
     public function getTextEntities() {
         return $this->textEntities;
     }
 
     /**
-     * @param null|Message[] $textEntities
+     * @param null|MessageEntity[] $textEntities
      */
     public function setTextEntities($textEntities) {
         $this->textEntities = $textEntities;
