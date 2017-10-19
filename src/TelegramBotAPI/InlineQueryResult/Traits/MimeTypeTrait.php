@@ -3,6 +3,9 @@
 namespace TelegramBotAPI\InlineQueryResult\Traits;
 
 
+use TelegramBotAPI\Constants;
+use TelegramBotAPI\Exception\TelegramBotAPIException;
+
 trait MimeTypeTrait {
 
     /**
