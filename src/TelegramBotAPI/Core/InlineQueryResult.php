@@ -3,7 +3,8 @@
 namespace TelegramBotAPI\Core;
 
 
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
+use TelegramBotAPI\InlineQueryResult\Traits\IdTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\ReplyMarkupTrait;
 
 /**
  * @package TelegramBotAPI\Entities
@@ -12,44 +13,8 @@ use TelegramBotAPI\Types\InlineKeyboardMarkup;
  */
 abstract class InlineQueryResult extends Type {
 
-    /**
-     * @var string $id
-     */
-    private $id;
-
-    /**
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
-
-
-    /**
-     * @param string $id
-     */
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
-    }
+    use IdTrait;
+    use ReplyMarkupTrait;
 
 
     /**
