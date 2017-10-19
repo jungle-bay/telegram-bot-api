@@ -3,10 +3,9 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
 use TelegramBotAPI\Core\InlineQueryResult;
 use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -15,15 +14,13 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
  */
 class InlineQueryResultCachedSticker extends InlineQueryResult {
 
+    use InputMessageContentTrait;
+
+
     /**
      * @var string $stickerFileId
      */
     private $stickerFileId;
-
-    /**
-     * @var null|InputMessageContent $inputMessageContent
-     */
-    private $inputMessageContent;
 
 
     /**
@@ -45,19 +42,5 @@ class InlineQueryResultCachedSticker extends InlineQueryResult {
      */
     public function setStickerFileId($stickerFileId) {
         $this->stickerFileId = $stickerFileId;
-    }
-
-    /**
-     * @return null|InputMessageContent
-     */
-    public function getInputMessageContent() {
-        return $this->inputMessageContent;
-    }
-
-    /**
-     * @param null|InputMessageContent $inputMessageContent
-     */
-    public function setInputMessageContent(InputMessageContent $inputMessageContent) {
-        $this->inputMessageContent = $inputMessageContent;
     }
 }

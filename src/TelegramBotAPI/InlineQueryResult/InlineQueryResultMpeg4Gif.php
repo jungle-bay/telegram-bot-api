@@ -3,11 +3,11 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\PrivateConst as TBAConst;
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
+use TelegramBotAPI\InlineQueryResult\Traits\CaptionTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\ThumbUrlTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
 use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -15,6 +15,12 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class InlineQueryResultMpeg4Gif extends InlineQueryResult {
+
+    use TitleTrait;
+    use CaptionTrait;
+    use InputMessageContentTrait;
+    use ThumbUrlTrait;
+
 
     /**
      * @var string $mpeg4Url
@@ -35,26 +41,6 @@ class InlineQueryResultMpeg4Gif extends InlineQueryResult {
      * @var null|int $mpeg4Duration
      */
     private $mpeg4Duration;
-
-    /**
-     * @var string $thumbUrl
-     */
-    private $thumbUrl;
-
-    /**
-     * @var null|string $title
-     */
-    private $title;
-
-    /**
-     * @var null|string $caption
-     */
-    private $caption;
-
-    /**
-     * @var null|InputMessageContent $inputMessageContent
-     */
-    private $inputMessageContent;
 
 
     /**
@@ -118,67 +104,5 @@ class InlineQueryResultMpeg4Gif extends InlineQueryResult {
      */
     public function setMpeg4Duration($mpeg4Duration) {
         $this->mpeg4Duration = $mpeg4Duration;
-    }
-
-    /**
-     * @return string
-     */
-    public function getThumbUrl() {
-        return $this->thumbUrl;
-    }
-
-    /**
-     * @param string $thumbUrl
-     */
-    public function setThumbUrl($thumbUrl) {
-        $this->thumbUrl = $thumbUrl;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * @param null|string $title
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getCaption() {
-        return $this->caption;
-    }
-
-    /**
-     * @param null|string $caption
-     * @throws TelegramBotAPIException
-     */
-    public function setCaption($caption) {
-
-        if (empty($caption) || (strlen($caption) > TBAConst::CAPTION_SIZE_MAX)) {
-            throw new TelegramBotAPIException('Caption, 0-200 characters');
-        }
-
-        $this->caption = $caption;
-    }
-
-    /**
-     * @return null|InputMessageContent
-     */
-    public function getInputMessageContent() {
-        return $this->inputMessageContent;
-    }
-
-    /**
-     * @param null|InputMessageContent $inputMessageContent
-     */
-    public function setInputMessageContent(InputMessageContent $inputMessageContent) {
-        $this->inputMessageContent = $inputMessageContent;
     }
 }

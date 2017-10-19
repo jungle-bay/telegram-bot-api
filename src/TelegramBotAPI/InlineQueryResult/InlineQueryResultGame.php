@@ -3,9 +3,7 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
 use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult

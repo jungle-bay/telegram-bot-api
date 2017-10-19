@@ -3,11 +3,10 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\PrivateConst as TBAConst;
 use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
-use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\CaptionTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -16,25 +15,15 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
  */
 class InlineQueryResultCachedGif extends InlineQueryResult {
 
+    use TitleTrait;
+    use CaptionTrait;
+    use InputMessageContentTrait;
+
+
     /**
      * @var string $gifFileId
      */
     private $gifFileId;
-
-    /**
-     * @var null|string $title
-     */
-    private $title;
-
-    /**
-     * @var null|string $caption
-     */
-    private $caption;
-
-    /**
-     * @var null|InputMessageContent $inputMessageContent
-     */
-    private $inputMessageContent;
 
 
     /**
@@ -56,53 +45,5 @@ class InlineQueryResultCachedGif extends InlineQueryResult {
      */
     public function setGifFileId($gifFileId) {
         $this->gifFileId = $gifFileId;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * @param null|string $title
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getCaption() {
-        return $this->caption;
-    }
-
-    /**
-     * @param null|string $caption
-     * @throws TelegramBotAPIException
-     */
-    public function setCaption($caption) {
-
-        if (empty($caption) || (strlen($caption) > TBAConst::CAPTION_SIZE_MAX)) {
-            throw new TelegramBotAPIException('Caption, 0-200 characters');
-        }
-
-        $this->caption = $caption;
-    }
-
-    /**
-     * @return null|InputMessageContent
-     */
-    public function getInputMessageContent() {
-        return $this->inputMessageContent;
-    }
-
-    /**
-     * @param null|InputMessageContent $inputMessageContent
-     */
-    public function setInputMessageContent(InputMessageContent $inputMessageContent) {
-        $this->inputMessageContent = $inputMessageContent;
     }
 }

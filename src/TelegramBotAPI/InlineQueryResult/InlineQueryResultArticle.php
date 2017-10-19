@@ -4,7 +4,13 @@ namespace TelegramBotAPI\InlineQueryResult;
 
 
 use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Core\InputMessageContent;
+use TelegramBotAPI\InlineQueryResult\Traits\DescriptionTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\ThumbHeightTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\ThumbUrlTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\ThumbWidthAndHeight;
+use TelegramBotAPI\InlineQueryResult\Traits\ThumbWidthTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -13,15 +19,13 @@ use TelegramBotAPI\Core\InputMessageContent;
  */
 class InlineQueryResultArticle extends InlineQueryResult {
 
-    /**
-     * @var string $title
-     */
-    private $title;
+    use TitleTrait;
+    use DescriptionTrait;
+    use ThumbUrlTrait;
+    use ThumbWidthTrait;
+    use ThumbHeightTrait;
+    use InputMessageContentTrait;
 
-    /**
-     * @var InputMessageContent $inputMessageContent
-     */
-    private $inputMessageContent;
 
     /**
      * @var null|string $url
@@ -33,60 +37,12 @@ class InlineQueryResultArticle extends InlineQueryResult {
      */
     private $hideUrl;
 
-    /**
-     * @var null|string $description
-     */
-    private $description;
-
-    /**
-     * @var null|string $thumbUrl
-     */
-    private $thumbUrl;
-
-    /**
-     * @var null|int $thumbWidth
-     */
-    private $thumbWidth;
-
-    /**
-     * @var null|int $thumbHeight
-     */
-    private $thumbHeight;
-
 
     /**
      * @return string
      */
     public function getType() {
         return 'article';
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-
-    /**
-     * @return InputMessageContent
-     */
-    public function getInputMessageContent() {
-        return $this->inputMessageContent;
-    }
-
-    /**
-     * @param InputMessageContent $inputMessageContent
-     */
-    public function setInputMessageContent(InputMessageContent $inputMessageContent) {
-        $this->inputMessageContent = $inputMessageContent;
     }
 
     /**
@@ -115,61 +71,5 @@ class InlineQueryResultArticle extends InlineQueryResult {
      */
     public function setHideUrl($hideUrl) {
         $this->hideUrl = $hideUrl;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getDescription() {
-        return $this->description;
-    }
-
-    /**
-     * @param null|string $description
-     */
-    public function setDescription($description) {
-        $this->description = $description;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getThumbUrl() {
-        return $this->thumbUrl;
-    }
-
-    /**
-     * @param null|string $thumbUrl
-     */
-    public function setThumbUrl($thumbUrl) {
-        $this->thumbUrl = $thumbUrl;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getThumbWidth() {
-        return $this->thumbWidth;
-    }
-
-    /**
-     * @param int|null $thumbWidth
-     */
-    public function setThumbWidth($thumbWidth) {
-        $this->thumbWidth = $thumbWidth;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getThumbHeight() {
-        return $this->thumbHeight;
-    }
-
-    /**
-     * @param int|null $thumbHeight
-     */
-    public function setThumbHeight($thumbHeight) {
-        $this->thumbHeight = $thumbHeight;
     }
 }

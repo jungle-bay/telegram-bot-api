@@ -3,11 +3,9 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\PrivateConst as TBAConst;
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
 use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\InlineQueryResult\Traits\CaptionTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -16,20 +14,14 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
  */
 class InlineQueryResultCachedAudio extends InlineQueryResult {
 
+    use CaptionTrait;
+    use InputMessageContentTrait;
+
+
     /**
      * @var string $audioFileId
      */
     private $audioFileId;
-
-    /**
-     * @var null|string $caption
-     */
-    private $caption;
-
-    /**
-     * @var null|InputMessageContent $inputMessageContent
-     */
-    private $inputMessageContent;
 
 
     /**
@@ -51,39 +43,5 @@ class InlineQueryResultCachedAudio extends InlineQueryResult {
      */
     public function setAudioFileId($audioFileId) {
         $this->audioFileId = $audioFileId;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getCaption() {
-        return $this->caption;
-    }
-
-    /**
-     * @param null|string $caption
-     * @throws TelegramBotAPIException
-     */
-    public function setCaption($caption) {
-
-        if (empty($caption) || (strlen($caption) > TBAConst::CAPTION_SIZE_MAX)) {
-            throw new TelegramBotAPIException('Caption, 0-200 characters');
-        }
-
-        $this->caption = $caption;
-    }
-
-    /**
-     * @return null|InputMessageContent
-     */
-    public function getInputMessageContent() {
-        return $this->inputMessageContent;
-    }
-
-    /**
-     * @param null|InputMessageContent $inputMessageContent
-     */
-    public function setInputMessageContent(InputMessageContent $inputMessageContent) {
-        $this->inputMessageContent = $inputMessageContent;
     }
 }

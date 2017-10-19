@@ -3,11 +3,16 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
 use TelegramBotAPI\Core\InlineQueryResult;
 use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\Constants as TBAConstPublic;
-use TelegramBotAPI\PrivateConst as TBAConstPrivate;
+use TelegramBotAPI\Constants;
+use TelegramBotAPI\InlineQueryResult\Traits\CaptionTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\DescriptionTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\MimeTypeTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\ThumbUrlTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
+use TelegramBotAPI\PrivateConst;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
@@ -17,30 +22,18 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
  */
 class InlineQueryResultVideo extends InlineQueryResult {
 
+    use MimeTypeTrait;
+    use TitleTrait;
+    use CaptionTrait;
+    use DescriptionTrait;
+    use ThumbUrlTrait;
+    use InputMessageContentTrait;
+
+
     /**
      * @var string $videoUrl
      */
     private $videoUrl;
-
-    /**
-     * @var string $mimeType
-     */
-    private $mimeType;
-
-    /**
-     * @var string $thumbUrl
-     */
-    private $thumbUrl;
-
-    /**
-     * @var string $title
-     */
-    private $title;
-
-    /**
-     * @var null|string $caption
-     */
-    private $caption;
 
     /**
      * @var null|int $videoWidth
@@ -56,16 +49,6 @@ class InlineQueryResultVideo extends InlineQueryResult {
      * @var null|string $videoDuration
      */
     private $videoDuration;
-
-    /**
-     * @var null|string $description
-     */
-    private $description;
-
-    /**
-     * @var null|InputMessageContent $inputMessageContent
-     */
-    private $inputMessageContent;
 
 
     /**
@@ -87,74 +70,6 @@ class InlineQueryResultVideo extends InlineQueryResult {
      */
     public function setVideoUrl($videoUrl) {
         $this->videoUrl = $videoUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMimeType() {
-        return $this->mimeType;
-    }
-
-    /**
-     * @param string $mimeType
-     * @throws TelegramBotAPIException
-     */
-    public function setMimeType($mimeType) {
-
-        if (($mimeType === TBAConstPublic::TEXT_HTML_MIME_TYPE) || ($mimeType === TBAConstPublic::VIDEO_MP4_MIME_TYPE)) {
-            throw new TelegramBotAPIException('Mime type of the content of video url, “text/html” or “video/mp4”');
-        }
-
-        $this->mimeType = $mimeType;
-    }
-
-    /**
-     * @return string
-     */
-    public function getThumbUrl() {
-        return $this->thumbUrl;
-    }
-
-    /**
-     * @param string $thumbUrl
-     */
-    public function setThumbUrl($thumbUrl) {
-        $this->thumbUrl = $thumbUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getCaption() {
-        return $this->caption;
-    }
-
-    /**
-     * @param null|string $caption
-     * @throws TelegramBotAPIException
-     */
-    public function setCaption($caption) {
-
-        if (empty($caption) || (strlen($caption) > TBAConstPrivate::CAPTION_SIZE_MAX)) {
-            throw new TelegramBotAPIException('Caption, 0-200 characters');
-        }
-
-        $this->caption = $caption;
     }
 
     /**
@@ -197,33 +112,5 @@ class InlineQueryResultVideo extends InlineQueryResult {
      */
     public function setVideoDuration($videoDuration) {
         $this->videoDuration = $videoDuration;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getDescription() {
-        return $this->description;
-    }
-
-    /**
-     * @param null|string $description
-     */
-    public function setDescription($description) {
-        $this->description = $description;
-    }
-
-    /**
-     * @return null|InputMessageContent
-     */
-    public function getInputMessageContent() {
-        return $this->inputMessageContent;
-    }
-
-    /**
-     * @param null|InputMessageContent $inputMessageContent
-     */
-    public function setInputMessageContent(InputMessageContent $inputMessageContent) {
-        $this->inputMessageContent = $inputMessageContent;
     }
 }
