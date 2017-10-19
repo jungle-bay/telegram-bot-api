@@ -31,11 +31,6 @@ class InlineQueryResultLocation extends InlineQueryResult {
     private $title;
 
     /**
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
-
-    /**
      * @var null|InputMessageContent $inputMessageContent
      */
     private $inputMessageContent;
@@ -103,20 +98,6 @@ class InlineQueryResultLocation extends InlineQueryResult {
      */
     public function setTitle($title) {
         $this->title = $title;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 
     /**

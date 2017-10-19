@@ -3,6 +3,8 @@
 namespace TelegramBotAPI\Core;
 
 
+use TelegramBotAPI\Types\InlineKeyboardMarkup;
+
 /**
  * @package TelegramBotAPI\Entities
  * @link https://core.telegram.org/bots/api#inlinequeryresult
@@ -14,6 +16,11 @@ abstract class InlineQueryResult extends Type {
      * @var string $id
      */
     private $id;
+
+    /**
+     * @var null|InlineKeyboardMarkup $replyMarkup
+     */
+    private $replyMarkup;
 
 
     /**
@@ -28,6 +35,20 @@ abstract class InlineQueryResult extends Type {
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * @return null|InlineKeyboardMarkup
+     */
+    public function getReplyMarkup() {
+        return $this->replyMarkup;
+    }
+
+    /**
+     * @param InlineKeyboardMarkup $replyMarkup
+     */
+    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
+        $this->replyMarkup = $replyMarkup;
     }
 
 

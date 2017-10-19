@@ -12,9 +12,8 @@ final class PrivateConst {
     const GET = 'GET';
     const POST = 'POST';
 
-    const SWITCH_PM_PARAM_PATTERN = '/^[0-9a-zA-Z\-\_]+$/';
-
     const CHECK_TOKEN_PATTERN = '/^[0-9]{9}:[A-Za-z0-9\_\-]{35}$/';
+    const SWITCH_PM_PARAM_PATTERN = '/^[0-9a-zA-Z\-\_]+$/';
 
     const CHECK_PARSE_MODE_TYPE = 'CHECK_PARSE_MODE_TYPE';
     const CHECK_KEYBOARD_TYPE = 'CHECK_KEYBOARD_TYPE';

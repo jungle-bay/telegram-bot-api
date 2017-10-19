@@ -31,11 +31,6 @@ class InlineQueryResultContact extends InlineQueryResult {
     private $lastName;
 
     /**
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
-
-    /**
      * @var null|InputMessageContent $inputMessageContent
      */
     private $inputMessageContent;
@@ -103,20 +98,6 @@ class InlineQueryResultContact extends InlineQueryResult {
      */
     public function setLastName($lastName) {
         $this->lastName = $lastName;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 
     /**

@@ -41,11 +41,6 @@ class InlineQueryResultAudio extends InlineQueryResult {
      */
     private $audioDuration;
 
-    /***
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
-
     /**
      * @var null|InputMessageContent $inputMessageContent
      */
@@ -133,20 +128,6 @@ class InlineQueryResultAudio extends InlineQueryResult {
      */
     public function setAudioDuration($audioDuration) {
         $this->audioDuration = $audioDuration;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 
     /**

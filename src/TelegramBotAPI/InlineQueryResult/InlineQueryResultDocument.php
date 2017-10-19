@@ -43,11 +43,6 @@ class InlineQueryResultDocument extends InlineQueryResult {
     private $description;
 
     /**
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
-
-    /**
      * @var null|InputMessageContent $inputMessageContent
      */
     private $inputMessageContent;
@@ -155,20 +150,6 @@ class InlineQueryResultDocument extends InlineQueryResult {
      */
     public function setDescription($description) {
         $this->description = $description;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 
     /**

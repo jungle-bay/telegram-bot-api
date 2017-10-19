@@ -52,11 +52,6 @@ class InlineQueryResultGif extends InlineQueryResult {
     private $caption;
 
     /**
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
-
-    /**
      * @var null|InputMessageContent $inputMessageContent
      */
     private $inputMessageContent;
@@ -171,20 +166,6 @@ class InlineQueryResultGif extends InlineQueryResult {
         }
 
         $this->caption = $caption;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 
     /**

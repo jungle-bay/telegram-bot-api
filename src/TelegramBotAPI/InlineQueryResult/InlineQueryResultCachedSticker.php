@@ -21,11 +21,6 @@ class InlineQueryResultCachedSticker extends InlineQueryResult {
     private $stickerFileId;
 
     /**
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
-
-    /**
      * @var null|InputMessageContent $inputMessageContent
      */
     private $inputMessageContent;
@@ -50,20 +45,6 @@ class InlineQueryResultCachedSticker extends InlineQueryResult {
      */
     public function setStickerFileId($stickerFileId) {
         $this->stickerFileId = $stickerFileId;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 
     /**

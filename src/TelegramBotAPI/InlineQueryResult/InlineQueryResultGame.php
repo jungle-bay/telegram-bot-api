@@ -19,11 +19,6 @@ class InlineQueryResultGame extends InlineQueryResult {
      */
     private $gameShortName;
 
-    /**
-     * @var null|InlineKeyboardMarkup $type
-     */
-    private $replyMarkup;
-
 
     /**
      * @return string
@@ -44,19 +39,5 @@ class InlineQueryResultGame extends InlineQueryResult {
      */
     public function setGameShortName($gameShortName) {
         $this->gameShortName = $gameShortName;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 }

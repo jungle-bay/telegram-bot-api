@@ -3,7 +3,6 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Types\InlineKeyboardMarkup;
 use TelegramBotAPI\Core\InlineQueryResult;
 use TelegramBotAPI\Core\InputMessageContent;
 
@@ -23,11 +22,6 @@ class InlineQueryResultArticle extends InlineQueryResult {
      * @var InputMessageContent $inputMessageContent
      */
     private $inputMessageContent;
-
-    /**
-     * @var null|InlineKeyboardMarkup $replyMarkup
-     */
-    private $replyMarkup;
 
     /**
      * @var null|string $url
@@ -93,20 +87,6 @@ class InlineQueryResultArticle extends InlineQueryResult {
      */
     public function setInputMessageContent(InputMessageContent $inputMessageContent) {
         $this->inputMessageContent = $inputMessageContent;
-    }
-
-    /**
-     * @return null|InlineKeyboardMarkup
-     */
-    public function getReplyMarkup() {
-        return $this->replyMarkup;
-    }
-
-    /**
-     * @param null|InlineKeyboardMarkup $replyMarkup
-     */
-    public function setReplyMarkup(InlineKeyboardMarkup $replyMarkup) {
-        $this->replyMarkup = $replyMarkup;
     }
 
     /**
