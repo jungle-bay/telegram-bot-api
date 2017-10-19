@@ -151,6 +151,32 @@ abstract class Type implements JsonSerializable {
     }
 
     /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
+    private function initStart($key, array $data, array $check) {
+
+        if (!isset($data[$key])) {
+            return;
+        }
+
+        if ($check['array_array'] === true) {
+            $this->initArrayOfArray($key, $data, $check);
+
+            return;
+        }
+
+        if ($check['array'] === true) {
+            $this->initArray($key, $data, $check);
+
+            return;
+        }
+
+        $this->initObj($key, $data, $check);
+    }
+
+    /**
      * @param array $schema
      * @param array $data
      *
@@ -166,22 +192,7 @@ abstract class Type implements JsonSerializable {
                 }
             }
 
-            if (isset($data[$key])) {
-
-                if ($check['array_array'] === true) {
-                    $this->initArrayOfArray($key, $data, $check);
-
-                    continue;
-                }
-
-                if ($check['array'] === true) {
-                    $this->initArray($key, $data, $check);
-
-                    continue;
-                }
-
-                $this->initObj($key, $data, $check);
-            }
+            $this->initStart($key, $data, $check);
         }
     }
 
