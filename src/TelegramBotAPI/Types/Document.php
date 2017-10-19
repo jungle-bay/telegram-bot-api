@@ -39,6 +39,7 @@ class Document extends Type {
 
 
     /**
+     * @api
      * @return string
      */
     public function getFileId() {
@@ -46,6 +47,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @param string $fileId
      */
     public function setFileId($fileId) {
@@ -53,6 +55,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @return null|PhotoSize
      */
     public function getThumb() {
@@ -60,6 +63,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @param null|PhotoSize $thumb
      */
     public function setThumb($thumb) {
@@ -67,6 +71,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @return null|string
      */
     public function getFileName() {
@@ -74,6 +79,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @param null|string $fileName
      */
     public function setFileName($fileName) {
@@ -81,6 +87,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @return null|string
      */
     public function getMimeType() {
@@ -88,6 +95,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @param null|string $mimeType
      */
     public function setMimeType($mimeType) {
@@ -95,6 +103,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @return int|null
      */
     public function getFileSize() {
@@ -102,6 +111,7 @@ class Document extends Type {
     }
 
     /**
+     * @api
      * @param int|null $fileSize
      */
     public function setFileSize($fileSize) {
