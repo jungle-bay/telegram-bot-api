@@ -9,7 +9,7 @@ use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
  * @package TelegramBotAPI\Core
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class InitializationObject {
+abstract class InitializationObject {
 
     /**
      * @param string $type

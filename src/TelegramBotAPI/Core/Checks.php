@@ -24,7 +24,7 @@ class Checks {
      */
     private function checkRequired(array $parameters, $key) {
 
-        if (empty($parameters[$key])) {
+        if (!isset($parameters[$key])) {
             throw new TelegramBotAPIException($key . ' is required field.');
         }
 
@@ -126,16 +126,16 @@ class Checks {
 
         switch ($actionType) {
 
+            case Constants::RECORD_VIDEO_NOTE:
+            case Constants::UPLOAD_VIDEO_NOTE:
             case Constants::TYPING_TYPE_ACTION:
             case Constants::UPLOAD_PHOTO_TYPE_ACTION:
             case Constants::RECORD_VIDEO_TYPE_ACTION:
             case Constants::UPLOAD_VIDEO_TYPE_ACTION:
             case Constants::RECORD_AUDIO_TYPE_ACTION:
             case Constants::UPLOAD_AUDIO_TYPE_ACTION:
-            case Constants::UPLOAD_DOCUMENT_TYPE_ACTION:
             case Constants::FIND_LOCATION_TYPE_ACTION:
-            case Constants::RECORD_VIDEO_NOTE:
-            case Constants::UPLOAD_VIDEO_NOTE:
+            case Constants::UPLOAD_DOCUMENT_TYPE_ACTION:
                 return $actionType;
             default:
                 new TelegramBotAPIWarning('Invalid action type.');
