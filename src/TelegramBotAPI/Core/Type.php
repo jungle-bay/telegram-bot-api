@@ -46,69 +46,165 @@ abstract class Type implements JsonSerializable {
      *
      * @throws TelegramBotAPIRuntimeException
      */
-    private function copyValue($key, $value) {
+    private function setValue($key, $value) {
 
         $name = $this->camelize($key);
 
         if (substr($name, 0, 2) === 'Is') {
-            $name = str_replace('Is', '', $name);
+            $name = substr($name, 2);
         }
 
         $method = 'set' . $name;
 
         if (!method_exists($this, $method)) {
-            throw new TelegramBotAPIRuntimeException('Fatal error method: ' . $method . ' absent.');
+            throw new TelegramBotAPIRuntimeException('Method: ' . $method . ' absent to ' . get_called_class());
         }
 
         $this->{$method}($value);
     }
 
-    private function getSchemaObject() {
+    /**
+     * @param string $type
+     * @return bool
+     */
+    private function isObj($type) {
 
-        $schema = array();
-        $refClass = new ReflectionClass($this);
+        switch ($type) {
 
-        foreach ($refClass->getProperties() as $refProperty) {
-
-            if (preg_match('/@var\s+([^\s]+)/', $refProperty->getDocComment(), $matches)) {
-
-                list(, $type) = $matches;
-
-                $isRequired = $this->checkForCompulsory($type);
-
-                if (!$isRequired) {
-
-                    $type = str_replace('|null', '', $type);
-                    $type = str_replace('null|', '', $type);
-                }
-
-                $isArray = $this->checkForArray($type);
-
-                if ($isArray) {
-
-                    $type = substr($type, 0, -2);
-                }
-
-                $isArrayArray = $this->checkForArray($type);
-
-                if ($isArrayArray) {
-
-                    $type = substr($type, 0, -2);
-                }
-
-                $schema[$this->unCamelize($refProperty->name)] = array(
-                    'value'       => $type,
-                    'require'     => $isRequired,
-                    'array'       => $isArray,
-                    'array_array' => $isArrayArray
-                );
-            }
+            case 'int':
+            case 'float':
+            case 'bool':
+            case 'string':
+                return false;
+            default:
+                return true;
         }
-
-        return $schema;
     }
 
-    private function checkForCompulsory($type) {
+    /**
+     * @param $value
+     * @param $data
+     * @return mixed
+     */
+    private function getType($value, $data) {
+
+        if (!$this->isObj($value)) {
+            return $data;
+        }
+
+        $class = get_class($this);
+        $ns = substr($class, 0, strrpos($class, '\\'));
+        $class = $ns . '\\' . $value;
+
+        return new $class($data);
+    }
+
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
+    private function initObj($key, array $data, array $check) {
+        $obj = $this->getType($check['value'], $data[$key]);
+        $this->setValue($key, $obj);
+    }
+
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
+    private function initArray($key, array $data, array $check) {
+
+        $type = $check['value'];
+        $arr = array();
+
+        foreach ($data[$key] as $value) {
+            $arr[] = $this->getType($type, $value);
+        }
+
+        $this->setValue($key, $arr);
+    }
+
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
+    private function initArrayOfArray($key, array $data, array $check) {
+
+        $type = $check['value'];
+        $arr = array();
+
+        foreach ($data[$key] as $value) {
+
+            $values = array();
+
+            foreach ($value as $check) {
+                $values[] = $this->getType($type, $check);
+            }
+
+            $arr[] = $values;
+        }
+
+        $this->setValue($key, $arr);
+    }
+
+    /**
+     * @param array $schema
+     * @param array $data
+     *
+     * @throws TelegramBotAPIRuntimeException
+     */
+    private function jsonDeserializer(array $schema, array $data) {
+
+        foreach ($schema as $key => $check) {
+
+            if ($check['require'] === true) {
+                if (!isset($data[$key])) {
+                    throw new TelegramBotAPIRuntimeException('Required ' . $key . ' empty to ' . get_called_class());
+                }
+            }
+
+            if (isset($data[$key])) {
+
+                if ($check['array_array'] === true) {
+                    $this->initArrayOfArray($key, $data, $check);
+
+                    continue;
+                }
+
+                if ($check['array'] === true) {
+                    $this->initArray($key, $data, $check);
+
+                    continue;
+                }
+
+                $this->initObj($key, $data, $check);
+            }
+        }
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    private function checkForArray($type) {
+
+        $brackets = substr($type, -2);
+
+        if ($brackets === '[]') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    private function checkForRequired($type) {
 
         $type = explode('|', $type);
 
@@ -131,113 +227,59 @@ abstract class Type implements JsonSerializable {
         return true;
     }
 
-    private function checkForArray($type) {
+    /**
+     * @return array
+     */
+    private function getSchemaObject() {
 
-        $brackets = substr($type, -2);
+        $schema = array();
+        $refClass = new ReflectionClass($this);
 
-        if ($brackets === '[]') {
-            return true;
-        }
+        foreach ($refClass->getProperties() as $refProperty) {
 
-        return false;
-    }
-
-    private function isObj($type) {
-
-        switch ($type) {
-
-            case 'int':
-            case 'float':
-            case 'bool':
-            case 'string':
-                return false;
-            default:
-                return true;
-        }
-    }
-
-    private function iniObj($value, $data) {
-
-        if ($this->isObj($value)) {
-
-            $class = get_class($this);
-            $ns = substr($class, 0, strrpos($class, '\\'));
-            $value = $ns . '\\' . $value;
-
-            return new $value($data);
-        } else {
-
-            return $data;
-        }
-    }
-
-
-    private function arrayArray($key, $data, $check) {
-
-        $type = $check['value'];
-        $arr = array();
-
-        foreach ($data[$key] as $item) {
-
-            $values = array();
-
-            foreach ($item as $check) {
-                $values[] = $this->iniObj($type, $check);
+            if (!preg_match('/@var\s+([^\s]+)/', $refProperty->getDocComment(), $matches)) {
+                continue;
             }
 
-            $arr[] = $values;
-        }
+            list(, $type) = $matches;
 
-        $this->copyValue($key, $arr);
-    }
+            $isRequired = $this->checkForRequired($type);
 
-    private function arrA($key, $data, $check) {
+            if (!$isRequired) {
 
-        $type = $check['value'];
-        $values = array();
-
-        foreach ($data[$key] as $item) {
-            $values[] = $this->iniObj($type, $item);
-        }
-
-        $this->copyValue($key, $values);
-    }
-
-    private function obj($key, $data, $check) {
-        $obj = $this->iniObj($check['value'], $data[$key]);
-        $this->copyValue($key, $obj);
-    }
-
-    private function deserializer(array $schema, array $data) {
-
-        foreach ($schema as $key => $check) {
-
-            if ($check['require'] === true) {
-                if (!isset($data[$key])) {
-                    throw new TelegramBotAPIRuntimeException('Error ' . $key . ' empty require field.');
-                }
+                $type = str_replace('|null', '', $type);
+                $type = str_replace('null|', '', $type);
             }
 
-            if (isset($data[$key])) {
+            $isArray = $this->checkForArray($type);
 
-                if ($check['array_array'] === true) {
-                    $this->arrayArray($key, $data, $check);
+            if ($isArray) {
 
-                    return;
-                }
-
-                if ($check['array'] === true) {
-                    $this->arrA($key, $data, $check);
-
-                    return;
-                }
-
-                $this->obj($key, $data, $check);
+                $type = substr($type, 0, -2);
             }
+
+            $isArrayArray = $this->checkForArray($type);
+
+            if ($isArrayArray) {
+
+                $type = substr($type, 0, -2);
+            }
+
+            $schema[$this->unCamelize($refProperty->name)] = array(
+                'value'       => $type,
+                'require'     => $isRequired,
+                'array'       => $isArray,
+                'array_array' => $isArrayArray
+            );
         }
+
+        return $schema;
     }
 
 
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize() {
 
         $props = get_object_vars($this);
@@ -253,9 +295,12 @@ abstract class Type implements JsonSerializable {
         return $json;
     }
 
+    /**
+     * @param array $data
+     */
     public function __construct(array $data = array()) {
 
         $schema = $this->getSchemaObject();
-        $this->deserializer($schema, $data);
+        $this->jsonDeserializer($schema, $data);
     }
 }
