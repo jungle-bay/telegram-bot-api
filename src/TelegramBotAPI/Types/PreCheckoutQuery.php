@@ -4,6 +4,7 @@ namespace TelegramBotAPI\Types;
 
 
 use TelegramBotAPI\Core\Type;
+use TelegramBotAPI\Types\Traits\CurrencyTrait;
 
 /**
  * @package TelegramBotAPI\Types
@@ -11,6 +12,9 @@ use TelegramBotAPI\Core\Type;
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class PreCheckoutQuery extends Type {
+
+    use CurrencyTrait;
+
 
     /**
      * @var string $id
@@ -22,10 +26,6 @@ class PreCheckoutQuery extends Type {
      */
     private $from;
 
-    /**
-     * @var string $currency
-     */
-    private $currency;
 
     /**
      * @var int $totalAmount
@@ -74,20 +74,6 @@ class PreCheckoutQuery extends Type {
      */
     public function setFrom($from) {
         $this->from = $from;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrency() {
-        return $this->currency;
-    }
-
-    /**
-     * @param string $currency
-     */
-    public function setCurrency($currency) {
-        $this->currency = $currency;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace TelegramBotAPI\Types;
 
 
 use TelegramBotAPI\Core\Type;
+use TelegramBotAPI\Types\Traits\CurrencyTrait;
 
 /**
  * @package TelegramBotAPI\Types
@@ -12,10 +13,8 @@ use TelegramBotAPI\Core\Type;
  */
 class SuccessfulPayment extends Type {
 
-    /**
-     * @var string $currency
-     */
-    private $currency;
+    use CurrencyTrait;
+
 
     /**
      * @var int $totalAmount
@@ -47,20 +46,6 @@ class SuccessfulPayment extends Type {
      */
     private $providerPaymentChargeId;
 
-
-    /**
-     * @return string
-     */
-    public function getCurrency() {
-        return $this->currency;
-    }
-
-    /**
-     * @param string $currency
-     */
-    public function setCurrency($currency) {
-        $this->currency = $currency;
-    }
 
     /**
      * @return int

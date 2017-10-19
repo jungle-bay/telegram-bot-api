@@ -4,6 +4,9 @@ namespace TelegramBotAPI\InputMessageContent;
 
 
 use TelegramBotAPI\Core\InputMessageContent;
+use TelegramBotAPI\InlineQueryResult\Traits\LatitudeTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\LongitudeTrait;
+use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
 
 /**
  * @package TelegramBotAPI\InputMessageContent
@@ -12,20 +15,10 @@ use TelegramBotAPI\Core\InputMessageContent;
  */
 class InputVenueMessageContent extends InputMessageContent {
 
-    /**
-     * @var float $latitude
-     */
-    private $latitude;
+    use LatitudeTrait;
+    use LongitudeTrait;
+    use TitleTrait;
 
-    /**
-     * @var float $longitude
-     */
-    private $longitude;
-
-    /**
-     * @var string $title
-     */
-    private $title;
 
     /**
      * @var string $address
@@ -37,48 +30,6 @@ class InputVenueMessageContent extends InputMessageContent {
      */
     private $foursquareId;
 
-
-    /**
-     * @return float
-     */
-    public function getLatitude() {
-        return $this->latitude;
-    }
-
-    /**
-     * @param float $latitude
-     */
-    public function setLatitude($latitude) {
-        $this->latitude = $latitude;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLongitude() {
-        return $this->longitude;
-    }
-
-    /**
-     * @param float $longitude
-     */
-    public function setLongitude($longitude) {
-        $this->longitude = $longitude;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title) {
-        $this->title = $title;
-    }
 
     /**
      * @return string
