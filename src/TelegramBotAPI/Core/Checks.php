@@ -211,10 +211,6 @@ class Checks {
 
         $obj = $this->checkValue($parameters, $key, $check['required']);
 
-        if ($obj === null) {
-            return null;
-        }
-
         switch ($check['type']) {
 
             case PrivateConst::CHECK_PARSE_MODE_TYPE:
@@ -236,7 +232,7 @@ class Checks {
                 return $this->checkLocal($parameters[$key]);
 
             default:
-                return null;
+                return $obj;
         }
     }
 
