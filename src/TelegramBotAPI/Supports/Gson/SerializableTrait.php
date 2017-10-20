@@ -17,7 +17,6 @@ trait SerializableTrait {
     public function jsonSerialize() {
 
         $props = (array) $this;
-        //$props = array_filter($props);
         $json = array();
 
         foreach ($props as $key => $value) {
