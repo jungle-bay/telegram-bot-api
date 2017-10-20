@@ -3,9 +3,8 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\InlineQueryResult\Traits\CaptionTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
+use TelegramBotAPI\Traits\CaptionTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult

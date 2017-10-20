@@ -1,13 +1,14 @@
 <?php
 
-namespace TelegramBotAPI\Core;
+namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\InlineQueryResult\Traits\IdTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\ReplyMarkupTrait;
+use TelegramBotAPI\Types\Type;
+use TelegramBotAPI\Traits\IdTrait;
+use TelegramBotAPI\Traits\ReplyMarkupTrait;
 
 /**
- * @package TelegramBotAPI\Entities
+ * @package TelegramBotAPI\Supports
  * @link https://core.telegram.org/bots/api#inlinequeryresult
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */

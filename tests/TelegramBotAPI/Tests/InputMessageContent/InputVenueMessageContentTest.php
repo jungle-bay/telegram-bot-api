@@ -38,5 +38,7 @@ class InputVenueMessageContentTest extends TestCase {
         $this->assertEquals($setter[2], $obj->getAddress());
         $this->assertEquals($setter[3], $obj->getTitle());
         $this->assertEquals($setter[4], $obj->getFoursquareId());
+
+        $this->assertJson(json_encode($obj));
     }
 }

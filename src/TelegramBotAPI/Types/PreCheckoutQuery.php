@@ -3,8 +3,7 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Core\Type;
-use TelegramBotAPI\Types\Traits\CurrencyTrait;
+use TelegramBotAPI\Traits\CurrencyTrait;
 
 /**
  * @package TelegramBotAPI\Types

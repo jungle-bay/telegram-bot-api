@@ -3,8 +3,6 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Core\Type;
-
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#userprofilephotos

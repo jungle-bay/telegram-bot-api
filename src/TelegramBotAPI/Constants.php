@@ -25,7 +25,6 @@ final class Constants {
 
     const APPLICATION_PDF_MIME_TYPE = 'application/pdf';
     const APPLICATION_ZIP_MIME_TYPE = 'application/zip';
-
     const TEXT_HTML_MIME_TYPE = 'text/html';
     const VIDEO_MP4_MIME_TYPE = 'video/mp4';
 

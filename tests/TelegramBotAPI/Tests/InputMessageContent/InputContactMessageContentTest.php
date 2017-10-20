@@ -30,5 +30,7 @@ class InputContactMessageContentTest extends TestCase {
         $this->assertEquals($setter[0], $obj->getFirstName());
         $this->assertEquals($setter[1], $obj->getLastName());
         $this->assertEquals($setter[2], $obj->getPhoneNumber());
+
+        $this->assertJson(json_encode($obj));
     }
 }

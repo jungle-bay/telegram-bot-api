@@ -1,12 +1,12 @@
 <?php
 
-namespace TelegramBotAPI\InlineQueryResult\Traits;
+namespace TelegramBotAPI\Traits;
 
 
 trait ThumbUrlTrait {
 
     /**
-     * @var string $thumbUrl
+     * @var string|null $thumbUrl
      */
     protected $thumbUrl;
 

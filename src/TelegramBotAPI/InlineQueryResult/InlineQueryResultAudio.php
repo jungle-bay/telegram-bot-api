@@ -3,11 +3,9 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\CaptionTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
+use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\CaptionTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -84,19 +82,5 @@ class InlineQueryResultAudio extends InlineQueryResult {
      */
     public function setAudioDuration($audioDuration) {
         $this->audioDuration = $audioDuration;
-    }
-
-    /**
-     * @return null|InputMessageContent
-     */
-    public function getInputMessageContent() {
-        return $this->inputMessageContent;
-    }
-
-    /**
-     * @param null|InputMessageContent $inputMessageContent
-     */
-    public function setInputMessageContent(InputMessageContent $inputMessageContent) {
-        $this->inputMessageContent = $inputMessageContent;
     }
 }

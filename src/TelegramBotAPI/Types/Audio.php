@@ -3,7 +3,6 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Core\Type;
 
 /**
  * @package TelegramBotAPI\Types

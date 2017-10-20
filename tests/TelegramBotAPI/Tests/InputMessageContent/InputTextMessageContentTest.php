@@ -31,5 +31,7 @@ class InputTextMessageContentTest extends TestCase {
         $this->assertEquals($setter[0], $obj->getMessageText());
         $this->assertEquals($setter[1], $obj->getParseMode());
         $this->assertEquals($setter[2], $obj->getDisableWebPagePreview());
+
+        $this->assertJson(json_encode($obj));
     }
 }

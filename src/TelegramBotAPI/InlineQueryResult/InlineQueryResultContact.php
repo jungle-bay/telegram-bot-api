@@ -3,13 +3,10 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\ThumbHeightTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\ThumbUrlTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\ThumbWidthAndHeight;
-use TelegramBotAPI\InlineQueryResult\Traits\ThumbWidthTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
+use TelegramBotAPI\Traits\ThumbHeightTrait;
+use TelegramBotAPI\Traits\ThumbUrlTrait;
+use TelegramBotAPI\Traits\ThumbWidthTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult

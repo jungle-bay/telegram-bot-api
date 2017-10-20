@@ -9,10 +9,13 @@ use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
 use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\Types\Message;
+use TelegramBotAPI\Traits\UrlTrait;
 use TelegramBotAPI\Types\ChatMember;
 use TelegramBotAPI\Types\StickerSet;
 use TelegramBotAPI\Types\WebhookInfo;
+use TelegramBotAPI\Supports\Validator;
 use TelegramBotAPI\Types\GameHighScore;
+use TelegramBotAPI\Traits\ParametersTrait;
 use TelegramBotAPI\Types\UserProfilePhotos;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
@@ -23,6 +26,10 @@ use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class TelegramBotAPI extends HTTP {
+
+    use UrlTrait;
+    use ParametersTrait;
+
 
     /**
      * @api
@@ -58,27 +65,27 @@ class TelegramBotAPI extends HTTP {
      */
     public function getUpdates($parameters = array()) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'offset'          => PrivateConst::CHECK_NO_REQUIRED,
-            'limit'           => PrivateConst::CHECK_NO_REQUIRED,
+        $url = $this->getUrl(self::GET_UPDATES);
+        $parameters = $this->getParameters($parameters, array(
+            'offset'          => Validator::CHECK_NO_REQUIRED,
+            'limit'           => Validator::CHECK_NO_REQUIRED,
             'timeout'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_LIMIT
             ),
-            'allowed_updates' => PrivateConst::CHECK_NO_REQUIRED
+            'allowed_updates' => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_UPDATES);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
-        $result = array();
+        $response = (array) $this->post($url, $parameters);
+        $data = array();
 
-        foreach ($data as $obj) {
-            $result[] = new Update($obj);
+        foreach ($response as $obj) {
+            $data[] = new Update($obj);
         }
 
-        unset($parameters, $url, $payload, $data);
+        unset($url, $parameters, $response);
 
-        return $result;
+        return $data;
     }
 
     /**
@@ -92,18 +99,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function setWebhook(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'url'             => PrivateConst::CHECK_REQUIRED,
-            'certificate'     => PrivateConst::CHECK_NO_REQUIRED,
+        $url = $this->getUrl(self::SET_WEBHOOK);
+        $payload = $this->getParameters($parameters, array(
+            'url'             => Validator::CHECK_REQUIRED,
+            'certificate'     => Validator::CHECK_NO_REQUIRED,
             'max_connections' => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_LIMIT
             ),
-            'allowed_updates' => PrivateConst::CHECK_NO_REQUIRED
+            'allowed_updates' => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::SET_WEBHOOK);
-        $result = $this->send(PrivateConst::POST, $url, $payload);
+        $result = $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -119,8 +126,8 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteWebhook() {
 
-        $url = $this->generateUrl(PrivateConst::DELETE_WEBHOOK);
-        $result = $this->send(PrivateConst::GET, $url, array());
+        $url = $this->getUrl(self::DELETE_WEBHOOK);
+        $result = $this->get($url, array());
 
         unset($url);
 
@@ -136,8 +143,8 @@ class TelegramBotAPI extends HTTP {
      */
     public function getWebhookInfo() {
 
-        $url = $this->generateUrl(PrivateConst::GET_WEBHOOK_INFO);
-        $data = (array) $this->send(PrivateConst::GET, $url, array());
+        $url = $this->getUrl(self::GET_WEBHOOK_INFO);
+        $data = (array) $this->get($url, array());
 
         $result = new WebhookInfo($data);
 
@@ -156,8 +163,8 @@ class TelegramBotAPI extends HTTP {
      */
     public function getMe() {
 
-        $url = $this->generateUrl(PrivateConst::GET_ME);
-        $data = (array) $this->send(PrivateConst::GET, $url, array());
+        $url = $this->getUrl(self::GET_ME);
+        $data = (array) $this->get($url, array());
 
         $result = new User($data);
 
@@ -177,27 +184,27 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendMessage(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'                  => PrivateConst::CHECK_REQUIRED,
-            'text'                     => PrivateConst::CHECK_REQUIRED,
+        $parameters = $this->getParameters($parameters, array(
+            'chat_id'                  => Validator::CHECK_REQUIRED,
+            'text'                     => Validator::CHECK_REQUIRED,
             'parse_mode'               => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_PARSE_MODE_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_PARSE_MODE_TYPE
             ),
-            'disable_web_page_preview' => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_notification'     => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'      => PrivateConst::CHECK_NO_REQUIRED,
+            'disable_web_page_preview' => Validator::CHECK_NO_REQUIRED,
+            'disable_notification'     => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'      => Validator::CHECK_NO_REQUIRED,
             'reply_markup'             => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_MESSAGE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_MESSAGE);
+        $data = (array) $this->post($url, $parameters);
         $result = new Message($data);
 
-        unset($parameters, $url, $payload, $data);
+        unset($parameters, $url, $data);
 
         return $result;
     }
@@ -213,15 +220,15 @@ class TelegramBotAPI extends HTTP {
      */
     public function forwardMessage(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'from_chat_id'         => PrivateConst::CHECK_REQUIRED,
-            'message_id'           => PrivateConst::CHECK_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'from_chat_id'         => Validator::CHECK_REQUIRED,
+            'message_id'           => Validator::CHECK_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::FORWARD_MESSAGE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::FORWARD_MESSAGE);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -240,23 +247,23 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendPhoto(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'photo'                => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'photo'                => Validator::CHECK_REQUIRED,
             'caption'              => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_CAPTION_LIMIT
             ),
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_PHOTO);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_PHOTO);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -275,26 +282,26 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendAudio(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'audio'                => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'audio'                => Validator::CHECK_REQUIRED,
             'caption'              => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_CAPTION_LIMIT
             ),
-            'duration'             => PrivateConst::CHECK_NO_REQUIRED,
-            'performer'            => PrivateConst::CHECK_NO_REQUIRED,
-            'title'                => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+            'duration'             => Validator::CHECK_NO_REQUIRED,
+            'performer'            => Validator::CHECK_NO_REQUIRED,
+            'title'                => Validator::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_AUDIO);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_AUDIO);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -313,23 +320,23 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendDocument(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'document'             => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'document'             => Validator::CHECK_REQUIRED,
             'caption'              => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_CAPTION_LIMIT
             ),
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_DOCUMENT);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_DOCUMENT);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -348,26 +355,26 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVideo(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'video'                => PrivateConst::CHECK_REQUIRED,
-            'duration'             => PrivateConst::CHECK_NO_REQUIRED,
-            'width'                => PrivateConst::CHECK_NO_REQUIRED,
-            'height'               => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'video'                => Validator::CHECK_REQUIRED,
+            'duration'             => Validator::CHECK_NO_REQUIRED,
+            'width'                => Validator::CHECK_NO_REQUIRED,
+            'height'               => Validator::CHECK_NO_REQUIRED,
             'caption'              => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_CAPTION_LIMIT
             ),
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_VIDEO);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_VIDEO);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -386,24 +393,24 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVoice(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'voice'                => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'voice'                => Validator::CHECK_REQUIRED,
             'caption'              => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_CAPTION_LIMIT
             ),
-            'duration'             => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+            'duration'             => Validator::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_VOICE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_VOICE);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -422,21 +429,21 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVideoNote(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'video_note'           => PrivateConst::CHECK_REQUIRED,
-            'duration'             => PrivateConst::CHECK_NO_REQUIRED,
-            'length'               => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'video_note'           => Validator::CHECK_REQUIRED,
+            'duration'             => Validator::CHECK_NO_REQUIRED,
+            'length'               => Validator::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_VIDEO_NOTE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_VIDEO_NOTE);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -455,24 +462,24 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendLocation(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'latitude'             => PrivateConst::CHECK_REQUIRED,
-            'longitude'            => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'latitude'             => Validator::CHECK_REQUIRED,
+            'longitude'            => Validator::CHECK_REQUIRED,
             'live_period'          => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_LOCATION
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_LOCATION
             ),
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_LOCATION);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_LOCATION);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -491,20 +498,20 @@ class TelegramBotAPI extends HTTP {
      */
     public function editMessageLiveLocation(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
-            'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
-            'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
-            'latitude'          => PrivateConst::CHECK_REQUIRED,
-            'longitude'         => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'           => Validator::CHECK_NO_REQUIRED,
+            'message_id'        => Validator::CHECK_NO_REQUIRED,
+            'inline_message_id' => Validator::CHECK_NO_REQUIRED,
+            'latitude'          => Validator::CHECK_REQUIRED,
+            'longitude'         => Validator::CHECK_REQUIRED,
             'reply_markup'      => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_LIVE_LOCATION);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::EDIT_MESSAGE_LIVE_LOCATION);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -523,18 +530,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function stopMessageLiveLocation(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
-            'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
-            'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'           => Validator::CHECK_NO_REQUIRED,
+            'message_id'        => Validator::CHECK_NO_REQUIRED,
+            'inline_message_id' => Validator::CHECK_NO_REQUIRED,
             'reply_markup'      => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::STOP_MESSAGE_LIVE_LOCATION);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::STOP_MESSAGE_LIVE_LOCATION);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -553,23 +560,23 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendVenue(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'latitude'             => PrivateConst::CHECK_REQUIRED,
-            'longitude'            => PrivateConst::CHECK_REQUIRED,
-            'title'                => PrivateConst::CHECK_REQUIRED,
-            'address'              => PrivateConst::CHECK_REQUIRED,
-            'foursquare_id'        => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'latitude'             => Validator::CHECK_REQUIRED,
+            'longitude'            => Validator::CHECK_REQUIRED,
+            'title'                => Validator::CHECK_REQUIRED,
+            'address'              => Validator::CHECK_REQUIRED,
+            'foursquare_id'        => Validator::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_VENUE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_VENUE);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -588,21 +595,21 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendContact(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'phone_number'         => PrivateConst::CHECK_REQUIRED,
-            'first_name'           => PrivateConst::CHECK_REQUIRED,
-            'last_name'            => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'phone_number'         => Validator::CHECK_REQUIRED,
+            'first_name'           => Validator::CHECK_REQUIRED,
+            'last_name'            => Validator::CHECK_NO_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_CONTACT);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_CONTACT);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -621,16 +628,16 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendChatAction(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
             'action'  => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_ACTION_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_ACTION_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_CHAT_ACTION);
-        $result = $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_CHAT_ACTION);
+        $result = $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -648,17 +655,17 @@ class TelegramBotAPI extends HTTP {
      */
     public function getUserProfilePhotos(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'user_id' => PrivateConst::CHECK_REQUIRED,
-            'offset'  => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'user_id' => Validator::CHECK_REQUIRED,
+            'offset'  => Validator::CHECK_NO_REQUIRED,
             'limit'   => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_LIMIT
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_USER_PROFILE_PHOTOS);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::GET_USER_PROFILE_PHOTOS);
+        $data = (array) $this->post($url, $payload);
         $result = new UserProfilePhotos($data);
 
         unset($parameters, $url, $payload, $data);
@@ -687,15 +694,15 @@ class TelegramBotAPI extends HTTP {
 
             $payload['file_id'] = (string) $parameters['file_id'];
 
-            $url = $this->generateUrl(PrivateConst::GET_FILE);
-            $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+            $url = $this->getUrl(self::GET_FILE);
+            $data = (array) $this->post($url, $payload);
             $result = new File($data);
 
             unset($parameters, $url, $payload, $data);
 
         } else {
 
-            $url = sprintf(PrivateConst::TELEGRAM_BOT_FILE, $this->getToken(), $parameters['file_path']);
+            $url = sprintf(self::TELEGRAM_BOT_FILE, $this->getToken(), $parameters['file_path']);
             $result = file_get_contents($url);
 
             unset($url);
@@ -715,14 +722,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function kickChatMember(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'    => PrivateConst::CHECK_REQUIRED,
-            'user_id'    => PrivateConst::CHECK_REQUIRED,
-            'until_date' => PrivateConst::CHECK_NO_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'    => Validator::CHECK_REQUIRED,
+            'user_id'    => Validator::CHECK_REQUIRED,
+            'until_date' => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::KICK_CHAT_MEMBER);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::KICK_CHAT_MEMBER);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -740,13 +747,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function unbanChatMember(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
-            'user_id' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
+            'user_id' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::UNBAN_CHAT_MEMBER);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::UNBAN_CHAT_MEMBER);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -764,18 +771,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function restrictChatMember(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'                   => PrivateConst::CHECK_REQUIRED,
-            'user_id'                   => PrivateConst::CHECK_REQUIRED,
-            'until_date'                => PrivateConst::CHECK_NO_REQUIRED,
-            'can_send_messages'         => PrivateConst::CHECK_NO_REQUIRED,
-            'can_send_media_messages'   => PrivateConst::CHECK_NO_REQUIRED,
-            'can_send_other_messages'   => PrivateConst::CHECK_NO_REQUIRED,
-            'can_add_web_page_previews' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'                   => Validator::CHECK_REQUIRED,
+            'user_id'                   => Validator::CHECK_REQUIRED,
+            'until_date'                => Validator::CHECK_NO_REQUIRED,
+            'can_send_messages'         => Validator::CHECK_NO_REQUIRED,
+            'can_send_media_messages'   => Validator::CHECK_NO_REQUIRED,
+            'can_send_other_messages'   => Validator::CHECK_NO_REQUIRED,
+            'can_add_web_page_previews' => Validator::CHECK_NO_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::RESTRICT_CHAT_MEMBER);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::RESTRICT_CHAT_MEMBER);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -793,21 +800,21 @@ class TelegramBotAPI extends HTTP {
      */
     public function promoteChatMember(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'user_id'              => PrivateConst::CHECK_REQUIRED,
-            'can_change_info'      => PrivateConst::CHECK_NO_REQUIRED,
-            'can_post_messages'    => PrivateConst::CHECK_NO_REQUIRED,
-            'can_edit_messages'    => PrivateConst::CHECK_NO_REQUIRED,
-            'can_delete_messages'  => PrivateConst::CHECK_NO_REQUIRED,
-            'can_invite_users'     => PrivateConst::CHECK_NO_REQUIRED,
-            'can_restrict_members' => PrivateConst::CHECK_NO_REQUIRED,
-            'can_pin_messages'     => PrivateConst::CHECK_NO_REQUIRED,
-            'can_promote_members'  => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'user_id'              => Validator::CHECK_REQUIRED,
+            'can_change_info'      => Validator::CHECK_NO_REQUIRED,
+            'can_post_messages'    => Validator::CHECK_NO_REQUIRED,
+            'can_edit_messages'    => Validator::CHECK_NO_REQUIRED,
+            'can_delete_messages'  => Validator::CHECK_NO_REQUIRED,
+            'can_invite_users'     => Validator::CHECK_NO_REQUIRED,
+            'can_restrict_members' => Validator::CHECK_NO_REQUIRED,
+            'can_pin_messages'     => Validator::CHECK_NO_REQUIRED,
+            'can_promote_members'  => Validator::CHECK_NO_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::PROMOTE_CHAT_MEMBER);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::PROMOTE_CHAT_MEMBER);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -825,12 +832,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function exportChatInviteLink(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'user_id' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'user_id' => Validator::CHECK_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::EXPORT_CHAT_INVITE_LINK);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::EXPORT_CHAT_INVITE_LINK);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -848,13 +855,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setChatPhoto(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
-            'photo'   => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
+            'photo'   => Validator::CHECK_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::SET_CHAT_PHOTO);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SET_CHAT_PHOTO);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -872,12 +879,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteChatPhoto(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::DELETE_CHAT_PHOTO);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::DELETE_CHAT_PHOTO);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -895,13 +902,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setChatTitle(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
-            'title'   => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
+            'title'   => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::SET_CHAT_TITLE);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SET_CHAT_TITLE);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -919,13 +926,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setChatDescription(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'     => PrivateConst::CHECK_REQUIRED,
-            'description' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'     => Validator::CHECK_REQUIRED,
+            'description' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::SET_CHAT_DESCRIPTION);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SET_CHAT_DESCRIPTION);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -943,14 +950,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function pinChatMessage(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'message_id'           => PrivateConst::CHECK_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'message_id'           => Validator::CHECK_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::PIN_CHAT_MESSAGE);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::PIN_CHAT_MESSAGE);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -968,12 +975,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function unpinChatMessage(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::UNPIN_CHAT_MESSAGE);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::UNPIN_CHAT_MESSAGE);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -991,12 +998,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function leaveChat(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::LEAVE_CHAT);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::LEAVE_CHAT);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1014,12 +1021,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChat(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_CHAT);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::GET_CHAT);
+        $data = (array) $this->post($url, $payload);
         $result = new Chat($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1038,12 +1045,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChatAdministrators(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_CHAT_ADMINISTRATORS);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::GET_CHAT_ADMINISTRATORS);
+        $data = (array) $this->post($url, $payload);
         $result = array();
 
         foreach ($data as $obj) {
@@ -1066,12 +1073,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChatMembersCount(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_CHAT_MEMBERS_COUNT);
-        $result = (int) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::GET_CHAT_MEMBERS_COUNT);
+        $result = (int) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1089,13 +1096,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function getChatMember(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED,
-            'user_id' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED,
+            'user_id' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_CHAT_MEMBER);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::GET_CHAT_MEMBER);
+        $data = (array) $this->post($url, $payload);
         $result = new ChatMember($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1114,13 +1121,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setChatStickerSet(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'          => PrivateConst::CHECK_REQUIRED,
-            'sticker_set_name' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'          => Validator::CHECK_REQUIRED,
+            'sticker_set_name' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::SET_CHAT_STICKER_SET);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SET_CHAT_STICKER_SET);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1138,12 +1145,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteChatStickerSet(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::DELETE_CHAT_STICKER_SET);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::DELETE_CHAT_STICKER_SET);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1161,19 +1168,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerCallbackQuery(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'callback_query_id' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'callback_query_id' => Validator::CHECK_REQUIRED,
             'text'              => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_CAPTION_LIMIT
             ),
-            'show_alert'        => PrivateConst::CHECK_NO_REQUIRED,
-            'url'               => PrivateConst::CHECK_NO_REQUIRED,
-            'cache_time'        => PrivateConst::CHECK_NO_REQUIRED
+            'show_alert'        => Validator::CHECK_NO_REQUIRED,
+            'url'               => Validator::CHECK_NO_REQUIRED,
+            'cache_time'        => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::ANSWER_CALLBACK_QUERY);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::ANSWER_CALLBACK_QUERY);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1192,24 +1199,24 @@ class TelegramBotAPI extends HTTP {
      */
     public function editMessageText(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'text'                     => PrivateConst::CHECK_REQUIRED,
-            'chat_id'                  => PrivateConst::CHECK_NO_REQUIRED,
-            'message_id'               => PrivateConst::CHECK_NO_REQUIRED,
-            'inline_message_id'        => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'text'                     => Validator::CHECK_REQUIRED,
+            'chat_id'                  => Validator::CHECK_NO_REQUIRED,
+            'message_id'               => Validator::CHECK_NO_REQUIRED,
+            'inline_message_id'        => Validator::CHECK_NO_REQUIRED,
             'parse_mode'               => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_PARSE_MODE_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_PARSE_MODE_TYPE
             ),
-            'disable_web_page_preview' => PrivateConst::CHECK_NO_REQUIRED,
+            'disable_web_page_preview' => Validator::CHECK_NO_REQUIRED,
             'reply_markup'             => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_TEXT);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::EDIT_MESSAGE_TEXT);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1227,22 +1234,22 @@ class TelegramBotAPI extends HTTP {
      */
     public function editMessageCaption(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
-            'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
-            'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'           => Validator::CHECK_NO_REQUIRED,
+            'message_id'        => Validator::CHECK_NO_REQUIRED,
+            'inline_message_id' => Validator::CHECK_NO_REQUIRED,
             'caption'           => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_CAPTION_LIMIT
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_CAPTION_LIMIT
             ),
             'reply_markup'      => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_CAPTION);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::EDIT_MESSAGE_CAPTION);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1260,18 +1267,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function editMessageReplyMarkup(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
-            'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
-            'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'           => Validator::CHECK_NO_REQUIRED,
+            'message_id'        => Validator::CHECK_NO_REQUIRED,
+            'inline_message_id' => Validator::CHECK_NO_REQUIRED,
             'reply_markup'      => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::EDIT_MESSAGE_REPLY_MARKUP);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::EDIT_MESSAGE_REPLY_MARKUP);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1290,13 +1297,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteMessage(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'    => PrivateConst::CHECK_REQUIRED,
-            'message_id' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'    => Validator::CHECK_REQUIRED,
+            'message_id' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::DELETE_MESSAGE);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::DELETE_MESSAGE);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1315,19 +1322,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendSticker(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'sticker'              => PrivateConst::CHECK_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'sticker'              => Validator::CHECK_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_STICKER);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_STICKER);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1346,12 +1353,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function getStickerSet(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'name' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'name' => Validator::CHECK_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_STICKER_SET);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::GET_STICKER_SET);
+        $data = (array) $this->post($url, $payload);
         $result = new StickerSet($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1370,13 +1377,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function uploadStickerFile(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'     => PrivateConst::CHECK_REQUIRED,
-            'png_sticker' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'     => Validator::CHECK_REQUIRED,
+            'png_sticker' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::UPLOAD_STICKER_FILE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::UPLOAD_STICKER_FILE);
+        $data = (array) $this->post($url, $payload);
         $result = new File($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1395,19 +1402,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function createNewStickerSet(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'user_id'       => PrivateConst::CHECK_REQUIRED,
-            'name'          => PrivateConst::CHECK_REQUIRED,
-            'title'         => PrivateConst::CHECK_REQUIRED,
-            'png_sticker'   => PrivateConst::CHECK_REQUIRED,
-            'emojis'        => PrivateConst::CHECK_REQUIRED,
-            'is_masks'      => PrivateConst::CHECK_NO_REQUIRED,
-            'mask_position' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'user_id'       => Validator::CHECK_REQUIRED,
+            'name'          => Validator::CHECK_REQUIRED,
+            'title'         => Validator::CHECK_REQUIRED,
+            'png_sticker'   => Validator::CHECK_REQUIRED,
+            'emojis'        => Validator::CHECK_REQUIRED,
+            'is_masks'      => Validator::CHECK_NO_REQUIRED,
+            'mask_position' => Validator::CHECK_NO_REQUIRED,
 
         ));
 
-        $url = $this->generateUrl(PrivateConst::CREATE_NEW_STICKER_SET);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::CREATE_NEW_STICKER_SET);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1425,16 +1432,16 @@ class TelegramBotAPI extends HTTP {
      */
     public function addStickerToSet(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'user_id'       => PrivateConst::CHECK_REQUIRED,
-            'name'          => PrivateConst::CHECK_REQUIRED,
-            'png_sticker'   => PrivateConst::CHECK_REQUIRED,
-            'emojis'        => PrivateConst::CHECK_REQUIRED,
-            'mask_position' => PrivateConst::CHECK_NO_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'user_id'       => Validator::CHECK_REQUIRED,
+            'name'          => Validator::CHECK_REQUIRED,
+            'png_sticker'   => Validator::CHECK_REQUIRED,
+            'emojis'        => Validator::CHECK_REQUIRED,
+            'mask_position' => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::ADD_STICKER_TO_SET);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::ADD_STICKER_TO_SET);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1452,13 +1459,13 @@ class TelegramBotAPI extends HTTP {
      */
     public function setStickerPositionInSet(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'sticker'  => PrivateConst::CHECK_REQUIRED,
-            'position' => PrivateConst::CHECK_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'sticker'  => Validator::CHECK_REQUIRED,
+            'position' => Validator::CHECK_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::SET_STICKER_POSITION_IN_SET);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SET_STICKER_POSITION_IN_SET);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1476,12 +1483,12 @@ class TelegramBotAPI extends HTTP {
      */
     public function deleteStickerFromSet(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'sticker' => PrivateConst::CHECK_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'sticker' => Validator::CHECK_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::DELETE_STICKER_FROM_SET);
-        $result = (string) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::DELETE_STICKER_FROM_SET);
+        $result = (string) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1500,14 +1507,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerInlineQuery(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'inline_query_id'     => PrivateConst::CHECK_REQUIRED,
-            'results'             => PrivateConst::CHECK_REQUIRED,
-            'cache_time'          => PrivateConst::CHECK_NO_REQUIRED,
-            'is_personal'         => PrivateConst::CHECK_NO_REQUIRED,
-            'next_offset'         => PrivateConst::CHECK_NO_REQUIRED,
-            'switch_pm_text'      => PrivateConst::CHECK_NO_REQUIRED,
-            'switch_pm_parameter' => PrivateConst::CHECK_NO_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'inline_query_id'     => Validator::CHECK_REQUIRED,
+            'results'             => Validator::CHECK_REQUIRED,
+            'cache_time'          => Validator::CHECK_NO_REQUIRED,
+            'is_personal'         => Validator::CHECK_NO_REQUIRED,
+            'next_offset'         => Validator::CHECK_NO_REQUIRED,
+            'switch_pm_text'      => Validator::CHECK_NO_REQUIRED,
+            'switch_pm_parameter' => Validator::CHECK_NO_REQUIRED
         ));
 
         if (count($payload['results']) > 50) {
@@ -1516,12 +1523,12 @@ class TelegramBotAPI extends HTTP {
 
         $payload['results'] = json_encode($payload['results']);
 
-        if (!preg_match(PrivateConst::SWITCH_PM_PARAM_PATTERN, $payload['switch_pm_parameter'])) {
+        if (!preg_match(Validator::SWITCH_PM_PARAM_PATTERN, $payload['switch_pm_parameter'])) {
             throw new TelegramBotAPIException('Switch pm parameter only A-Z, a-z, 0-9, _ and - are allowed.');
         }
 
-        $url = $this->generateUrl(PrivateConst::ANSWER_INLINE_QUERY);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::ANSWER_INLINE_QUERY);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1540,34 +1547,34 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendInvoice(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'               => PrivateConst::CHECK_REQUIRED,
-            'title'                 => PrivateConst::CHECK_REQUIRED,
-            'description'           => PrivateConst::CHECK_REQUIRED,
-            'payload'               => PrivateConst::CHECK_REQUIRED,
-            'provider_token'        => PrivateConst::CHECK_REQUIRED,
-            'start_parameter'       => PrivateConst::CHECK_REQUIRED,
-            'currency'              => PrivateConst::CHECK_REQUIRED,
-            'prices'                => PrivateConst::CHECK_REQUIRED,
-            'photo_url'             => PrivateConst::CHECK_NO_REQUIRED,
-            'photo_size'            => PrivateConst::CHECK_NO_REQUIRED,
-            'photo_width'           => PrivateConst::CHECK_NO_REQUIRED,
-            'photo_height'          => PrivateConst::CHECK_NO_REQUIRED,
-            'need_name'             => PrivateConst::CHECK_NO_REQUIRED,
-            'need_phone_number'     => PrivateConst::CHECK_NO_REQUIRED,
-            'need_email'            => PrivateConst::CHECK_NO_REQUIRED,
-            'need_shipping_address' => PrivateConst::CHECK_NO_REQUIRED,
-            'is_flexible'           => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_notification'  => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'   => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'               => Validator::CHECK_REQUIRED,
+            'title'                 => Validator::CHECK_REQUIRED,
+            'description'           => Validator::CHECK_REQUIRED,
+            'payload'               => Validator::CHECK_REQUIRED,
+            'provider_token'        => Validator::CHECK_REQUIRED,
+            'start_parameter'       => Validator::CHECK_REQUIRED,
+            'currency'              => Validator::CHECK_REQUIRED,
+            'prices'                => Validator::CHECK_REQUIRED,
+            'photo_url'             => Validator::CHECK_NO_REQUIRED,
+            'photo_size'            => Validator::CHECK_NO_REQUIRED,
+            'photo_width'           => Validator::CHECK_NO_REQUIRED,
+            'photo_height'          => Validator::CHECK_NO_REQUIRED,
+            'need_name'             => Validator::CHECK_NO_REQUIRED,
+            'need_phone_number'     => Validator::CHECK_NO_REQUIRED,
+            'need_email'            => Validator::CHECK_NO_REQUIRED,
+            'need_shipping_address' => Validator::CHECK_NO_REQUIRED,
+            'is_flexible'           => Validator::CHECK_NO_REQUIRED,
+            'disable_notification'  => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'   => Validator::CHECK_NO_REQUIRED,
             'reply_markup'          => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_INVOICE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_INVOICE);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1586,15 +1593,15 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerShippingQuery(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'shipping_query_id' => PrivateConst::CHECK_REQUIRED,
-            'ok'                => PrivateConst::CHECK_REQUIRED,
-            'shipping_options'  => PrivateConst::CHECK_NO_REQUIRED,
-            'error_message'     => PrivateConst::CHECK_NO_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'shipping_query_id' => Validator::CHECK_REQUIRED,
+            'ok'                => Validator::CHECK_REQUIRED,
+            'shipping_options'  => Validator::CHECK_NO_REQUIRED,
+            'error_message'     => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::ANSWER_SHIPPING_QUERY);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::ANSWER_SHIPPING_QUERY);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1612,14 +1619,14 @@ class TelegramBotAPI extends HTTP {
      */
     public function answerPreCheckoutQuery(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'pre_checkout_query_id' => PrivateConst::CHECK_REQUIRED,
-            'ok'                    => PrivateConst::CHECK_REQUIRED,
-            'error_message'         => PrivateConst::CHECK_NO_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'pre_checkout_query_id' => Validator::CHECK_REQUIRED,
+            'ok'                    => Validator::CHECK_REQUIRED,
+            'error_message'         => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::ANSWER_SHIPPING_QUERY);
-        $result = (bool) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::ANSWER_SHIPPING_QUERY);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1638,19 +1645,19 @@ class TelegramBotAPI extends HTTP {
      */
     public function sendGame(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'chat_id'              => PrivateConst::CHECK_REQUIRED,
-            'game_short_name'      => PrivateConst::CHECK_REQUIRED,
-            'disable_notification' => PrivateConst::CHECK_NO_REQUIRED,
-            'reply_to_message_id'  => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'chat_id'              => Validator::CHECK_REQUIRED,
+            'game_short_name'      => Validator::CHECK_REQUIRED,
+            'disable_notification' => Validator::CHECK_NO_REQUIRED,
+            'reply_to_message_id'  => Validator::CHECK_NO_REQUIRED,
             'reply_markup'         => array(
-                'required' => PrivateConst::CHECK_NO_REQUIRED,
-                'type'     => PrivateConst::CHECK_KEYBOARD_TYPE
+                'required' => Validator::CHECK_NO_REQUIRED,
+                'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
 
-        $url = $this->generateUrl(PrivateConst::SEND_GAME);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SEND_GAME);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1669,18 +1676,18 @@ class TelegramBotAPI extends HTTP {
      */
     public function setGameScore(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'user_id'              => PrivateConst::CHECK_REQUIRED,
-            'score'                => PrivateConst::CHECK_REQUIRED,
-            'force'                => PrivateConst::CHECK_NO_REQUIRED,
-            'disable_edit_message' => PrivateConst::CHECK_NO_REQUIRED,
-            'chat_id'              => PrivateConst::CHECK_NO_REQUIRED,
-            'message_id'           => PrivateConst::CHECK_NO_REQUIRED,
-            'inline_message_id'    => PrivateConst::CHECK_NO_REQUIRED
+        $payload = $this->getParameters($parameters, array(
+            'user_id'              => Validator::CHECK_REQUIRED,
+            'score'                => Validator::CHECK_REQUIRED,
+            'force'                => Validator::CHECK_NO_REQUIRED,
+            'disable_edit_message' => Validator::CHECK_NO_REQUIRED,
+            'chat_id'              => Validator::CHECK_NO_REQUIRED,
+            'message_id'           => Validator::CHECK_NO_REQUIRED,
+            'inline_message_id'    => Validator::CHECK_NO_REQUIRED
         ));
 
-        $url = $this->generateUrl(PrivateConst::SET_GAME_SCORE);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::SET_GAME_SCORE);
+        $data = (array) $this->post($url, $payload);
         $result = new Message($data);
 
         unset($parameters, $url, $payload, $data);
@@ -1699,15 +1706,15 @@ class TelegramBotAPI extends HTTP {
      */
     public function getGameHighScores(array $parameters) {
 
-        $payload = $this->checkParameter($parameters, array(
-            'user_id'           => PrivateConst::CHECK_REQUIRED,
-            'chat_id'           => PrivateConst::CHECK_NO_REQUIRED,
-            'message_id'        => PrivateConst::CHECK_NO_REQUIRED,
-            'inline_message_id' => PrivateConst::CHECK_NO_REQUIRED,
+        $payload = $this->getParameters($parameters, array(
+            'user_id'           => Validator::CHECK_REQUIRED,
+            'chat_id'           => Validator::CHECK_NO_REQUIRED,
+            'message_id'        => Validator::CHECK_NO_REQUIRED,
+            'inline_message_id' => Validator::CHECK_NO_REQUIRED,
         ));
 
-        $url = $this->generateUrl(PrivateConst::GET_GAME_HIGH_SCORES);
-        $data = (array) $this->send(PrivateConst::POST, $url, $payload);
+        $url = $this->getUrl(self::GET_GAME_HIGH_SCORES);
+        $data = (array) $this->post($url, $payload);
         $result = array();
 
         foreach ($data as $obj) {
@@ -1717,5 +1724,19 @@ class TelegramBotAPI extends HTTP {
         unset($parameters, $url, $payload, $data);
 
         return $result;
+    }
+
+
+    /**
+     * @link https://core.telegram.org/bots/api#authorizing-your-bot
+     * @param string|null $token
+     *
+     * @throws TelegramBotAPIException
+     */
+    public function __construct($token = null) {
+
+        if (isset($token)) {
+            $this->setToken($token);
+        }
     }
 }

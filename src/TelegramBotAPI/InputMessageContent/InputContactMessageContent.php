@@ -3,8 +3,6 @@
 namespace TelegramBotAPI\InputMessageContent;
 
 
-use TelegramBotAPI\Core\InputMessageContent;
-
 /**
  * @package TelegramBotAPI\InputMessageContent
  * @link https://core.telegram.org/bots/api#inputcontactmessagecontent8

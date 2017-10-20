@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBotAPI\Types\Traits;
+namespace TelegramBotAPI\Traits;
 
 
 trait CurrencyTrait {

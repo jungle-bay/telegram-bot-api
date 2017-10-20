@@ -4,8 +4,6 @@ namespace TelegramBotAPI\InputMessageContent;
 
 
 use TelegramBotAPI\Constants;
-use TelegramBotAPI\PrivateConst;
-use TelegramBotAPI\Core\InputMessageContent;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
@@ -14,6 +12,10 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class InputTextMessageContent extends InputMessageContent {
+
+    const MESSAGE_MIN_SIZE = 0;
+    const MESSAGE_MAX_SIZE = 4096;
+
 
     /**
      * @var string $messageText
@@ -50,7 +52,7 @@ class InputTextMessageContent extends InputMessageContent {
 
         $size = strlen($messageText);
 
-        if (($size > PrivateConst::MESSAGE_MIN_SIZE) && ($size > PrivateConst::MESSAGE_MAX_SIZE)) {
+        if (($size > self::MESSAGE_MIN_SIZE) && ($size > self::MESSAGE_MAX_SIZE)) {
             throw new TelegramBotAPIException('Text of the message to be sent, 1-4096 characters');
         }
 

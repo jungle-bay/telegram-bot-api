@@ -3,10 +3,9 @@
 namespace TelegramBotAPI\InputMessageContent;
 
 
-use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\InlineQueryResult\Traits\LatitudeTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\LongitudeTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
+use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\LatitudeTrait;
+use TelegramBotAPI\Traits\LongitudeTrait;
 
 /**
  * @package TelegramBotAPI\InputMessageContent

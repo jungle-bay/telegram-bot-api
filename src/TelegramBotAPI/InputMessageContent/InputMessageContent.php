@@ -1,10 +1,12 @@
 <?php
 
-namespace TelegramBotAPI\Core;
+namespace TelegramBotAPI\InputMessageContent;
 
+
+use TelegramBotAPI\Types\Type;
 
 /**
- * @package TelegramBotAPI\Entities
+ * @package TelegramBotAPI\Supports
  * @link https://core.telegram.org/bots/api#inputmessagecontent
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */

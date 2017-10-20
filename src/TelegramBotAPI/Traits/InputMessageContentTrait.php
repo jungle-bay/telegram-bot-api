@@ -1,9 +1,10 @@
 <?php
 
-namespace TelegramBotAPI\InlineQueryResult\Traits;
+namespace TelegramBotAPI\Traits;
 
 
-use TelegramBotAPI\Core\InputMessageContent;
+
+use TelegramBotAPI\InputMessageContent\InputMessageContent;
 
 trait InputMessageContentTrait {
 

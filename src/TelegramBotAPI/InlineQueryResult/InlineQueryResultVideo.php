@@ -3,17 +3,12 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Core\InlineQueryResult;
-use TelegramBotAPI\Core\InputMessageContent;
-use TelegramBotAPI\Constants;
-use TelegramBotAPI\InlineQueryResult\Traits\CaptionTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\DescriptionTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\InputMessageContentTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\MimeTypeTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\ThumbUrlTrait;
-use TelegramBotAPI\InlineQueryResult\Traits\TitleTrait;
-use TelegramBotAPI\PrivateConst;
-use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\Traits\CaptionTrait;
+use TelegramBotAPI\Traits\DescriptionTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
+use TelegramBotAPI\Traits\MimeTypeTrait;
+use TelegramBotAPI\Traits\ThumbUrlTrait;
+use TelegramBotAPI\Traits\TitleTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult

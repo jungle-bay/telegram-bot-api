@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBotAPI\InlineQueryResult\Traits;
+namespace TelegramBotAPI\Traits;
 
 
 trait ThumbWidthTrait {

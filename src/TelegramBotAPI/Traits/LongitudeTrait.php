@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBotAPI\InlineQueryResult\Traits;
+namespace TelegramBotAPI\Traits;
 
 
 trait LongitudeTrait {
@@ -13,6 +13,7 @@ trait LongitudeTrait {
 
 
     /**
+     * @api
      * @return float
      */
     public function getLongitude() {
@@ -20,6 +21,7 @@ trait LongitudeTrait {
     }
 
     /**
+     * @api
      * @param float $longitude
      */
     public function setLongitude($longitude) {

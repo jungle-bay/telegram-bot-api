@@ -30,5 +30,7 @@ class InputLocationMessageContentTest extends TestCase {
         $this->assertEquals($setter[0], $obj->getLatitude());
         $this->assertEquals($setter[1], $obj->getLongitude());
         $this->assertEquals($setter[2], $obj->getLivePeriod());
+
+        $this->assertJson(json_encode($obj));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBotAPI\InlineQueryResult\Traits;
+namespace TelegramBotAPI\Traits;
 
 
 use TelegramBotAPI\Constants;
@@ -27,10 +27,14 @@ trait MimeTypeTrait {
      */
     public function setMimeType($mimeType) {
 
-        if (($mimeType !== Constants::APPLICATION_PDF_MIME_TYPE) || ($mimeType !== Constants::APPLICATION_ZIP_MIME_TYPE)) {
-            throw new TelegramBotAPIException('Mime type of the content of the file, either “application/pdf” or “application/zip”');
-        }
+        switch ($mimeType) {
+            case Constants::APPLICATION_PDF_MIME_TYPE:
+            case Constants::APPLICATION_ZIP_MIME_TYPE:
+                $this->mimeType = $mimeType;
 
-        $this->mimeType = $mimeType;
+                return;
+            default:
+                throw new TelegramBotAPIException('Mime type of the content of the file, either “application/pdf” or “application/zip”');
+        }
     }
 }

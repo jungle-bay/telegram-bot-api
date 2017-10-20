@@ -3,8 +3,6 @@
 namespace TelegramBotAPI\Types;
 
 
-use TelegramBotAPI\Core\Type;
-
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#sticker
@@ -38,7 +36,7 @@ class Sticker extends Type {
     private $emoji;
 
     /**
-     * @var string $setName
+     * @var string|null $setName
      */
     private $setName;
 
@@ -124,7 +122,7 @@ class Sticker extends Type {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getSetName() {
         return $this->setName;
