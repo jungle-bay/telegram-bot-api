@@ -21,9 +21,9 @@ class StickerSet extends Type {
     private $title;
 
     /**
-     * @var bool $isMasks
+     * @var bool $containsMasks
      */
-    private $isMasks;
+    private $containsMasks;
 
     /**
      * @var Sticker[] $stickers
@@ -62,15 +62,15 @@ class StickerSet extends Type {
     /**
      * @return bool
      */
-    public function getMasks() {
-        return $this->isMasks;
+    public function getContainsMasks() {
+        return $this->containsMasks;
     }
 
     /**
-     * @param bool $isMasks
+     * @param bool $containsMasks
      */
-    public function setMasks($isMasks) {
-        $this->isMasks = $isMasks;
+    public function setContainsMasks($containsMasks) {
+        $this->containsMasks = $containsMasks;
     }
 
     /**

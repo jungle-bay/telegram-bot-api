@@ -3,6 +3,7 @@
 namespace TelegramBotAPI\Tests;
 
 
+use TelegramBotAPI\Constants;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -10,10 +11,12 @@ use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\Types\Message;
 use TelegramBotAPI\Types\ChatMember;
 use TelegramBotAPI\Types\WebhookInfo;
+use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Types\GameHighScore;
 use TelegramBotAPI\TelegramBotAPI as TBA;
 use TelegramBotAPI\Constants as TBAConst;
 use TelegramBotAPI\Types\UserProfilePhotos;
+use phpDocumentor\Reflection\Types\String_;
 use TelegramBotAPI\Types\InlineKeyboardButton;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
 
@@ -177,6 +180,409 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
         $this->assertNotNull($feedback);
         $this->assertInstanceOf(Message::class, $feedback);
         $this->assertEquals($this->getId(), $feedback->getChat()->getId());
+    }
+
+    public function testSendVideoNote() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->sendVideoNote(array(
+            'chat_id'    => $this->getId(),
+            'video_note' => 'DQADAgAD4gADXo5hS510sB6NjfxlAg',
+        ));
+
+        $this->assertNotNull($feedback);
+        $this->assertInstanceOf(Message::class, $feedback);
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testEditMessageLiveLocation() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->editMessageLiveLocation(array(
+            'chat_id'   => $this->getId(),
+            'latitude'  => 35.023963,
+            'longitude' => 48.424740
+        ));
+
+        $this->assertNotNull($feedback);
+        $this->assertInstanceOf(Message::class, $feedback);
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testStopMessageLiveLocation() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->stopMessageLiveLocation(array(
+            'chat_id' => $this->getId()
+        ));
+
+        $this->assertNotNull($feedback);
+        $this->assertInstanceOf(Message::class, $feedback);
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testRestrictChatMember() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->restrictChatMember(array(
+            'chat_id' => $this->getId(),
+            'user_id' => $this->getId()
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testPromoteChatMember() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->promoteChatMember(array(
+            'chat_id' => $this->getId(),
+            'user_id' => $this->getId()
+        ));
+
+        $this->assertNotNull($feedback);
+        $this->assertInstanceOf(Message::class, $feedback);
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testExportChatInviteLink() {
+
+        $tba = new TBA($this->getToken());
+
+        $link = $tba->exportChatInviteLink(array(
+            'chat_id' => $this->getId()
+        ));
+
+        $this->assertNotNull($link);
+        $this->assertInternalType(String_::class, $link);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testSetChatPhoto() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->setChatPhoto(array(
+            'chat_id' => $this->getId(),
+            'photo'   => 'AgADAgADuKcxG4QF6EsMJMijbYLItaREtw0ABOLuWOpqmQUotH4CAAEC'
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testDeleteChatPhoto() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->deleteChatPhoto(array(
+            'chat_id' => $this->getId()
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testSetChatTitle() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->setChatTitle(array(
+            'chat_id' => $this->getId(),
+            'title'   => 'Title'
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testSetChatDescription() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->setChatDescription(array(
+            'chat_id'     => $this->getId(),
+            'description' => 'description'
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testPinChatMessage() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->pinChatMessage(array(
+            'chat_id'    => $this->getId(),
+            'message_id' => 5
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testUnpinChatMessage() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->unpinChatMessage(array(
+            'chat_id' => $this->getId()
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testSetChatStickerSet() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->setChatStickerSet(array(
+            'chat_id'          => $this->getId(),
+            'sticker_set_name' => 'Hello world!'
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testDeleteChatStickerSet() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->deleteChatStickerSet(array(
+            'chat_id' => $this->getId()
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testAnswerCallbackQuery() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->answerCallbackQuery(array(
+            'callback_query_id' => $this->getId()
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testDeleteMessage() {
+
+        $tba = new TBA($this->getToken());
+
+        $isSetPhoto = $tba->deleteMessage(array(
+            'chat_id'    => $this->getId(),
+            'message_id' => 0
+        ));
+
+        $this->assertTrue($isSetPhoto);
+    }
+
+    public function testGetStickerSet() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->getStickerSet(array(
+            'name' => 'LENIN'
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testUploadStickerFile() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->uploadStickerFile(array(
+            'chat_id'     => $this->getToken(),
+            'png_sticker' => ''
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testCreateNewStickerSet() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->createNewStickerSet(array(
+            'user_id'     => $this->getToken(),
+            'name'        => 'Hello www',
+            'title'       => 'WWW',
+            'png_sticker' => '',
+            'emojis'      => '',
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testAddStickerToSet() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->addStickerToSet(array(
+            'user_id'     => $this->getToken(),
+            'name'        => 'Hello www',
+            'emojis'      => '',
+            'png_sticker' => ''
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testSetStickerPositionInSet() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->setStickerPositionInSet(array(
+            'sticker'  => 'LENIN',
+            'position' => ''
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testDeleteStickerFromSet() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->deleteStickerFromSet(array(
+            'sticker' => 'LENINZ'
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     */
+    public function testAnswerInlineQuery() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->answerInlineQuery(array(
+            'inline_query_id' => 5,
+            'results'         => array(),
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testSendInvoice() {
+
+        $tba = new TBA($this->getToken());
+
+        $labeledPrice = new LabeledPrice();
+
+        $labeledPrice->setLabel('iii');
+        $labeledPrice->setAmount(314);
+        $feedback = $tba->sendInvoice(array(
+            'chat_id'         => $this->getId(),
+            'title'           => 'title',
+            'description'     => 'description',
+            'payload'         => 'payload payload payload',
+            'provider_token'  => 'provider_token',
+            'start_parameter' => 'start_parameter',
+            'currency'        => Constants::CURRENCY_UAH,
+            'prices'          => array(
+                $labeledPrice
+            ),
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testAnswerShippingQuery() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->answerShippingQuery(array(
+            'shipping_query_id' => 1,
+            'ok'                => true,
+        ));
+
+        $this->assertNotNull($feedback);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     */
+    public function testAnswerPreCheckoutQuery() {
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->answerPreCheckoutQuery(array(
+            'pre_checkout_query_id' => 1,
+            'ok'                    => true,
+        ));
+
+        $this->assertNotNull($feedback);
     }
 
     public function testSendAudio() {

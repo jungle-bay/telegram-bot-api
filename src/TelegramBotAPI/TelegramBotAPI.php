@@ -521,7 +521,7 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @link https://core.telegram.org/bots/api#editmessagelivelocation
+     * @link https://core.telegram.org/bots/api#stopmessagelivelocation
      * @param array $parameters
      * @return Message
      *
@@ -833,7 +833,7 @@ class TelegramBotAPI extends HTTP {
     public function exportChatInviteLink(array $parameters) {
 
         $payload = $this->getParameters($parameters, array(
-            'user_id' => Validator::CHECK_REQUIRED,
+            'chat_id' => Validator::CHECK_REQUIRED,
         ));
 
         $url = $this->getUrl(self::EXPORT_CHAT_INVITE_LINK);
@@ -848,7 +848,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#setchatphoto
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -861,7 +861,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::SET_CHAT_PHOTO);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1450,7 +1450,7 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @link https://core.telegram.org/bots/api#promotechatmember
+     * @link https://core.telegram.org/bots/api#setstickerpositioninset
      * @param array $parameters
      * @return string
      *

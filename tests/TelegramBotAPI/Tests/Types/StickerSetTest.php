@@ -14,12 +14,12 @@ class StickerSetTest extends TestCase {
 
         $obj->setName('name');
         $obj->setTitle('title');
-        $obj->setMasks(true);
+        $obj->setContainsMasks(true);
         $obj->setStickers(array());
 
         $this->assertEquals('name', $obj->getName());
         $this->assertEquals('title', $obj->getTitle());
-        $this->assertTrue($obj->getMasks());
+        $this->assertTrue($obj->getContainsMasks());
 
         $this->assertJson(json_encode($obj));
     }
