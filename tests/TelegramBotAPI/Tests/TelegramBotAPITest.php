@@ -6,7 +6,6 @@ namespace TelegramBotAPI\Tests;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
-use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\Types\Message;
 use TelegramBotAPI\Types\ChatMember;
@@ -22,29 +21,57 @@ use TelegramBotAPI\Types\InlineKeyboardMarkup;
  * @package TelegramBotAPI\Tests
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class TelegramBotAPITest extends TestCase {
-
-    /**
-     * Return test bot token
-     *
-     * @return string
-     */
-    protected function getToken() {
-        //return '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc';
-        return '355932823:AAFDcLyd9nS3tJSgmSLaeZy8CaXLkdo0iIY';
-    }
-
-    /**
-     * Return test user or chat id
-     *
-     * @return int|string
-     */
-    protected function getId() {
-        return 59673324;
-    }
-
+class TelegramBotAPITest extends TelegramBotAPITestCase {
 
     /** Tests Getting updates */
+
+    public function testSetUpdates() {
+
+        $tba = new TBA($this->getToken());
+
+        $updates = $tba->setUpdates('{
+    "ok": true,
+    "result": [
+        {
+            "update_id": 747719235,
+            "message": {
+                "message_id": 1591,
+                "from": {
+                    "id": 59673324,
+                    "is_bot": false,
+                    "first_name": "Roma",
+                    "last_name": "Baranenko",
+                    "username": "roma_bb8",
+                    "language_code": "ru"
+                },
+                "chat": {
+                    "id": 59673324,
+                    "first_name": "Roma",
+                    "last_name": "Baranenko",
+                    "username": "roma_bb8",
+                    "type": "private"
+                },
+                "date": 1508587194,
+                "text": "/sadsa",
+                "entities": [
+                    {
+                        "offset": 0,
+                        "length": 6,
+                        "type": "bot_command"
+                    }
+                ]
+            }
+        }
+    ]
+}');
+
+        foreach ($updates as $update) {
+
+            $this->assertNotNull($update);
+            $this->assertInstanceOf(Update::class, $update);
+        }
+
+    }
 
     public function testGetUpdates() {
 

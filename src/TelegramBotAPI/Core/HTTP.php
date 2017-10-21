@@ -124,10 +124,7 @@ class HTTP {
         curl_close($ch);
 
         if ($codeError !== 0) {
-
-            $messageError = curl_error($ch);
-
-            throw new TelegramBotAPIRuntimeException($messageError, $codeError);
+            throw new TelegramBotAPIRuntimeException('Error request', $codeError);
         }
 
         return $response;
@@ -152,6 +149,7 @@ class HTTP {
 
         curl_setopt_array($ch, array(
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FAILONERROR    => true,
             CURLOPT_URL            => $url,
             CURLOPT_POSTFIELDS     => $parameters
         ));
@@ -183,6 +181,7 @@ class HTTP {
             CURLOPT_SAFE_UPLOAD    => true,
             CURLOPT_POST           => true,
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FAILONERROR    => true,
             CURLOPT_URL            => $url,
             CURLOPT_POSTFIELDS     => $parameters
         ));
