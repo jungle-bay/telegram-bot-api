@@ -526,7 +526,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
     }
 
     /**
-     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testSendInvoice() {
 
@@ -543,10 +543,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
             'payload'         => 'payload payload payload',
             'provider_token'  => 'provider_token',
             'start_parameter' => 'start_parameter',
-            'currency'        => Constants::CURRENCY_UAH,
-            'prices'          => array(
-                $labeledPrice
-            ),
+            'currency'        => Constants::CURRENCY_UAH
         ));
 
         $this->assertNotNull($feedback);
