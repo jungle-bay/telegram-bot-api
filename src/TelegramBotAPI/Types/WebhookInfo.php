@@ -63,7 +63,7 @@ class WebhookInfo extends Type {
     /**
      * @return bool
      */
-    public function isHasCustomCertificate() {
+    public function getHasCustomCertificate() {
         return $this->hasCustomCertificate;
     }
 
