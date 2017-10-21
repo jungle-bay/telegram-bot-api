@@ -258,8 +258,6 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
         ));
 
         $this->assertNotNull($feedback);
-        $this->assertInstanceOf(Message::class, $feedback);
-        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 
     /**
@@ -522,7 +520,6 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
         $feedback = $tba->answerInlineQuery(array(
             'inline_query_id' => 5,
-            'results'         => array(),
         ));
 
         $this->assertNotNull($feedback);
