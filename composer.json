@@ -45,10 +45,16 @@
     },
     "archive": {
         "exclude": [
-            "!vendor",
             "tests",
+            "!vendor",
+            ".editorconfig",
+            ".gitignore",
+            ".scrutinizer.yml",
             ".travis.yml",
-            "composer.phar"
+            "changelog.md",
+            "contributing.md",
+            "phpunit.xml.dist",
+            "readme.md"
         ]
     }
 }
