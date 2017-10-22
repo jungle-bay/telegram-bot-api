@@ -26,6 +26,9 @@
     "require-dev": {
         "phpunit/phpunit": "^4.8"
     },
+    "suggest": {
+        "jungle-bay/telegram-bot-shell": "This is a command shell for the bots"
+    },
     "autoload": {
         "psr-4": {
             "TelegramBotAPI\\": "src/TelegramBotAPI/"
