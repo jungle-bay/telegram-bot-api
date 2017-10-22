@@ -48,16 +48,11 @@
     },
     "archive": {
         "exclude": [
-            "tests",
-            ".gitattributes",
-            ".editorconfig",
-            ".gitignore",
-            ".scrutinizer.yml",
-            ".travis.yml",
-            "changelog.md",
-            "contributing.md",
-            "phpunit.xml.dist",
-            "readme.md"
+            "*",
+            ".*",
+            "!/src/*",
+            "!/composer.json",
+            "!/license.txt"
         ]
     }
 }
