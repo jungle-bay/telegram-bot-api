@@ -49,7 +49,7 @@
     "archive": {
         "exclude": [
             "tests",
-            "!vendor",
+            ".gitattributes",
             ".editorconfig",
             ".gitignore",
             ".scrutinizer.yml",
