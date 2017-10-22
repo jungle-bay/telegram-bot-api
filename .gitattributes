@@ -1,5 +1,5 @@
+!/src/* export-ignore
+!/composer.json export-ignore
+!/license.txt export-ignore
 * export-ignore
 *.* export-ignore
-/src/* export
-/composer.json export
-/license.txt export
