@@ -37,10 +37,7 @@
     "autoload-dev": {
         "psr-4": {
             "TelegramBotAPI\\Tests\\": "tests/TelegramBotAPI/"
-        },
-        "classmap": [
-            "tests/TelegramBotAPI/Tests/TelegramBotAPITestCase.php"
-        ]
+        }
     },
     "scripts": {
         "test": "phpunit --bootstrap vendor/autoload.php --filter",
@@ -50,9 +47,9 @@
         "exclude": [
             "*",
             ".*",
-            "!/src/*",
-            "!/composer.json",
-            "!/license.txt"
+            "!src/*",
+            "!composer.json",
+            "!license.txt"
         ]
     }
 }

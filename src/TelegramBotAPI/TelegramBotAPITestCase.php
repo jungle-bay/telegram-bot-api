@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBotAPI\Tests;
+namespace TelegramBotAPI;
 
 
 use PHPUnit\Framework\TestCase;

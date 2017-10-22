@@ -15,6 +15,7 @@ use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Types\GameHighScore;
 use TelegramBotAPI\TelegramBotAPI as TBA;
 use TelegramBotAPI\Constants as TBAConst;
+use TelegramBotAPI\TelegramBotAPITestCase;
 use TelegramBotAPI\Types\UserProfilePhotos;
 use phpDocumentor\Reflection\Types\String_;
 use TelegramBotAPI\Types\InlineKeyboardButton;

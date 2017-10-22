@@ -6,7 +6,7 @@ namespace TelegramBotAPI\Tests\Core;
 use ReflectionClass;
 use TelegramBotAPI\Core\HTTP;
 use TelegramBotAPI\TelegramBotAPI;
-use TelegramBotAPI\Tests\TelegramBotAPITestCase;
+use TelegramBotAPI\TelegramBotAPITestCase;
 
 class HTTPTest extends TelegramBotAPITestCase {
 
