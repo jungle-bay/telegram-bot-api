@@ -4,6 +4,7 @@ namespace TelegramBotAPI\Tests;
 
 
 use TelegramBotAPI\Constants;
+use TelegramBotAPI\Types\InputFile;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -26,6 +27,26 @@ use TelegramBotAPI\Types\InlineKeyboardMarkup;
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class TelegramBotAPITest extends TelegramBotAPITestCase {
+
+    /**
+     * Return test bot token
+     *
+     * @return string
+     */
+    protected function getToken() {
+        //return '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc';
+        return '355932823:AAFDcLyd9nS3tJSgmSLaeZy8CaXLkdo0iIY';
+    }
+
+    /**
+     * Return test user or chat id
+     *
+     * @return int|string
+     */
+    protected function getId() {
+        return 59673324;
+    }
+
 
     /** Tests Getting updates */
 
@@ -1033,5 +1054,38 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
             $this->assertNotNull($gameHighScore);
             $this->assertInstanceOf(GameHighScore::class, $gameHighScore);
         }
+    }
+
+    public function testSendFile() {
+
+        $pathFile = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('..', 'Resources', 'archive.zip'));
+        $file = new InputFile(__DIR__ . $pathFile, mime_content_type(__DIR__ . $pathFile));
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->sendDocument(array(
+            'chat_id'  => $this->getId(),
+            'document' => $file
+        ));
+
+        $this->assertNotNull($feedback);
+        $this->assertInstanceOf(Message::class, $feedback);
+    }
+
+    public function testSendPhotoFile() {
+
+        $pathFile = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('..', 'Resources', 'images.png'));
+        $file = new InputFile(__DIR__ . $pathFile, mime_content_type(__DIR__ . $pathFile));
+
+        $tba = new TBA($this->getToken());
+
+        $feedback = $tba->sendPhoto(array(
+            'chat_id' => $this->getId(),
+            'photo'   => $file
+        ));
+
+        $this->assertNotNull($feedback);
+        $this->assertInstanceOf(Message::class, $feedback);
+        $this->assertEquals($this->getId(), $feedback->getChat()->getId());
     }
 }

@@ -11,6 +11,17 @@ use TelegramBotAPI\TelegramBotAPITestCase;
 class HTTPTest extends TelegramBotAPITestCase {
 
     /**
+     * Return test bot token
+     *
+     * @return string
+     */
+    protected function getToken() {
+        //return '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc';
+        return '355932823:AAFDcLyd9nS3tJSgmSLaeZy8CaXLkdo0iIY';
+    }
+
+
+    /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
     public function testCheckForBadRequest() {
