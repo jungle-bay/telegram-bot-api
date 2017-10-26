@@ -8,29 +8,51 @@ use TelegramBotAPI\InputMessageContent\InputContactMessageContent;
 
 class InputContactMessageContentTest extends TestCase {
 
-    public function testAccessors() {
+    private function gettersAssert(InputContactMessageContent $obj) {
 
-        $init = array('first_name', 'last_name', 'phone_number');
-        $setter = array('phone_number', 'last_name', 'first_name');
+        $this->assertEquals('phone_number', $obj->getPhoneNumber());
+        $this->assertEquals('first_name', $obj->getFirstName());
+        $this->assertEquals('last_name', $obj->getLastName());
+    }
+
+
+    public function testJsonToObj() {
 
         $obj = new InputContactMessageContent(array(
-            'first_name'   => $init[0],
-            'last_name'    => $init[1],
-            'phone_number' => $init[2]
+            'phone_number' => 'phone_number',
+            'first_name'   => 'first_name',
+            'last_name'    => 'last_name'
         ));
 
-        $this->assertEquals($init[0], $obj->getFirstName());
-        $this->assertEquals($init[1], $obj->getLastName());
-        $this->assertEquals($init[2], $obj->getPhoneNumber());
+        $this->gettersAssert($obj);
 
-        $obj->setFirstName($setter[0]);
-        $obj->setLastName($setter[1]);
-        $obj->setPhoneNumber($setter[2]);
+        return $obj;
+    }
 
-        $this->assertEquals($setter[0], $obj->getFirstName());
-        $this->assertEquals($setter[1], $obj->getLastName());
-        $this->assertEquals($setter[2], $obj->getPhoneNumber());
+    public function testSetters() {
 
-        $this->assertJson(json_encode($obj));
+        $obj = new InputContactMessageContent();
+
+        $obj->setPhoneNumber('phone_number');
+        $obj->setFirstName('first_name');
+        $obj->setLastName('last_name');
+
+        $this->gettersAssert($obj);
+    }
+
+    /**
+     * @param InputContactMessageContent $obj
+     *
+     * @depends testJsonToObj
+     */
+    public function testObjToJson(InputContactMessageContent $obj) {
+
+        $json = json_encode($obj);
+        $obj = json_decode($json, true);
+
+        $this->assertJson($json);
+        $this->assertArrayHasKey('phone_number', $obj);
+        $this->assertArrayHasKey('first_name', $obj);
+        $this->assertArrayHasKey('last_name', $obj);
     }
 }

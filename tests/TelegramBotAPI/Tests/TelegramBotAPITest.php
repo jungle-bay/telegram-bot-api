@@ -1058,7 +1058,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
     public function testSendFile() {
 
-        $pathFile = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('Resources', 'archive.zip'));
+        $pathFile = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('..', 'Resources', 'archive.zip'));
         $file = new InputFile(__DIR__ . $pathFile, mime_content_type(__DIR__ . $pathFile));
 
         $tba = new TBA($this->getToken());
@@ -1074,7 +1074,7 @@ class TelegramBotAPITest extends TelegramBotAPITestCase {
 
     public function testSendPhotoFile() {
 
-        $pathFile = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('Resources', 'images.png'));
+        $pathFile = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('..', 'Resources', 'images.png'));
         $file = new InputFile(__DIR__ . $pathFile, mime_content_type(__DIR__ . $pathFile));
 
         $tba = new TBA($this->getToken());
