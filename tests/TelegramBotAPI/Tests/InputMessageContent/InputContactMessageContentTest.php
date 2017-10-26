@@ -8,7 +8,7 @@ use TelegramBotAPI\InputMessageContent\InputContactMessageContent;
 
 class InputContactMessageContentTest extends TestCase {
 
-    private function gettersAssert(InputContactMessageContent $obj) {
+    private function gettersTest(InputContactMessageContent $obj) {
 
         $this->assertEquals('phone_number', $obj->getPhoneNumber());
         $this->assertEquals('first_name', $obj->getFirstName());
@@ -24,7 +24,7 @@ class InputContactMessageContentTest extends TestCase {
             'last_name'    => 'last_name'
         ));
 
-        $this->gettersAssert($obj);
+        $this->gettersTest($obj);
 
         return $obj;
     }
@@ -37,7 +37,7 @@ class InputContactMessageContentTest extends TestCase {
         $obj->setFirstName('first_name');
         $obj->setLastName('last_name');
 
-        $this->gettersAssert($obj);
+        $this->gettersTest($obj);
     }
 
     /**
