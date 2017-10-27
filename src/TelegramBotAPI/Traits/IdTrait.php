@@ -8,7 +8,7 @@ trait IdTrait {
     /**
      * @var string $id
      */
-    private $id;
+    protected $id;
 
 
     /**

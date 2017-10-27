@@ -26,6 +26,11 @@ class InlineQueryResultVideo extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'video';
+
+    /**
      * @var string $videoUrl
      */
     private $videoUrl;
@@ -50,7 +55,7 @@ class InlineQueryResultVideo extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'video';
+        return $this->type;
     }
 
     /**

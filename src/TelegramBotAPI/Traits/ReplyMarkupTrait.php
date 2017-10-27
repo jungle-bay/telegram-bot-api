@@ -10,7 +10,7 @@ trait ReplyMarkupTrait {
     /**
      * @var null|InlineKeyboardMarkup $replyMarkup
      */
-    private $replyMarkup;
+    protected $replyMarkup;
 
 
     /**

@@ -21,6 +21,10 @@ trait SerializableTrait {
 
         foreach ($props as $key => $value) {
 
+            if ($value === null) {
+                continue;
+            }
+
             if (substr($key, 1, 1) === '*') {
                 $key = substr($key, 2);
             }

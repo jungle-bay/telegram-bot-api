@@ -20,6 +20,11 @@ class InlineQueryResultCachedVoice extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'voice';
+
+    /**
      * @var string $voiceFileId
      */
     private $voiceFileId;
@@ -29,7 +34,7 @@ class InlineQueryResultCachedVoice extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'voice';
+        return $this->type;
     }
 
     /**

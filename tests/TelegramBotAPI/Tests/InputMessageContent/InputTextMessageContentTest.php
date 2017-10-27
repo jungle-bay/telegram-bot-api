@@ -9,29 +9,51 @@ use TelegramBotAPI\InputMessageContent\InputTextMessageContent;
 
 class InputTextMessageContentTest extends TestCase {
 
-    public function testAccessors() {
+    private function gettersTest(InputTextMessageContent $obj) {
 
-        $init = array('text', Constants::MARKDOWN_PARSE_MODE, true);
-        $setter = array('test', Constants::HTML_PARSE_MODE, false);
+        $this->assertEquals('text', $obj->getMessageText());
+        $this->assertEquals(Constants::MARKDOWN_PARSE_MODE, $obj->getParseMode());
+        $this->assertTrue($obj->getDisableWebPagePreview());
+    }
+
+
+    public function testJsonToObj() {
 
         $obj = new InputTextMessageContent(array(
-            'message_text'             => $init[0],
-            'parse_mode'               => $init[1],
-            'disable_web_page_preview' => $init[2]
+            'message_text'             => 'text',
+            'parse_mode'               => Constants::MARKDOWN_PARSE_MODE,
+            'disable_web_page_preview' => true
         ));
 
-        $this->assertEquals($init[0], $obj->getMessageText());
-        $this->assertEquals($init[1], $obj->getParseMode());
-        $this->assertEquals($init[2], $obj->getDisableWebPagePreview());
+        $this->gettersTest($obj);
 
-        $obj->setMessageText($setter[0]);
-        $obj->setParseMode($setter[1]);
-        $obj->setDisableWebPagePreview($setter[2]);
+        return $obj;
+    }
 
-        $this->assertEquals($setter[0], $obj->getMessageText());
-        $this->assertEquals($setter[1], $obj->getParseMode());
-        $this->assertEquals($setter[2], $obj->getDisableWebPagePreview());
+    public function testSetters() {
 
-        $this->assertJson(json_encode($obj));
+        $obj = new InputTextMessageContent();
+
+        $obj->setMessageText('text');
+        $obj->setParseMode(Constants::MARKDOWN_PARSE_MODE);
+        $obj->setDisableWebPagePreview(true);
+
+        $this->gettersTest($obj);
+    }
+
+    /**
+     * @param InputTextMessageContent $obj
+     *
+     * @depends testJsonToObj
+     */
+    public function testObjToJson(InputTextMessageContent $obj) {
+
+        $json = json_encode($obj);
+        $obj = json_decode($json, true);
+
+        $this->assertJson($json);
+        $this->assertArrayHasKey('message_text', $obj);
+        $this->assertArrayHasKey('parse_mode', $obj);
+        $this->assertArrayHasKey('disable_web_page_preview', $obj);
     }
 }

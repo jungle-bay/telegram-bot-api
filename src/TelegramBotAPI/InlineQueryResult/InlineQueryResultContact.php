@@ -22,6 +22,11 @@ class InlineQueryResultContact extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'contact';
+
+    /**
      * @var string $phoneNumber
      */
     private $phoneNumber;
@@ -37,12 +42,11 @@ class InlineQueryResultContact extends InlineQueryResult {
     private $lastName;
 
 
-
     /**
      * @return string
      */
     public function getType() {
-        return 'contact';
+        return $this->type;
     }
 
     /**

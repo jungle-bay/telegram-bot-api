@@ -8,29 +8,51 @@ use TelegramBotAPI\InputMessageContent\InputLocationMessageContent;
 
 class InputLocationMessageContentTest extends TestCase {
 
-    public function testAccessors() {
+    private function gettersTest(InputLocationMessageContent $obj) {
 
-        $init = array(1, 2, 10);
-        $setter = array(3, 5, 20);
+        $this->assertEquals(1.1, $obj->getLatitude());
+        $this->assertEquals(2.2, $obj->getLongitude());
+        $this->assertEquals(10, $obj->getLivePeriod());
+    }
+
+
+    public function testJsonToObj() {
 
         $obj = new InputLocationMessageContent(array(
-            'latitude'    => $init[0],
-            'longitude'   => $init[1],
-            'live_period' => $init[2]
+            'latitude'    => 1.1,
+            'longitude'   => 2.2,
+            'live_period' => 10
         ));
 
-        $this->assertEquals($init[0], $obj->getLatitude());
-        $this->assertEquals($init[1], $obj->getLongitude());
-        $this->assertEquals($init[2], $obj->getLivePeriod());
+        $this->gettersTest($obj);
 
-        $obj->setLatitude($setter[0]);
-        $obj->setLongitude($setter[1]);
-        $obj->setLivePeriod($setter[2]);
+        return $obj;
+    }
 
-        $this->assertEquals($setter[0], $obj->getLatitude());
-        $this->assertEquals($setter[1], $obj->getLongitude());
-        $this->assertEquals($setter[2], $obj->getLivePeriod());
+    public function testSetters() {
 
-        $this->assertJson(json_encode($obj));
+        $obj = new InputLocationMessageContent();
+
+        $obj->setLatitude(1.1);
+        $obj->setLongitude(2.2);
+        $obj->setLivePeriod(10);
+
+        $this->gettersTest($obj);
+    }
+
+    /**
+     * @param InputLocationMessageContent $obj
+     *
+     * @depends testJsonToObj
+     */
+    public function testObjToJson(InputLocationMessageContent $obj) {
+
+        $json = json_encode($obj);
+        $obj = json_decode($json, true);
+
+        $this->assertJson($json);
+        $this->assertArrayHasKey('latitude', $obj);
+        $this->assertArrayHasKey('longitude', $obj);
+        $this->assertArrayHasKey('live_period', $obj);
     }
 }

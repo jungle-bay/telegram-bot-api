@@ -5,21 +5,10 @@ namespace TelegramBotAPI\Tests\Core;
 
 use ReflectionClass;
 use TelegramBotAPI\Core\HTTP;
+use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\TelegramBotAPI;
-use TelegramBotAPI\TelegramBotAPITestCase;
 
-class HTTPTest extends TelegramBotAPITestCase {
-
-    /**
-     * Return test bot token
-     *
-     * @return string
-     */
-    protected function getToken() {
-        //return '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc';
-        return '355932823:AAFDcLyd9nS3tJSgmSLaeZy8CaXLkdo0iIY';
-    }
-
+class HTTPTest extends TestCase {
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
@@ -39,11 +28,10 @@ class HTTPTest extends TelegramBotAPITestCase {
      */
     public function testSetUpdatesBadJSON() {
 
-        $tba = new TelegramBotAPI($this->getToken());
+        $tba = new TelegramBotAPI();
 
         $tba->setUpdates('{');
     }
-
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException

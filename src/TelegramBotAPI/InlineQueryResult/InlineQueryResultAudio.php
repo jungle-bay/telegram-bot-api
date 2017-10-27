@@ -20,6 +20,11 @@ class InlineQueryResultAudio extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'audio';
+
+    /**
      * @var string $audioUrl
      */
     private $audioUrl;
@@ -39,7 +44,7 @@ class InlineQueryResultAudio extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'audio';
+        return $this->type;
     }
 
     /**

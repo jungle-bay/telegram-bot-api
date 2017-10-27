@@ -18,6 +18,12 @@ class InlineQueryResultVoice extends InlineQueryResult {
     use CaptionTrait;
     use InputMessageContentTrait;
 
+
+    /**
+     * @var string
+     */
+    private $type = 'voice';
+
     /**
      * @var string $voiceUrl
      */
@@ -33,7 +39,7 @@ class InlineQueryResultVoice extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'voice';
+        return $this->type;
     }
 
     /**

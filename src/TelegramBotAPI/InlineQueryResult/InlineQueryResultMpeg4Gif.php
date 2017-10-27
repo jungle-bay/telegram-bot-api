@@ -22,6 +22,11 @@ class InlineQueryResultMpeg4Gif extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'mpeg4_gif';
+
+    /**
      * @var string $mpeg4Url
      */
     private $mpeg4Url;
@@ -46,7 +51,7 @@ class InlineQueryResultMpeg4Gif extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'mpeg4_gif';
+        return $this->type;
     }
 
     /**

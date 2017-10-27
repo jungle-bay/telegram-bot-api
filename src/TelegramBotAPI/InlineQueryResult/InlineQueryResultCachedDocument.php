@@ -20,6 +20,12 @@ class InlineQueryResultCachedDocument extends InlineQueryResult {
     use DescriptionTrait;
     use InputMessageContentTrait;
 
+
+    /**
+     * @var string
+     */
+    private $type = 'document';
+
     /**
      * @var string $documentFileId
      */
@@ -30,7 +36,7 @@ class InlineQueryResultCachedDocument extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'document';
+        return $this->type;
     }
 
     /**

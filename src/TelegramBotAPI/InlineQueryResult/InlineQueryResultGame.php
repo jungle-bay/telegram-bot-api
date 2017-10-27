@@ -11,6 +11,11 @@ namespace TelegramBotAPI\InlineQueryResult;
 class InlineQueryResultGame extends InlineQueryResult {
 
     /**
+     * @var string
+     */
+    private $type = 'game';
+
+    /**
      * @var string $type
      */
     private $gameShortName;
@@ -20,7 +25,7 @@ class InlineQueryResultGame extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'game';
+        return $this->type;
     }
 
     /**

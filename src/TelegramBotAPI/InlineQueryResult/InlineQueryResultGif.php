@@ -22,6 +22,11 @@ class InlineQueryResultGif extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'gif';
+
+    /**
      * @var string $gifUrl
      */
     private $gifUrl;
@@ -46,7 +51,7 @@ class InlineQueryResultGif extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'gif';
+        return $this->type;
     }
 
     /**

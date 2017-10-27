@@ -26,6 +26,11 @@ class InlineQueryResultArticle extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'article';
+
+    /**
      * @var null|string $url
      */
     private $url;
@@ -40,7 +45,7 @@ class InlineQueryResultArticle extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'article';
+        return $this->type;
     }
 
     /**

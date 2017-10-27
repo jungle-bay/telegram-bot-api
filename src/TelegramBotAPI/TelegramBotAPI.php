@@ -4,6 +4,7 @@ namespace TelegramBotAPI;
 
 
 use TelegramBotAPI\Core\HTTP;
+use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -491,7 +492,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#editmessagelivelocation
      * @param array $parameters
-     * @return Message
+     * @return Message|bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -511,8 +512,13 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::EDIT_MESSAGE_LIVE_LOCATION);
-        $data = (array) $this->post($url, $payload);
-        $result = new Message($data);
+        $data = $this->post($url, $payload);
+
+        if (is_array($data)) {
+            $result = new Message($data);
+        } else {
+            $result = $data;
+        }
 
         unset($parameters, $url, $payload, $data);
 
@@ -523,7 +529,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#stopmessagelivelocation
      * @param array $parameters
-     * @return Message
+     * @return Message|bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -541,8 +547,13 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::STOP_MESSAGE_LIVE_LOCATION);
-        $data = (array) $this->post($url, $payload);
-        $result = new Message($data);
+        $data = $this->post($url, $payload);
+
+        if (is_array($data)) {
+            $result = new Message($data);
+        } else {
+            $result = $data;
+        }
 
         unset($parameters, $url, $payload, $data);
 
@@ -677,7 +688,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#getfile
      * @param array $parameters
-     * @return File|string
+     * @return File|bool|string
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -764,7 +775,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#restrictchatmember
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -782,7 +793,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::RESTRICT_CHAT_MEMBER);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -793,7 +804,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#promotechatmember
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -814,7 +825,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::PROMOTE_CHAT_MEMBER);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -872,7 +883,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#deletechatphoto
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -895,7 +906,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#setchattitle
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -908,7 +919,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::SET_CHAT_TITLE);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -919,7 +930,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#setchatdescription
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -932,7 +943,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::SET_CHAT_DESCRIPTION);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -943,7 +954,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#pinchatmessage
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -968,7 +979,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#unpinchatmessage
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -980,7 +991,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::UNPIN_CHAT_MESSAGE);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1368,7 +1379,7 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @pai
-     * @link https://core.telegram.org/bots/api#promotechatmember
+     * @link https://core.telegram.org/bots/api#uploadstickerfile
      * @param array $parameters
      * @return File
      *
@@ -1393,9 +1404,9 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @link https://core.telegram.org/bots/api#promotechatmember
+     * @link https://core.telegram.org/bots/api#createnewstickerset
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -1414,7 +1425,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::CREATE_NEW_STICKER_SET);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1423,9 +1434,9 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @link https://core.telegram.org/bots/api#promotechatmember
+     * @link https://core.telegram.org/bots/api#addstickertoset
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -1441,7 +1452,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::ADD_STICKER_TO_SET);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1452,7 +1463,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#setstickerpositioninset
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -1465,7 +1476,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::SET_STICKER_POSITION_IN_SET);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1474,9 +1485,9 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @link https://core.telegram.org/bots/api#promotechatmember
+     * @link https://core.telegram.org/bots/api#deletestickerfromset
      * @param array $parameters
-     * @return string
+     * @return bool
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -1488,7 +1499,7 @@ class TelegramBotAPI extends HTTP {
         ));
 
         $url = $this->getUrl(self::DELETE_STICKER_FROM_SET);
-        $result = (string) $this->post($url, $payload);
+        $result = (bool) $this->post($url, $payload);
 
         unset($parameters, $url, $payload);
 
@@ -1523,8 +1534,10 @@ class TelegramBotAPI extends HTTP {
 
         $payload['results'] = json_encode($payload['results']);
 
-        if (!preg_match(Validator::SWITCH_PM_PARAM_PATTERN, $payload['switch_pm_parameter'])) {
-            throw new TelegramBotAPIException('Switch pm parameter only A-Z, a-z, 0-9, _ and - are allowed.');
+        if (isset($payload['switch_pm_parameter'])) {
+            if (!preg_match(Validator::SWITCH_PM_PARAM_PATTERN, $payload['switch_pm_parameter'])) {
+                throw new TelegramBotAPIException('Switch pm parameter only A-Z, a-z, 0-9, _ and - are allowed.');
+            }
         }
 
         $url = $this->getUrl(self::ANSWER_INLINE_QUERY);
@@ -1572,6 +1585,8 @@ class TelegramBotAPI extends HTTP {
                 'type'     => Validator::CHECK_KEYBOARD_TYPE
             )
         ));
+
+        $payload['prices'] = json_encode($payload['prices']);
 
         $url = $this->getUrl(self::SEND_INVOICE);
         $data = (array) $this->post($url, $payload);

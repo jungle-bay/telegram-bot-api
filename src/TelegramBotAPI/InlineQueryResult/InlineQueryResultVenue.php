@@ -28,6 +28,11 @@ class InlineQueryResultVenue extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'venue';
+
+    /**
      * @var string $address
      */
     private $address;
@@ -42,7 +47,7 @@ class InlineQueryResultVenue extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'venue';
+        return $this->type;
     }
 
     /**

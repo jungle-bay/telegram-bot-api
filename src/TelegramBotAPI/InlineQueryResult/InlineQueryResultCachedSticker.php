@@ -16,6 +16,11 @@ class InlineQueryResultCachedSticker extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'sticker';
+
+    /**
      * @var string $stickerFileId
      */
     private $stickerFileId;
@@ -25,7 +30,7 @@ class InlineQueryResultCachedSticker extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'sticker';
+        return $this->type;
     }
 
     /**

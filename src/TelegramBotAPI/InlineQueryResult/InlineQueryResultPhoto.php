@@ -24,6 +24,11 @@ class InlineQueryResultPhoto extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'photo';
+
+    /**
      * @var string $photoUrl
      */
     private $photoUrl;
@@ -43,7 +48,7 @@ class InlineQueryResultPhoto extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'photo';
+        return $this->type;
     }
 
     /**

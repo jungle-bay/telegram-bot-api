@@ -8,37 +8,59 @@ use TelegramBotAPI\InputMessageContent\InputVenueMessageContent;
 
 class InputVenueMessageContentTest extends TestCase {
 
-    public function testAccessors() {
+    private function gettersTest(InputVenueMessageContent $obj) {
 
-        $init = array(1.1, 2.2, 'address', 'title', 'foursquare_id');
-        $setter = array(2.2, 1.1, 'address', 'title', 'foursquare_id');
+        $this->assertEquals(1.1, $obj->getLatitude());
+        $this->assertEquals(2.2, $obj->getLongitude());
+        $this->assertEquals('address', $obj->getAddress());
+        $this->assertEquals('title', $obj->getTitle());
+        $this->assertEquals('foursquare_id', $obj->getFoursquareId());
+    }
+
+
+    public function testJsonToObj() {
 
         $obj = new InputVenueMessageContent(array(
-            'latitude'      => $init[0],
-            'longitude'     => $init[1],
-            'address'       => $init[2],
-            'title'         => $init[3],
-            'foursquare_id' => $init[4]
+            'latitude'      => 1.1,
+            'longitude'     => 2.2,
+            'address'       => 'address',
+            'title'         => 'title',
+            'foursquare_id' => 'foursquare_id'
         ));
 
-        $this->assertEquals($init[0], $obj->getLatitude());
-        $this->assertEquals($init[1], $obj->getLongitude());
-        $this->assertEquals($init[2], $obj->getAddress());
-        $this->assertEquals($init[3], $obj->getTitle());
-        $this->assertEquals($init[4], $obj->getFoursquareId());
+        $this->gettersTest($obj);
 
-        $obj->setLatitude($setter[0]);
-        $obj->setLongitude($setter[1]);
-        $obj->setAddress($setter[2]);
-        $obj->setTitle($setter[3]);
-        $obj->setFoursquareId($setter[4]);
+        return $obj;
+    }
 
-        $this->assertEquals($setter[0], $obj->getLatitude());
-        $this->assertEquals($setter[1], $obj->getLongitude());
-        $this->assertEquals($setter[2], $obj->getAddress());
-        $this->assertEquals($setter[3], $obj->getTitle());
-        $this->assertEquals($setter[4], $obj->getFoursquareId());
+    public function testSetters() {
 
-        $this->assertJson(json_encode($obj));
+        $obj = new InputVenueMessageContent();
+
+        $obj->setLatitude(1.1);
+        $obj->setLongitude(2.2);
+        $obj->setAddress('address');
+        $obj->setTitle('title');
+        $obj->setFoursquareId('foursquare_id');
+
+        $this->gettersTest($obj);
+    }
+
+    /**
+     * @param InputVenueMessageContent $obj
+     *
+     * @depends testJsonToObj
+     */
+    public function testObjToJson(InputVenueMessageContent $obj) {
+
+        $json = json_encode($obj);
+        $obj = json_decode($json, true);
+
+        $this->assertJson($json);
+        $this->assertArrayHasKey('latitude', $obj);
+        $this->assertArrayHasKey('longitude', $obj);
+        $this->assertArrayHasKey('address', $obj);
+        $this->assertArrayHasKey('title', $obj);
+        $this->assertArrayHasKey('foursquare_id', $obj);
     }
 }

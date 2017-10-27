@@ -22,6 +22,11 @@ class InlineQueryResultCachedVideo extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'video';
+
+    /**
      * @var string $videoFileId
      */
     private $videoFileId;
@@ -31,7 +36,7 @@ class InlineQueryResultCachedVideo extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'video';
+        return $this->type;
     }
 
     /**

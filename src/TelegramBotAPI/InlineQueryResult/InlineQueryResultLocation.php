@@ -28,9 +28,15 @@ class InlineQueryResultLocation extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'location';
+
+
+    /**
      * @return string
      */
     public function getType() {
-        return 'location';
+        return $this->type;
     }
 }

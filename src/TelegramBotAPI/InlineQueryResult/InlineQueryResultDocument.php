@@ -30,6 +30,11 @@ class InlineQueryResultDocument extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'document';
+
+    /**
      * @var string $documentUrl
      */
     private $documentUrl;
@@ -39,7 +44,7 @@ class InlineQueryResultDocument extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'document';
+        return $this->type;
     }
 
     /**

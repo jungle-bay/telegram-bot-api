@@ -22,6 +22,11 @@ class InlineQueryResultCachedPhoto extends InlineQueryResult {
 
 
     /**
+     * @var string
+     */
+    private $type = 'photo';
+
+    /**
      * @var string $photoFileId
      */
     private $photoFileId;
@@ -31,7 +36,7 @@ class InlineQueryResultCachedPhoto extends InlineQueryResult {
      * @return string
      */
     public function getType() {
-        return 'photo';
+        return $this->type;
     }
 
     /**
