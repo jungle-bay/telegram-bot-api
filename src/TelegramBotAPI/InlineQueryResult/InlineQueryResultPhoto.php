@@ -3,11 +3,11 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
+use TelegramBotAPI\Traits\TitleTrait;
 use TelegramBotAPI\Traits\CaptionTrait;
+use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\DescriptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
-use TelegramBotAPI\Traits\ThumbUrlTrait;
-use TelegramBotAPI\Traits\TitleTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -18,13 +18,13 @@ class InlineQueryResultPhoto extends InlineQueryResult {
 
     use TitleTrait;
     use CaptionTrait;
+    use ThumbUrlTrait;
     use DescriptionTrait;
     use InputMessageContentTrait;
-    use ThumbUrlTrait;
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'photo';
 

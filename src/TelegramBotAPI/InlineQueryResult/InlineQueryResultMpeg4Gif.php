@@ -3,10 +3,10 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Traits\CaptionTrait;
-use TelegramBotAPI\Traits\InputMessageContentTrait;
-use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\CaptionTrait;
+use TelegramBotAPI\Traits\ThumbUrlTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -17,12 +17,12 @@ class InlineQueryResultMpeg4Gif extends InlineQueryResult {
 
     use TitleTrait;
     use CaptionTrait;
-    use InputMessageContentTrait;
     use ThumbUrlTrait;
+    use InputMessageContentTrait;
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'mpeg4_gif';
 

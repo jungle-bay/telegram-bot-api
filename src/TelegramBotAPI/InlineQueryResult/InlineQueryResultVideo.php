@@ -3,12 +3,12 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
+use TelegramBotAPI\Traits\TitleTrait;
 use TelegramBotAPI\Traits\CaptionTrait;
-use TelegramBotAPI\Traits\DescriptionTrait;
-use TelegramBotAPI\Traits\InputMessageContentTrait;
 use TelegramBotAPI\Traits\MimeTypeTrait;
 use TelegramBotAPI\Traits\ThumbUrlTrait;
-use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\DescriptionTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -17,16 +17,16 @@ use TelegramBotAPI\Traits\TitleTrait;
  */
 class InlineQueryResultVideo extends InlineQueryResult {
 
-    use MimeTypeTrait;
     use TitleTrait;
     use CaptionTrait;
-    use DescriptionTrait;
+    use MimeTypeTrait;
     use ThumbUrlTrait;
+    use DescriptionTrait;
     use InputMessageContentTrait;
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'video';
 

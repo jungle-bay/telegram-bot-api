@@ -11,7 +11,24 @@ use TelegramBotAPI\InputMessageContent\InputLocationMessageContent;
 
 class InlineQueryResultArticleTest extends TestCase {
 
-    public function testAccessors() {
+    private function gettersTest(InlineQueryResultArticle $obj) {
+
+        $this->assertEquals('article', $obj->getType());
+        $this->assertEquals('id', $obj->getId());
+        $this->assertEquals('url', $obj->getUrl());
+        $this->assertEquals('title', $obj->getTitle());
+        $this->assertEquals('hide_url', $obj->getHideUrl());
+        $this->assertEquals('thumb_url', $obj->getThumbUrl());
+        $this->assertEquals(1, $obj->getThumbWidth());
+        $this->assertEquals(2, $obj->getThumbHeight());
+        $this->assertEquals('description', $obj->getDescription());
+
+        $this->assertInstanceOf(InlineKeyboardMarkup::class, $obj->getReplyMarkup());
+        $this->assertInstanceOf(InputMessageContent::class, $obj->getInputMessageContent());
+    }
+
+
+    public function testSetters() {
 
         $obj = new InlineQueryResultArticle();
 
@@ -26,19 +43,6 @@ class InlineQueryResultArticleTest extends TestCase {
         $obj->setReplyMarkup(new InlineKeyboardMarkup());
         $obj->setInputMessageContent(new InputLocationMessageContent());
 
-        $this->assertEquals('article', $obj->getType());
-        $this->assertEquals('id', $obj->getId());
-        $this->assertEquals('url', $obj->getUrl());
-        $this->assertEquals('title', $obj->getTitle());
-        $this->assertEquals('hide_url', $obj->getHideUrl());
-        $this->assertEquals('thumb_url', $obj->getThumbUrl());
-        $this->assertEquals(1, $obj->getThumbWidth());
-        $this->assertEquals(2, $obj->getThumbHeight());
-        $this->assertEquals('description', $obj->getDescription());
-
-        $this->assertInstanceOf(InlineKeyboardMarkup::class, $obj->getReplyMarkup());
-        $this->assertInstanceOf(InputMessageContent::class, $obj->getInputMessageContent());
-
-        $this->assertJson(json_encode($obj));
+        $this->gettersTest($obj);
     }
 }

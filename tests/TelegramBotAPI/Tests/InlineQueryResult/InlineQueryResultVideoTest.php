@@ -3,7 +3,7 @@
 namespace TelegramBotAPI\Tests\InlineQueryResult;
 
 
-use TelegramBotAPI\Constants;
+use TelegramBotAPI\TelegramBotAPIConstants;
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
 use TelegramBotAPI\InputMessageContent\InputMessageContent;
@@ -25,7 +25,7 @@ class InlineQueryResultVideoTest extends TestCase {
         $obj->setVideoHeight(2);
         $obj->setThumbUrl('thumb_url');
         $obj->setDescription('description');
-        $obj->setMimeType(Constants::APPLICATION_ZIP_MIME_TYPE);
+        $obj->setMimeType(TelegramBotAPIConstants::APPLICATION_ZIP_MIME_TYPE);
         $obj->setReplyMarkup(new InlineKeyboardMarkup());
         $obj->setInputMessageContent(new InputLocationMessageContent());
 
@@ -39,7 +39,7 @@ class InlineQueryResultVideoTest extends TestCase {
         $this->assertEquals(2, $obj->getVideoHeight());
         $this->assertEquals('thumb_url', $obj->getThumbUrl());
         $this->assertEquals('description', $obj->getDescription());
-        $this->assertEquals(Constants::APPLICATION_ZIP_MIME_TYPE, $obj->getMimeType());
+        $this->assertEquals(TelegramBotAPIConstants::APPLICATION_ZIP_MIME_TYPE, $obj->getMimeType());
 
         $this->assertInstanceOf(InlineKeyboardMarkup::class, $obj->getReplyMarkup());
         $this->assertInstanceOf(InputMessageContent::class, $obj->getInputMessageContent());

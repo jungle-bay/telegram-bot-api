@@ -3,7 +3,7 @@
 namespace TelegramBotAPI\Tests\InputMessageContent;
 
 
-use TelegramBotAPI\Constants;
+use TelegramBotAPI\TelegramBotAPIConstants;
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\InputMessageContent\InputTextMessageContent;
 
@@ -12,7 +12,7 @@ class InputTextMessageContentTest extends TestCase {
     private function gettersTest(InputTextMessageContent $obj) {
 
         $this->assertEquals('text', $obj->getMessageText());
-        $this->assertEquals(Constants::MARKDOWN_PARSE_MODE, $obj->getParseMode());
+        $this->assertEquals(TelegramBotAPIConstants::MARKDOWN_PARSE_MODE, $obj->getParseMode());
         $this->assertTrue($obj->getDisableWebPagePreview());
     }
 
@@ -21,7 +21,7 @@ class InputTextMessageContentTest extends TestCase {
 
         $obj = new InputTextMessageContent(array(
             'message_text'             => 'text',
-            'parse_mode'               => Constants::MARKDOWN_PARSE_MODE,
+            'parse_mode'               => TelegramBotAPIConstants::MARKDOWN_PARSE_MODE,
             'disable_web_page_preview' => true
         ));
 
@@ -35,7 +35,7 @@ class InputTextMessageContentTest extends TestCase {
         $obj = new InputTextMessageContent();
 
         $obj->setMessageText('text');
-        $obj->setParseMode(Constants::MARKDOWN_PARSE_MODE);
+        $obj->setParseMode(TelegramBotAPIConstants::MARKDOWN_PARSE_MODE);
         $obj->setDisableWebPagePreview(true);
 
         $this->gettersTest($obj);

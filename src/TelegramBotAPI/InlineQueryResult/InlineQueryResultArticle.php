@@ -3,11 +3,11 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Traits\DescriptionTrait;
-use TelegramBotAPI\Traits\ThumbHeightTrait;
+use TelegramBotAPI\Traits\TitleTrait;
 use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\ThumbWidthTrait;
-use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\DescriptionTrait;
+use TelegramBotAPI\Traits\ThumbHeightTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
@@ -18,15 +18,15 @@ use TelegramBotAPI\Traits\InputMessageContentTrait;
 class InlineQueryResultArticle extends InlineQueryResult {
 
     use TitleTrait;
-    use DescriptionTrait;
     use ThumbUrlTrait;
     use ThumbWidthTrait;
     use ThumbHeightTrait;
+    use DescriptionTrait;
     use InputMessageContentTrait;
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'article';
 

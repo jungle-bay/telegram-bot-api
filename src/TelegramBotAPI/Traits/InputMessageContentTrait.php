@@ -3,7 +3,6 @@
 namespace TelegramBotAPI\Traits;
 
 
-
 use TelegramBotAPI\InputMessageContent\InputMessageContent;
 
 trait InputMessageContentTrait {

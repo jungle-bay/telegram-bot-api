@@ -3,10 +3,10 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
+use TelegramBotAPI\Traits\TitleTrait;
 use TelegramBotAPI\Traits\CaptionTrait;
 use TelegramBotAPI\Traits\DescriptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
-use TelegramBotAPI\Traits\TitleTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -22,7 +22,7 @@ class InlineQueryResultCachedVideo extends InlineQueryResult {
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'video';
 

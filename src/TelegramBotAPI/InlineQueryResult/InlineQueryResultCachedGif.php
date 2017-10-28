@@ -20,7 +20,7 @@ class InlineQueryResultCachedGif extends InlineQueryResult {
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'gif';
 

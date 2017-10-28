@@ -6,8 +6,16 @@ namespace TelegramBotAPI\Supports\Gson;
 use ReflectionClass;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
+/**
+ * @package TelegramBotAPI\Supports\Gson
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 trait DeserializerTrait {
 
+    /**
+     * @param string $type
+     * @return bool
+     */
     private function checkForRequired($type) {
 
         $type = explode('|', $type);
@@ -31,6 +39,10 @@ trait DeserializerTrait {
         return true;
     }
 
+    /**
+     * @param string $type
+     * @return bool
+     */
     private function checkForArray($type) {
 
         $brackets = substr($type, -2);
@@ -42,6 +54,10 @@ trait DeserializerTrait {
         return false;
     }
 
+    /**
+     * @param string $type
+     * @return bool
+     */
     private function isObj($type) {
 
         switch ($type) {
@@ -56,6 +72,10 @@ trait DeserializerTrait {
         }
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
     private function camelize($value) {
 
         $value = str_replace('_', ' ', $value);
@@ -64,6 +84,12 @@ trait DeserializerTrait {
         return str_replace(' ', '', $value);
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @throws TelegramBotAPIRuntimeException
+     */
     private function setValue($key, $value) {
 
         $name = $this->camelize($key);
@@ -81,6 +107,11 @@ trait DeserializerTrait {
         $this->{$method}($value);
     }
 
+    /**
+     * @param mixed $value
+     * @param mixed $data
+     * @return mixed
+     */
     private function getTypeObj($value, $data) {
 
         if (!$this->isObj($value)) {
@@ -94,6 +125,11 @@ trait DeserializerTrait {
         return new $class($data);
     }
 
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
     private function initArrayOfArray($key, array $data, array $check) {
 
         $type = $check['value'];
@@ -113,6 +149,11 @@ trait DeserializerTrait {
         $this->setValue($key, $arr);
     }
 
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
     private function initArray($key, array $data, array $check) {
 
         $type = $check['value'];
@@ -125,11 +166,21 @@ trait DeserializerTrait {
         $this->setValue($key, $arr);
     }
 
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
     private function initObj($key, array $data, array $check) {
         $obj = $this->getTypeObj($check['value'], $data[$key]);
         $this->setValue($key, $obj);
     }
 
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $check
+     */
     private function initStart($key, array $data, array $check) {
 
         if (!isset($data[$key])) {
@@ -151,6 +202,12 @@ trait DeserializerTrait {
         $this->initObj($key, $data, $check);
     }
 
+    /**
+     * @param array $schema
+     * @param array $data
+     *
+     * @throws TelegramBotAPIRuntimeException
+     */
     private function jsonDeserializer(array $schema, array $data) {
 
         foreach ($schema as $key => $check) {
@@ -165,6 +222,9 @@ trait DeserializerTrait {
         }
     }
 
+    /**
+     * @return array
+     */
     private function getSchemaObject() {
 
         $schema = array();
@@ -212,6 +272,9 @@ trait DeserializerTrait {
     }
 
 
+    /**
+     * @param array $data
+     */
     public function __construct(array $data = array()) {
 
         if (empty($data)) {

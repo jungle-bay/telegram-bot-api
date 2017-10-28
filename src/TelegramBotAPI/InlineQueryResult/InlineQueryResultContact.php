@@ -3,10 +3,10 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Traits\InputMessageContentTrait;
-use TelegramBotAPI\Traits\ThumbHeightTrait;
 use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\ThumbWidthTrait;
+use TelegramBotAPI\Traits\ThumbHeightTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -15,14 +15,14 @@ use TelegramBotAPI\Traits\ThumbWidthTrait;
  */
 class InlineQueryResultContact extends InlineQueryResult {
 
-    use InputMessageContentTrait;
     use ThumbUrlTrait;
     use ThumbWidthTrait;
     use ThumbHeightTrait;
+    use InputMessageContentTrait;
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'contact';
 

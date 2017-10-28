@@ -3,7 +3,7 @@
 namespace TelegramBotAPI\Tests\Types;
 
 
-use TelegramBotAPI\Constants;
+use TelegramBotAPI\TelegramBotAPIConstants;
 use TelegramBotAPI\Types\Video;
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\PhotoSize;
@@ -19,7 +19,7 @@ class VideoTest extends TestCase {
         $obj->setThumb(new PhotoSize());
         $obj->setWidth(1);
         $obj->setHeight(2);
-        $obj->setMimeType(Constants::APPLICATION_ZIP_MIME_TYPE);
+        $obj->setMimeType(TelegramBotAPIConstants::APPLICATION_ZIP_MIME_TYPE);
         $obj->setDuration(3);
 
         $this->assertEquals('file_id', $obj->getFileId());
@@ -27,7 +27,7 @@ class VideoTest extends TestCase {
         $this->assertInstanceOf(PhotoSize::class, $obj->getThumb());
         $this->assertEquals(1, $obj->getWidth());
         $this->assertEquals(2, $obj->getHeight());
-        $this->assertEquals(Constants::APPLICATION_ZIP_MIME_TYPE, $obj->getMimeType());
+        $this->assertEquals(TelegramBotAPIConstants::APPLICATION_ZIP_MIME_TYPE, $obj->getMimeType());
         $this->assertEquals(3, $obj->getDuration());
 
         $this->assertJson(json_encode($obj));

@@ -5,7 +5,7 @@ namespace TelegramBotAPI\InputMessageContent;
 
 /**
  * @package TelegramBotAPI\InputMessageContent
- * @link https://core.telegram.org/bots/api#inputcontactmessagecontent8
+ * @link https://core.telegram.org/bots/api#inputcontactmessagecontent
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class InputContactMessageContent extends InputMessageContent {

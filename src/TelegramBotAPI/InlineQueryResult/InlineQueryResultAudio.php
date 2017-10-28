@@ -20,7 +20,7 @@ class InlineQueryResultAudio extends InlineQueryResult {
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'audio';
 

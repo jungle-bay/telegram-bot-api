@@ -3,7 +3,6 @@
 namespace TelegramBotAPI\Tests;
 
 
-use TelegramBotAPI\Constants;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -20,6 +19,7 @@ use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Types\GameHighScore;
 use TelegramBotAPI\Types\MessageEntity;
 use TelegramBotAPI\Types\UserProfilePhotos;
+use TelegramBotAPI\TelegramBotAPIConstants;
 use phpDocumentor\Reflection\Types\String_;
 use TelegramBotAPI\Types\InlineKeyboardButton;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
@@ -745,7 +745,7 @@ class TelegramBotAPITest extends TestCase {
             'payload'         => 'Payload payload payload',
             'provider_token'  => 'Provider token',
             'start_parameter' => 'Start parameter',
-            'currency'        => Constants::CURRENCY_UAH,
+            'currency'        => TelegramBotAPIConstants::CURRENCY_UAH,
             'prices'          => $prices
         ));
 
@@ -1055,7 +1055,7 @@ class TelegramBotAPITest extends TestCase {
 
         $isSuccessfully = $tba->sendChatAction(array(
             'chat_id' => $this->getUserId(),
-            'action'  => Constants::TYPING_TYPE_ACTION,
+            'action'  => TelegramBotAPIConstants::TYPING_TYPE_ACTION,
         ));
 
         $this->assertNotNull($isSuccessfully);

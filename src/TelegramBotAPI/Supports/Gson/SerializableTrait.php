@@ -3,8 +3,16 @@
 namespace TelegramBotAPI\Supports\Gson;
 
 
+/**
+ * @package TelegramBotAPI\Supports\Gson
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 trait SerializableTrait {
 
+    /**
+     * @param string $value
+     * @return string
+     */
     private function unCamelize($value) {
 
         $value = preg_replace('/[A-Z]/', ' ${0}', $value);
@@ -14,6 +22,9 @@ trait SerializableTrait {
     }
 
 
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize() {
 
         $props = (array) $this;

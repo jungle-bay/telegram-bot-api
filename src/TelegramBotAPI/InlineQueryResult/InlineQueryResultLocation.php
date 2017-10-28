@@ -3,13 +3,13 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
-use TelegramBotAPI\Traits\InputMessageContentTrait;
+use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\LatitudeTrait;
 use TelegramBotAPI\Traits\LongitudeTrait;
-use TelegramBotAPI\Traits\ThumbHeightTrait;
-use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\ThumbWidthTrait;
-use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\ThumbHeightTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -19,16 +19,16 @@ use TelegramBotAPI\Traits\TitleTrait;
 class InlineQueryResultLocation extends InlineQueryResult {
 
     use TitleTrait;
-    use InputMessageContentTrait;
     use ThumbUrlTrait;
+    use LatitudeTrait;
+    use LongitudeTrait;
     use ThumbWidthTrait;
     use ThumbHeightTrait;
-    use LongitudeTrait;
-    use LatitudeTrait;
+    use InputMessageContentTrait;
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'location';
 

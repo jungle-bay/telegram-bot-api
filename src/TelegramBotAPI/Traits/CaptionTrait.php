@@ -3,8 +3,8 @@
 namespace TelegramBotAPI\Traits;
 
 
-use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotAPI\Supports\Validator;
+use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 trait CaptionTrait {
 

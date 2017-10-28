@@ -14,9 +14,9 @@ use TelegramBotAPI\Traits\LongitudeTrait;
  */
 class InputVenueMessageContent extends InputMessageContent {
 
+    use TitleTrait;
     use LatitudeTrait;
     use LongitudeTrait;
-    use TitleTrait;
 
 
     /**

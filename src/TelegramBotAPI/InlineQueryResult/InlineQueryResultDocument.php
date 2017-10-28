@@ -3,14 +3,14 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
+use TelegramBotAPI\Traits\TitleTrait;
 use TelegramBotAPI\Traits\CaptionTrait;
-use TelegramBotAPI\Traits\DescriptionTrait;
-use TelegramBotAPI\Traits\InputMessageContentTrait;
 use TelegramBotAPI\Traits\MimeTypeTrait;
-use TelegramBotAPI\Traits\ThumbHeightTrait;
 use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\ThumbWidthTrait;
-use TelegramBotAPI\Traits\TitleTrait;
+use TelegramBotAPI\Traits\DescriptionTrait;
+use TelegramBotAPI\Traits\ThumbHeightTrait;
+use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -21,16 +21,16 @@ class InlineQueryResultDocument extends InlineQueryResult {
 
     use TitleTrait;
     use CaptionTrait;
-    use DescriptionTrait;
-    use InputMessageContentTrait;
     use ThumbUrlTrait;
+    use MimeTypeTrait;
     use ThumbWidthTrait;
     use ThumbHeightTrait;
-    use MimeTypeTrait;
+    use DescriptionTrait;
+    use InputMessageContentTrait;
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'document';
 

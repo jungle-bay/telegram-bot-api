@@ -90,27 +90,6 @@ class HTTP {
 
 
     /**
-     * @param string $response
-     * @return bool|array
-     * @throws TelegramBotAPIRuntimeException
-     */
-    protected function checkForBadRequest($response) {
-
-        $data = json_decode($response, true);
-
-        if ($data === null) {
-            throw new TelegramBotAPIRuntimeException('I can not spread the answer', self::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
-        if ($data['ok'] !== true) {
-            throw new TelegramBotAPIRuntimeException($data['description'], $data['error_code']);
-        }
-
-        return $data['result'];
-    }
-
-
-    /**
      * @param $ch
      * @return string
      *
@@ -130,11 +109,32 @@ class HTTP {
         return $response;
     }
 
+
     /**
-     * @api
+     * @param string $response
+     * @return bool|string|array
+     *
+     * @throws TelegramBotAPIRuntimeException
+     */
+    protected function checkForBadRequest($response) {
+
+        $data = json_decode($response, true);
+
+        if ($data === null) {
+            throw new TelegramBotAPIRuntimeException('I can not spread the answer', self::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        if ($data['ok'] !== true) {
+            throw new TelegramBotAPIRuntimeException($data['description'], $data['error_code']);
+        }
+
+        return $data['result'];
+    }
+
+    /**
      * @param $url
      * @param array $parameters
-     * @return string
+     * @return bool|string|array
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
@@ -160,10 +160,9 @@ class HTTP {
     }
 
     /**
-     * @api
      * @param $url
      * @param array $parameters
-     * @return string
+     * @return bool|string|array
      *
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException

@@ -3,9 +3,9 @@
 namespace TelegramBotAPI\InlineQueryResult;
 
 
+use TelegramBotAPI\Traits\TitleTrait;
 use TelegramBotAPI\Traits\CaptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
-use TelegramBotAPI\Traits\TitleTrait;
 
 /**
  * @package TelegramBotAPI\InlineQueryResult
@@ -20,7 +20,7 @@ class InlineQueryResultCachedMpeg4Gif extends InlineQueryResult {
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'mpeg4_gif';
 

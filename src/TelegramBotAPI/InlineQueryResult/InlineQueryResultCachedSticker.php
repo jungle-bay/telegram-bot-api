@@ -16,7 +16,7 @@ class InlineQueryResultCachedSticker extends InlineQueryResult {
 
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = 'sticker';
 

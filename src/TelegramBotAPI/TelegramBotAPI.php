@@ -4,7 +4,6 @@ namespace TelegramBotAPI;
 
 
 use TelegramBotAPI\Core\HTTP;
-use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -1744,7 +1743,7 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @link https://core.telegram.org/bots/api#authorizing-your-bot
-     * @param string|null $token
+     * @param string $token
      *
      * @throws TelegramBotAPIException
      */

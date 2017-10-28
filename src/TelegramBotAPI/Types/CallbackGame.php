@@ -3,7 +3,6 @@
 namespace TelegramBotAPI\Types;
 
 
-
 /**
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#callbackgame
