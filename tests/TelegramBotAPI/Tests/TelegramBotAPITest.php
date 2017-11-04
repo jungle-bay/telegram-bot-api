@@ -1108,6 +1108,7 @@ class TelegramBotAPITest extends TestCase {
      * @param TelegramBotAPI $tba
      *
      * @dataProvider TBAProvider
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testGetFilePath(TelegramBotAPI $tba) {
 
