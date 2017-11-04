@@ -149,6 +149,8 @@ class HTTP {
 
         curl_setopt_array($ch, array(
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT        => 60,
             CURLOPT_URL            => $url,
             CURLOPT_POSTFIELDS     => $parameters
         ));
@@ -179,6 +181,8 @@ class HTTP {
             CURLOPT_SAFE_UPLOAD    => true,
             CURLOPT_POST           => true,
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT        => 60,
             CURLOPT_URL            => $url,
             CURLOPT_POSTFIELDS     => $parameters
         ));
