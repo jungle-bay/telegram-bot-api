@@ -1108,12 +1108,15 @@ class TelegramBotAPITest extends TestCase {
      * @param TelegramBotAPI $tba
      *
      * @dataProvider TBAProvider
-     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testGetFilePath(TelegramBotAPI $tba) {
 
         $file = $tba->getFile(array(
-            'file_path' => 'voice/file_7'
+            'file_id' => 'AwADAgAD8QAD2NuYS7er_Yib98VYAg'
+        ));
+
+        $file = $tba->getFile(array(
+            'file_path' => $file->getFilePath()
         ));
 
         $this->assertNotNull($file);
