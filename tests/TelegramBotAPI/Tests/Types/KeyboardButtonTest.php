@@ -13,12 +13,12 @@ class KeyboardButtonTest extends TestCase {
         $obj = new KeyboardButton();
 
         $obj->setText('text');
-        $obj->setRequestContact(1);
-        $obj->setRequestLocation(2);
+        $obj->setRequestContact(true);
+        $obj->setRequestLocation(true);
 
         $this->assertEquals('text', $obj->getText());
-        $this->assertEquals(1, $obj->getRequestContact());
-        $this->assertEquals(2, $obj->getRequestLocation());
+        $this->assertTrue($obj->getRequestContact());
+        $this->assertTrue($obj->getRequestLocation());
 
         $this->assertJson(json_encode($obj));
     }

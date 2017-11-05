@@ -345,10 +345,13 @@ class TelegramBotAPITest extends TestCase {
         $this->assertEquals($this->getUserId(), $feedback->getChat()->getId());
         $this->assertNotNull($feedback->getPhoto());
 
-        foreach ($feedback->getPhoto() as $photoSize) {
+        if (is_array($feedback->getPhoto())) {
 
-            $this->assertNotNull($photoSize);
-            $this->assertInstanceOf(PhotoSize::class, $photoSize);
+            foreach ($feedback->getPhoto() as $photoSize) {
+
+                $this->assertNotNull($photoSize);
+                $this->assertInstanceOf(PhotoSize::class, $photoSize);
+            }
         }
     }
 

@@ -17,7 +17,7 @@ class InlineQueryResultArticleTest extends TestCase {
         $this->assertEquals('id', $obj->getId());
         $this->assertEquals('url', $obj->getUrl());
         $this->assertEquals('title', $obj->getTitle());
-        $this->assertEquals('hide_url', $obj->getHideUrl());
+        $this->assertTrue($obj->getHideUrl());
         $this->assertEquals('thumb_url', $obj->getThumbUrl());
         $this->assertEquals(1, $obj->getThumbWidth());
         $this->assertEquals(2, $obj->getThumbHeight());
@@ -35,7 +35,7 @@ class InlineQueryResultArticleTest extends TestCase {
         $obj->setId('id');
         $obj->setUrl('url');
         $obj->setTitle('title');
-        $obj->setHideUrl('hide_url');
+        $obj->setHideUrl(true);
         $obj->setThumbUrl('thumb_url');
         $obj->setThumbWidth(1);
         $obj->setThumbHeight(2);
