@@ -24,7 +24,7 @@ We accept contributions via Pull Requests on [Github](https://github.com/jungle-
 composer tests
 ```
 
-#### Running Test
+or one test
 
 ```bash
 composer test %test_name%
