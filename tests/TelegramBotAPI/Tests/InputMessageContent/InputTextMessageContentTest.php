@@ -56,4 +56,40 @@ class InputTextMessageContentTest extends TestCase {
         $this->assertArrayHasKey('parse_mode', $obj);
         $this->assertArrayHasKey('disable_web_page_preview', $obj);
     }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     */
+    public function testSetMessageText() {
+
+        $obj = new InputTextMessageContent();
+
+        $obj->setMessageText(null);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     */
+    public function testSetMessageTextSize() {
+
+        $obj = new InputTextMessageContent();
+
+        $str = '';
+
+        for ($i = 0; $i < 4098; $i++) {
+            $str .= 'a';
+        }
+
+        $obj->setMessageText($str);
+    }
+
+    /**
+     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     */
+    public function testSetParseMode() {
+
+        $obj = new InputTextMessageContent();
+
+        $obj->setParseMode('x');
+    }
 }

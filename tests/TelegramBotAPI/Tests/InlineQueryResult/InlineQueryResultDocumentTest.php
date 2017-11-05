@@ -3,8 +3,8 @@
 namespace TelegramBotAPI\Tests\InlineQueryResult;
 
 
-use TelegramBotAPI\TelegramBotAPIConstants;
 use PHPUnit\Framework\TestCase;
+use TelegramBotAPI\TelegramBotAPIConstants;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
 use TelegramBotAPI\InputMessageContent\InputMessageContent;
 use TelegramBotAPI\InlineQueryResult\InlineQueryResultDocument;
