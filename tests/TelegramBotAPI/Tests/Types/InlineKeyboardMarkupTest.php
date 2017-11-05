@@ -14,6 +14,8 @@ class InlineKeyboardMarkupTest extends TestCase {
 
         $obj->setInlineKeyboard(array());
 
+        $this->assertEquals('array', gettype($obj->getInlineKeyboard()));
+
         $this->assertJson(json_encode($obj));
     }
 }

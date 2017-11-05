@@ -20,6 +20,7 @@ class StickerSetTest extends TestCase {
         $this->assertEquals('name', $obj->getName());
         $this->assertEquals('title', $obj->getTitle());
         $this->assertTrue($obj->getContainsMasks());
+        $this->assertEquals('array', gettype($obj->getStickers()));
 
         $this->assertJson(json_encode($obj));
     }

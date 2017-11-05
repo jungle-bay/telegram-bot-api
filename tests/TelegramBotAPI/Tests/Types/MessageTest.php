@@ -85,6 +85,7 @@ class MessageTest extends TestCase {
         $this->assertInstanceOf(Sticker::class, $obj->getSticker());
         $this->assertInstanceOf(Video::class, $obj->getVideo());
         $this->assertInstanceOf(VideoNote::class, $obj->getVideoNote());
+        $this->assertEquals('array', gettype($obj->getNewChatMembers()));
         $this->assertInstanceOf(Voice::class, $obj->getVoice());
         $this->assertEquals('caption', $obj->getCaption());
         $this->assertInstanceOf(Contact::class, $obj->getContact());
@@ -93,6 +94,7 @@ class MessageTest extends TestCase {
         $this->assertInstanceOf(User::class, $obj->getNewChatMember());
         $this->assertInstanceOf(User::class, $obj->getLeftChatMember());
         $this->assertEquals('new chat title', $obj->getNewChatTitle());
+        $this->assertEquals('array', gettype($obj->getNewChatPhoto()));
         $this->assertTrue($obj->getDeleteChatPhoto());
         $this->assertTrue($obj->getGroupChatCreated());
         $this->assertTrue($obj->getSupergroupChatCreated());
@@ -104,6 +106,7 @@ class MessageTest extends TestCase {
         $this->assertInstanceOf(SuccessfulPayment::class, $obj->getSuccessfulPayment());
         $this->assertEquals('author_signature', $obj->getAuthorSignature());
         $this->assertEquals('forward_signature', $obj->getForwardSignature());
+        $this->assertEquals('array', gettype($obj->getCaptionEntities()));
 
         $this->assertJson(json_encode($obj));
     }

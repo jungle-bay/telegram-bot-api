@@ -30,6 +30,7 @@ class InlineQueryResultPhotoTest extends TestCase {
         $this->assertEquals('id', $obj->getId());
         $this->assertEquals('title', $obj->getTitle());
         $this->assertEquals('caption', $obj->getCaption());
+        $this->assertEquals('PhotoUrl', $obj->getPhotoUrl());
         $this->assertEquals('thumb_url', $obj->getThumbUrl());
         $this->assertEquals('description', $obj->getDescription());
         $this->assertEquals(1, $obj->getPhotoWidth());

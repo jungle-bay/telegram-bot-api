@@ -11,4 +11,11 @@ use Exception;
  */
 class TelegramBotAPIException extends Exception {
 
+    /**
+     * @param string $message
+     */
+    public function throwWarning($message) {
+
+        trigger_error($message, E_USER_WARNING);
+    }
 }

@@ -18,6 +18,7 @@ class ShippingOptionTest extends TestCase {
 
         $this->assertEquals('id', $obj->getId());
         $this->assertEquals('title', $obj->getTitle());
+        $this->assertEquals('array', gettype($obj->getPrices()));
 
         $this->assertJson(json_encode($obj));
     }

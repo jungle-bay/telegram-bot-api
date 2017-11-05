@@ -18,6 +18,7 @@ class ReplyKeyboardMarkupTest extends TestCase {
         $obj->setResizeKeyboard(true);
 
         $this->assertTrue($obj->getSelective());
+        $this->assertEquals('array', gettype($obj->getKeyboard()));
         $this->assertTrue($obj->getOneTimeKeyboard());
         $this->assertTrue($obj->getResizeKeyboard());
 

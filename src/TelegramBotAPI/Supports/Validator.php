@@ -3,12 +3,11 @@
 namespace TelegramBotAPI\Supports;
 
 
-use TelegramBotAPI\TelegramBotAPIConstants;
 use TelegramBotAPI\Types\ForceReply;
+use TelegramBotAPI\TelegramBotAPIConstants;
 use TelegramBotAPI\Types\ReplyKeyboardRemove;
 use TelegramBotAPI\Types\ReplyKeyboardMarkup;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
-use TelegramBotAPI\Exception\TelegramBotAPIWarning;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
@@ -137,7 +136,9 @@ class Validator {
         $isOK = ((self::LIMIT_MIN < $limit) && ($limit < self::LIMIT_MAX));
 
         if (!$isOK) {
-            new TelegramBotAPIWarning('Values from 1 to 100 are accepted. Default is 100.');
+
+            $exe = new TelegramBotAPIException();
+            $exe->throwWarning('Values from 1 to 100 are accepted. Default is 100.');
 
             return null;
         }
@@ -154,7 +155,9 @@ class Validator {
         $isOK = ((self::LOCATION_MIN < $local) && ($local < self::LOCATION_MAX));
 
         if (!$isOK) {
-            new TelegramBotAPIWarning('See Live Locations, should be between 60 and 86400.');
+
+            $exe = new TelegramBotAPIException();
+            $exe->throwWarning('See Live Locations, should be between 60 and 86400.');
 
             return null;
         }
@@ -172,7 +175,9 @@ class Validator {
         $isOK = ((self::CAPTION_SIZE_MIN < $length) && ($length < self::CAPTION_SIZE_MAX));
 
         if (!$isOK) {
-            new TelegramBotAPIWarning('Values from 0 to 200 are characters.');
+
+            $exe = new TelegramBotAPIException();
+            $exe->throwWarning('Values from 0 to 200 are characters.');
 
             return null;
         }
@@ -218,7 +223,9 @@ class Validator {
             case TelegramBotAPIConstants::UPLOAD_DOCUMENT_TYPE_ACTION:
                 return $actionType;
             default:
-                new TelegramBotAPIWarning('Invalid action type.');
+
+                $exe = new TelegramBotAPIException();
+                $exe->throwWarning('Invalid action type.');
 
                 return null;
         }
@@ -233,7 +240,9 @@ class Validator {
         $isOK = ((TelegramBotAPIConstants::HTML_PARSE_MODE === $mode) || (TelegramBotAPIConstants::MARKDOWN_PARSE_MODE === $mode));
 
         if (!$isOK) {
-            new TelegramBotAPIWarning('Send Markdown or HTML.');
+
+            $exe = new TelegramBotAPIException();
+            $exe->throwWarning('Send Markdown or HTML.');
 
             return null;
         }

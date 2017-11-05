@@ -22,8 +22,10 @@ class GameTest extends TestCase {
 
         $this->assertEquals('text', $obj->getText());
         $this->assertEquals('title', $obj->getTitle());
+        $this->assertEquals('array', gettype($obj->getPhoto()));
         $this->assertInstanceOf(Animation::class, $obj->getAnimation());
         $this->assertEquals('description', $obj->getDescription());
+        $this->assertEquals('array', gettype($obj->getTextEntities()));
 
         $this->assertJson(json_encode($obj));
     }

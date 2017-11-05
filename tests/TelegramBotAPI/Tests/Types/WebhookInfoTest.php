@@ -21,6 +21,7 @@ class WebhookInfoTest extends TestCase {
         $obj->setPendingUpdateCount(3);
 
         $this->assertEquals('url', $obj->getUrl());
+        $this->assertEquals('array', gettype($obj->getAllowedUpdates()));
         $this->assertTrue($obj->getHasCustomCertificate());
         $this->assertEquals(1, $obj->getLastErrorDate());
         $this->assertEquals('last_error_message', $obj->getLastErrorMessage());
