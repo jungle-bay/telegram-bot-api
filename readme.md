@@ -26,6 +26,9 @@ composer require jungle-bay/telegram-bot-api
 ```php
 <?php
 
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
 use TelegramBotAPI\TelegramBotAPI;
 
 // parameter is your bot token.
@@ -33,7 +36,7 @@ $tba = new TelegramBotAPI('123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11');
 
 $info = $tba->getMe();
 
-echo $info->getBot();
+echo 'Hello ' . $info->getUsername() . ' !';
 ```
 
 ### License
