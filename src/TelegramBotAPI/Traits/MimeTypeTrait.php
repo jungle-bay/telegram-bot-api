@@ -3,7 +3,7 @@
 namespace TelegramBotAPI\Traits;
 
 
-use TelegramBotAPI\TelegramBotAPIConstants;
+use TelegramBotAPI\Constants;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 trait MimeTypeTrait {
@@ -28,8 +28,8 @@ trait MimeTypeTrait {
     public function setMimeType($mimeType) {
 
         switch ($mimeType) {
-            case TelegramBotAPIConstants::APPLICATION_PDF_MIME_TYPE:
-            case TelegramBotAPIConstants::APPLICATION_ZIP_MIME_TYPE:
+            case Constants::APPLICATION_PDF_MIME_TYPE:
+            case Constants::APPLICATION_ZIP_MIME_TYPE:
                 $this->mimeType = $mimeType;
 
                 return;

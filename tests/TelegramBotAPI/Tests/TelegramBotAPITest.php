@@ -3,6 +3,7 @@
 namespace TelegramBotAPI\Tests;
 
 
+use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -19,7 +20,7 @@ use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Types\GameHighScore;
 use TelegramBotAPI\Types\MessageEntity;
 use TelegramBotAPI\Types\UserProfilePhotos;
-use TelegramBotAPI\TelegramBotAPIConstants;
+use TelegramBotAPI\Constants;
 use phpDocumentor\Reflection\Types\String_;
 use TelegramBotAPI\Types\InlineKeyboardButton;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
@@ -85,16 +86,16 @@ class TelegramBotAPITest extends TestCase {
         $this->assertEquals($tmp, $tba->getToken());
     }
 
-    /**
+    /*
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
-    public function testSetTokenNotValid(TelegramBotAPI $tba) {
+    /*public function testSetTokenNotValid(TelegramBotAPI $tba) {
 
         $tba->setToken('abc');
-    }
+    }*/
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
@@ -112,6 +113,8 @@ class TelegramBotAPITest extends TestCase {
     /**
      * @param TelegramBotAPI $tba
      *
+     * @throws TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSetUpdates(TelegramBotAPI $tba) {
@@ -186,6 +189,8 @@ class TelegramBotAPITest extends TestCase {
     /**
      * @param TelegramBotAPI $tba
      *
+     * @throws TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetUpdates(TelegramBotAPI $tba) {
@@ -783,7 +788,7 @@ class TelegramBotAPITest extends TestCase {
             'payload'         => 'Payload payload payload',
             'provider_token'  => 'Provider token',
             'start_parameter' => 'Start parameter',
-            'currency'        => TelegramBotAPIConstants::CURRENCY_UAH,
+            'currency'        => Constants::CURRENCY_UAH,
             'prices'          => $prices
         ));
 
@@ -1093,7 +1098,7 @@ class TelegramBotAPITest extends TestCase {
 
         $isSuccessfully = $tba->sendChatAction(array(
             'chat_id' => $this->getUserId(),
-            'action'  => TelegramBotAPIConstants::TYPING_TYPE_ACTION,
+            'action'  => Constants::TYPING_TYPE_ACTION,
         ));
 
         $this->assertNotNull($isSuccessfully);
@@ -1130,7 +1135,7 @@ class TelegramBotAPITest extends TestCase {
      *
      * @dataProvider TBAProvider
      */
-    public function testGetFileId(TelegramBotAPI $tba) {
+    public function testGetFile(TelegramBotAPI $tba) {
 
         $file = $tba->getFile(array(
             'file_id' => 'AwADAgAD8QAD2NuYS7er_Yib98VYAg',
@@ -1147,13 +1152,13 @@ class TelegramBotAPITest extends TestCase {
      *
      * @dataProvider TBAProvider
      */
-    public function testGetFilePath(TelegramBotAPI $tba) {
+    public function testLoadFile(TelegramBotAPI $tba) {
 
         $file = $tba->getFile(array(
             'file_id' => 'AwADAgAD8QAD2NuYS7er_Yib98VYAg'
         ));
 
-        $file = $tba->getFile(array(
+        $file = $tba->loadFile(array(
             'file_path' => $file->getFilePath()
         ));
 
@@ -1449,6 +1454,8 @@ class TelegramBotAPITest extends TestCase {
     /**
      * @param TelegramBotAPI $tba
      *
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1472,6 +1479,8 @@ class TelegramBotAPITest extends TestCase {
     /**
      * @param TelegramBotAPI $tba
      *
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */

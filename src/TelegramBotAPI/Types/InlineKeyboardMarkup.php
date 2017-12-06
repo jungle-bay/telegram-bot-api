@@ -8,7 +8,7 @@ namespace TelegramBotAPI\Types;
  * @link https://core.telegram.org/bots/api#inlinekeyboardmarkup
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class InlineKeyboardMarkup extends Type {
+class InlineKeyboardMarkup extends Keyboard {
 
     /**
      * @var array InlineKeyboardButton[]

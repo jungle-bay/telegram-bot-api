@@ -3,7 +3,7 @@
 namespace TelegramBotAPI\Tests\Types;
 
 
-use TelegramBotAPI\TelegramBotAPIConstants;
+use TelegramBotAPI\Constants;
 use TelegramBotAPI\Types\User;
 use PHPUnit\Framework\TestCase;
 
@@ -18,14 +18,14 @@ class UserTest extends TestCase {
         $obj->setFirstName('first_name');
         $obj->setLastName('last_name');
         $obj->setBot(true);
-        $obj->setLanguageCode(TelegramBotAPIConstants::CURRENCY_UAH);
+        $obj->setLanguageCode(Constants::CURRENCY_UAH);
 
         $this->assertEquals(123456, $obj->getId());
         $this->assertEquals('username', $obj->getUsername());
         $this->assertEquals('first_name', $obj->getFirstName());
         $this->assertEquals('last_name', $obj->getLastName());
         $this->assertTrue($obj->getBot());
-        $this->assertEquals(TelegramBotAPIConstants::CURRENCY_UAH, $obj->getLanguageCode());
+        $this->assertEquals(Constants::CURRENCY_UAH, $obj->getLanguageCode());
 
         $this->assertJson(json_encode($obj));
     }

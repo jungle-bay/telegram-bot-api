@@ -3,7 +3,7 @@
 namespace TelegramBotAPI\InputMessageContent;
 
 
-use TelegramBotAPI\TelegramBotAPIConstants;
+use TelegramBotAPI\Constants;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
@@ -72,7 +72,7 @@ class InputTextMessageContent extends InputMessageContent {
      */
     public function setParseMode($parseMode) {
 
-        if (($parseMode === TelegramBotAPIConstants::HTML_PARSE_MODE) || ($parseMode === TelegramBotAPIConstants::MARKDOWN_PARSE_MODE)) {
+        if (($parseMode === Constants::HTML_PARSE_MODE) || ($parseMode === Constants::MARKDOWN_PARSE_MODE)) {
             $this->parseMode = $parseMode;
             return;
         }

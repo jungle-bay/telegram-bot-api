@@ -8,7 +8,7 @@ namespace TelegramBotAPI\Types;
  * @link https://core.telegram.org/bots/api#replykeyboardremove
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ReplyKeyboardRemove extends Type {
+class ReplyKeyboardRemove extends Keyboard {
 
     /**
      * @var bool $removeKeyboard

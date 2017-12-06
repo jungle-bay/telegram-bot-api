@@ -3,7 +3,7 @@
 namespace TelegramBotAPI\Tests\Types;
 
 
-use TelegramBotAPI\TelegramBotAPIConstants;
+use TelegramBotAPI\Constants;
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\Voice;
 
@@ -15,12 +15,12 @@ class VoiceTest extends TestCase {
 
         $obj->setFileId('file_id');
         $obj->setFileSize(123);
-        $obj->setMimeType(TelegramBotAPIConstants::APPLICATION_PDF_MIME_TYPE);
+        $obj->setMimeType(Constants::APPLICATION_PDF_MIME_TYPE);
         $obj->setDuration(3);
 
         $this->assertEquals('file_id', $obj->getFileId());
         $this->assertEquals(123, $obj->getFileSize());
-        $this->assertEquals(TelegramBotAPIConstants::APPLICATION_PDF_MIME_TYPE, $obj->getMimeType());
+        $this->assertEquals(Constants::APPLICATION_PDF_MIME_TYPE, $obj->getMimeType());
         $this->assertEquals(3, $obj->getDuration());
 
         $this->assertJson(json_encode($obj));

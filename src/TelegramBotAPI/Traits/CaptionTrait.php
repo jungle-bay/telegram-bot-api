@@ -3,7 +3,6 @@
 namespace TelegramBotAPI\Traits;
 
 
-use TelegramBotAPI\Supports\Validator;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 trait CaptionTrait {
@@ -27,7 +26,7 @@ trait CaptionTrait {
      */
     public function setCaption($caption) {
 
-        if (empty($caption) || (strlen($caption) > Validator::CAPTION_SIZE_MAX)) {
+        if (empty($caption) || (strlen($caption) > 200)) {
             throw new TelegramBotAPIException('Caption, 0-200 characters');
         }
 

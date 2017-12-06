@@ -1,16 +1,51 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
-namespace TelegramBotAPI\Supports\Gson;
+namespace TelegramBotAPI\Core;
 
 
 use ReflectionClass;
+use JsonSerializable;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
 /**
- * @package TelegramBotAPI\Supports\Gson
+ * Class GSON
+ * @package TelegramBotAPI\Core
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-trait DeserializerTrait {
+abstract class GSON implements JsonSerializable {
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    private function unCamelize($value) {
+
+        $value = preg_replace('/[A-Z]/', ' ${0}', $value);
+        $value = str_replace(' ', '_', $value);
+
+        return strtolower($value);
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    private function camelize($value) {
+
+        $value = str_replace('_', ' ', $value);
+        $value = ucwords($value);
+
+        return str_replace(' ', '', $value);
+    }
+
 
     /**
      * @param string $type
@@ -20,21 +55,9 @@ trait DeserializerTrait {
 
         $type = explode('|', $type);
 
-        if (isset($type[0])) {
+        if (isset($type[0])) if ('null' === $type[0]) return false;
 
-            if ($type[0] === 'null') {
-
-                return false;
-            }
-        }
-
-        if (isset($type[1])) {
-
-            if ($type[1] === 'null') {
-
-                return false;
-            }
-        }
+        if (isset($type[1])) if ('null' === $type[1]) return false;
 
         return true;
     }
@@ -47,12 +70,9 @@ trait DeserializerTrait {
 
         $brackets = substr($type, -2);
 
-        if ($brackets === '[]') {
-            return true;
-        }
-
-        return false;
+        return ('[]' === $brackets);
     }
+
 
     /**
      * @param string $type
@@ -72,40 +92,27 @@ trait DeserializerTrait {
         }
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
-    private function camelize($value) {
-
-        $value = str_replace('_', ' ', $value);
-        $value = ucwords($value);
-
-        return str_replace(' ', '', $value);
-    }
 
     /**
      * @param string $key
      * @param mixed $value
-     *
      * @throws TelegramBotAPIRuntimeException
      */
     private function setValue($key, $value) {
 
         $name = $this->camelize($key);
 
-        if (substr($name, 0, 2) === 'Is') {
-            $name = substr($name, 2);
-        }
+        if ('Is' === substr($name, 0, 2)) $name = substr($name, 2);
 
         $method = 'set' . $name;
 
-        if (!method_exists($this, $method)) {
+        if (false === method_exists($this, $method)) {
             throw new TelegramBotAPIRuntimeException('Method: ' . $method . ' absent to ' . get_called_class());
         }
 
         $this->{$method}($value);
     }
+
 
     /**
      * @param mixed $value
@@ -114,9 +121,7 @@ trait DeserializerTrait {
      */
     private function getTypeObj($value, $data) {
 
-        if (!$this->isObj($value)) {
-            return $data;
-        }
+        if (!$this->isObj($value)) return $data;
 
         $class = get_class($this);
         $ns = substr($class, 0, strrpos($class, '\\'));
@@ -125,10 +130,12 @@ trait DeserializerTrait {
         return new $class($data);
     }
 
+
     /**
      * @param string $key
      * @param array $data
      * @param array $check
+     * @throws TelegramBotAPIRuntimeException
      */
     private function initArrayOfArray($key, array $data, array $check) {
 
@@ -139,9 +146,7 @@ trait DeserializerTrait {
 
             $values = array();
 
-            foreach ($value as $check) {
-                $values[] = $this->getTypeObj($type, $check);
-            }
+            foreach ($value as $check) $values[] = $this->getTypeObj($type, $check);
 
             $arr[] = $values;
         }
@@ -153,16 +158,14 @@ trait DeserializerTrait {
      * @param string $key
      * @param array $data
      * @param array $check
+     * @throws TelegramBotAPIRuntimeException
      */
     private function initArray($key, array $data, array $check) {
 
         $type = $check['value'];
         $arr = array();
 
-        foreach ($data[$key] as $value) {
-            $arr[] = $this->getTypeObj($type, $value);
-        }
-
+        foreach ($data[$key] as $value) $arr[] = $this->getTypeObj($type, $value);
         $this->setValue($key, $arr);
     }
 
@@ -170,22 +173,23 @@ trait DeserializerTrait {
      * @param string $key
      * @param array $data
      * @param array $check
+     * @throws TelegramBotAPIRuntimeException
      */
     private function initObj($key, array $data, array $check) {
         $obj = $this->getTypeObj($check['value'], $data[$key]);
         $this->setValue($key, $obj);
     }
 
+
     /**
      * @param string $key
      * @param array $data
      * @param array $check
+     * @throws TelegramBotAPIRuntimeException
      */
     private function initStart($key, array $data, array $check) {
 
-        if (!isset($data[$key])) {
-            return;
-        }
+        if (!isset($data[$key])) return;
 
         if ($check['array_array'] === true) {
             $this->initArrayOfArray($key, $data, $check);
@@ -202,18 +206,19 @@ trait DeserializerTrait {
         $this->initObj($key, $data, $check);
     }
 
+
     /**
      * @param array $schema
      * @param array $data
-     *
      * @throws TelegramBotAPIRuntimeException
      */
     private function jsonDeserializer(array $schema, array $data) {
 
         foreach ($schema as $key => $check) {
 
-            if ($check['require'] === true) {
-                if (!isset($data[$key])) {
+            if (true === $check['require']) {
+
+                if (false === isset($data[$key])) {
                     throw new TelegramBotAPIRuntimeException('Required ' . $key . ' empty to ' . get_called_class());
                 }
             }
@@ -232,15 +237,13 @@ trait DeserializerTrait {
 
         foreach ($refClass->getProperties() as $refProperty) {
 
-            if (!preg_match('/@var\s+([^\s]+)/', $refProperty->getDocComment(), $matches)) {
-                continue;
-            }
+            if (false === preg_match('/@var\s+([^\s]+)/', $refProperty->getDocComment(), $matches)) continue;
 
             list(, $type) = $matches;
 
             $isRequired = $this->checkForRequired($type);
 
-            if ($isRequired === false) {
+            if (false === $isRequired) {
 
                 $type = str_replace('|null', '', $type);
                 $type = str_replace('null|', '', $type);
@@ -248,17 +251,11 @@ trait DeserializerTrait {
 
             $isArray = $this->checkForArray($type);
 
-            if ($isArray === true) {
-
-                $type = substr($type, 0, -2);
-            }
+            if (true === $isArray) $type = substr($type, 0, -2);
 
             $isArrayArray = $this->checkForArray($type);
 
-            if ($isArrayArray === true) {
-
-                $type = substr($type, 0, -2);
-            }
+            if (true === $isArrayArray) $type = substr($type, 0, -2);
 
             $schema[$this->unCamelize($refProperty->name)] = array(
                 'value'       => $type,
@@ -274,14 +271,36 @@ trait DeserializerTrait {
 
     /**
      * @param array $data
+     * @throws TelegramBotAPIRuntimeException
      */
     public function __construct(array $data = array()) {
 
-        if (empty($data)) {
-            return;
-        }
+        if (empty($data)) return;
 
         $schema = $this->getSchemaObject();
         $this->jsonDeserializer($schema, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize() {
+
+        $props = (array) $this;
+        $json = array();
+
+        foreach ($props as $key => $value) {
+
+            if (null === $value) continue;
+
+            if ('*' === substr($key, 1, 1)) $key = substr($key, 2);
+
+            $key = str_replace(get_called_class(), '', $key);
+            $key = str_replace("\0", '', $key);
+
+            $json[$this->unCamelize($key)] = $value;
+        }
+
+        return $json;
     }
 }

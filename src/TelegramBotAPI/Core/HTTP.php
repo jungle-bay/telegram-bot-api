@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 15:06
+ */
 
 namespace TelegramBotAPI\Core;
 
@@ -7,14 +15,14 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
 /**
+ * Class HTTP
  * @package TelegramBotAPI\Core
  * @link https://core.telegram.org/bots/api#making-requests
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class HTTP {
 
-    const GET = 'GET';
-    const POST = 'POST';
+    const CHECK_TOKEN_PATTERN = '/^[0-9]{9}:[A-Za-z0-9\_\-]{35}$/';
 
     const HTTP_INTERNAL_SERVER_ERROR = 500;
 
@@ -59,6 +67,7 @@ class HTTP {
     const ANSWER_CALLBACK_QUERY = 'answerCallbackQuery';
     const ANSWER_INLINE_QUERY = 'answerInlineQuery';
     const ANSWER_SHIPPING_QUERY = 'answerShippingQuery';
+    const ANSWER_PRE_CHECKOUT_QUERY = 'answerPreCheckoutQuery';
 
     const SEND_GAME = 'sendGame';
     const SET_GAME_SCORE = 'setGameScore';
@@ -90,106 +99,116 @@ class HTTP {
 
 
     /**
-     * @param $ch
-     * @return string
-     *
-     * @throws TelegramBotAPIRuntimeException
+     * @var string $token
      */
-    private function exec($ch) {
-
-        $response = curl_exec($ch);
-        $codeError = curl_errno($ch);
-
-        curl_close($ch);
-
-        if ($codeError !== 0) {
-            throw new TelegramBotAPIRuntimeException('Error request', $codeError);
-        }
-
-        return $response;
-    }
+    private $token;
 
 
     /**
      * @param string $response
-     * @return bool|string|array
-     *
+     * @return array
      * @throws TelegramBotAPIRuntimeException
      */
-    protected function checkForBadRequest($response) {
+    protected function parserResponse($response) {
 
         $data = json_decode($response, true);
 
-        if ($data === null) {
-            throw new TelegramBotAPIRuntimeException('I can not spread the answer', self::HTTP_INTERNAL_SERVER_ERROR);
+        if (null !== $data) return $data;
+
+        throw new TelegramBotAPIRuntimeException('I can not make the answer.', self::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+
+    /**
+     * @param array $data
+     * @throws TelegramBotAPIRuntimeException
+     */
+    protected function firewallError(array $data) {
+
+        if (false === array_key_exists('ok', $data)) {
+            throw new TelegramBotAPIRuntimeException('Something went wrong...', self::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        if ($data['ok'] !== true) {
-            throw new TelegramBotAPIRuntimeException($data['description'], $data['error_code']);
-        }
+        if (true === $data['ok']) return;
+
+        $codeError = array_key_exists('error_code', $data) ? $data['error_code'] : 500;
+        $messageError = array_key_exists('description', $data) ? $data['description'] : 'Error request.';
+
+        throw new TelegramBotAPIRuntimeException($messageError, $codeError);
+    }
+
+    /**
+     * @param $data
+     * @throws TelegramBotAPIRuntimeException
+     */
+    protected function firewallResult(array $data) {
+
+        if (true === array_key_exists('result', $data)) return;
+
+        throw new TelegramBotAPIRuntimeException('Result no answer.', self::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+
+    /**
+     * @param string $method
+     * @return string
+     * @throws TelegramBotAPIException
+     */
+    protected function getMethod($method) {
+
+        $url = sprintf(self::TELEGRAM_BOT_API, $this->getToken(), $method);
+
+        return $url;
+    }
+
+    /**
+     * @param string $url
+     * @param array $parameters
+     * @return mixed
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    protected function getResult($url, $parameters = array()) {
+
+        $cURL = new Curl($url);
+
+        $response = $cURL->post($parameters);
+
+        $data = $this->parserResponse($response);
+
+        $this->firewallError($data);
+        $this->firewallResult($data);
 
         return $data['result'];
     }
 
-    /**
-     * @param $url
-     * @param array $parameters
-     * @return bool|string|array
-     *
-     * @throws TelegramBotAPIException
-     * @throws TelegramBotAPIRuntimeException
-     */
-    protected function get($url, $parameters = array()) {
 
-        if (empty($url)) {
-            throw new TelegramBotAPIException('URL empty', self::HTTP_INTERNAL_SERVER_ERROR);
+    /**
+     * @api
+     * @link https://core.telegram.org/bots/api#authorizing-your-bot
+     * @param string $token
+     * @throws TelegramBotAPIException
+     */
+    public function setToken($token) {
+
+        if (false === preg_match(self::CHECK_TOKEN_PATTERN, $token)) {
+            throw new TelegramBotAPIException('Telegram Bot API Token is not valid.');
         }
 
-        $ch = curl_init();
-
-        curl_setopt_array($ch, array(
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT        => 60,
-            CURLOPT_URL            => $url,
-            CURLOPT_POSTFIELDS     => $parameters
-        ));
-
-        $data = $this->exec($ch);
-        $response = $this->checkForBadRequest($data);
-
-        return $response;
+        $this->token = $token;
     }
 
     /**
-     * @param $url
-     * @param array $parameters
-     * @return bool|string|array
-     *
+     * @api
+     * @return string
      * @throws TelegramBotAPIException
-     * @throws TelegramBotAPIRuntimeException
      */
-    protected function post($url, $parameters = array()) {
+    public function getToken() {
 
-        if (empty($url)) {
-            throw new TelegramBotAPIException('URL empty', self::HTTP_INTERNAL_SERVER_ERROR);
+        if (empty($this->token)) {
+            throw new TelegramBotAPIException('`token` empty');
         }
 
-        $ch = curl_init();
-
-        curl_setopt_array($ch, array(
-            CURLOPT_SAFE_UPLOAD    => true,
-            CURLOPT_POST           => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT        => 60,
-            CURLOPT_URL            => $url,
-            CURLOPT_POSTFIELDS     => $parameters
-        ));
-
-        $data = $this->exec($ch);
-        $response = $this->checkForBadRequest($data);
-
-        return $response;
+        return $this->token;
     }
 }
