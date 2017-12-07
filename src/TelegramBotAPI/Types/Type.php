@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Types;
 
@@ -13,4 +21,13 @@ use TelegramBotAPI\Core\GSON;
  */
 abstract class Type extends GSON {
 
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString() {
+
+        $data = $this->jsonSerialize();
+
+        return json_encode($data);
+    }
 }

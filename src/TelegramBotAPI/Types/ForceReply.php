@@ -8,7 +8,7 @@ namespace TelegramBotAPI\Types;
  * @link https://core.telegram.org/bots/api#forcereply
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ForceReply extends Keyboard {
+class ForceReply extends Type {
 
     /**
      * @var bool $forceReply

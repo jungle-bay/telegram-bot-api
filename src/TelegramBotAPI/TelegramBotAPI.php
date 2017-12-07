@@ -909,6 +909,7 @@ class TelegramBotAPI extends HTTP {
 
 
     /**
+     * @api
      * @link https://core.telegram.org/bots/api#authorizing-your-bot
      * @param string $token
      * @throws TelegramBotAPIException

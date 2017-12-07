@@ -107,6 +107,23 @@ class HTTP {
 
 
     /**
+     * @param array $parameters
+     * @return array
+     */
+    private function serializableArrayToString(array $parameters) {
+
+        foreach ($parameters as $parameter => &$value) {
+
+            if (false === is_array($value)) continue;
+
+            $value = json_encode($value);
+        }
+
+        return $parameters;
+    }
+
+
+    /**
      * @param string $response
      * @return array
      * @throws TelegramBotAPIRuntimeException
@@ -171,6 +188,8 @@ class HTTP {
      * @throws TelegramBotAPIRuntimeException
      */
     protected function getResult($url, $parameters = array()) {
+
+        $parameters = $this->serializableArrayToString($parameters);
 
         $cURL = new Curl($url);
 

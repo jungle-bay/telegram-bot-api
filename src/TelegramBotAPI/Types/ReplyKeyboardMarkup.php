@@ -8,7 +8,7 @@ namespace TelegramBotAPI\Types;
  * @link https://core.telegram.org/bots/api#replykeyboardmarkup
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ReplyKeyboardMarkup extends Keyboard {
+class ReplyKeyboardMarkup extends Type {
 
     /**
      * @var array KeyboardButton[] $keyboard
