@@ -97,6 +97,8 @@ class HTTP {
     const SET_CHAT_STICKER_SET = 'setChatStickerSet';
     const DELETE_CHAT_STICKER_SET = 'deleteChatStickerSet';
 
+    const SEND_MEDIA_GROUP = 'sendMediaGroup';
+
 
     /**
      * @var string $token

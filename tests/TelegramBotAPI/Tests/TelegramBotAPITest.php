@@ -73,17 +73,18 @@ class TelegramBotAPITest extends TestCase {
 
 
     /**
-     * @param TelegramBotAPI $tba
-     *
-     * @dataProvider TBAProvider
+     * @throws TelegramBotAPIException
      */
-    public function testSetToken(TelegramBotAPI $tba) {
+    public function testSetToken() {
 
-        $tmp = '355932823:AAFDcLyd9nS3tJSgmSLaeZy8CaXLkdo0iIY';
-        $tba->setToken($tmp);
+        $token = '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc';
+
+        $tba = new TelegramBotAPI();
+
+        $tba->setToken($token);
 
         $this->assertNotNull($tba->getToken());
-        $this->assertEquals($tmp, $tba->getToken());
+        $this->assertEquals($token, $tba->getToken());
     }
 
     /*

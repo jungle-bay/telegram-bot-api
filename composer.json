@@ -30,6 +30,7 @@
         "phpunit/phpunit": "^4.8"
     },
     "suggest": {
+        "jungle-bay/telegram-bot-cli": "CLI Utility for Telegram Bot",
         "jungle-bay/telegram-bot-shell": "This is mechanism for processing bot commands"
     },
     "autoload": {

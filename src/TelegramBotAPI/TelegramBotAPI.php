@@ -70,6 +70,7 @@ class TelegramBotAPI extends HTTP {
         return $updates;
     }
 
+
     /**
      * @api
      * @link https://core.telegram.org/bots/api#getupdates
@@ -369,7 +370,7 @@ class TelegramBotAPI extends HTTP {
      * @api
      * @link https://core.telegram.org/bots/api#getfile
      * @param array $parameters
-     * @return File|bool|string
+     * @return File
      * @throws TelegramBotAPIException
      * @throws TelegramBotAPIRuntimeException
      */
@@ -381,6 +382,8 @@ class TelegramBotAPI extends HTTP {
     }
 
     /**
+     * @api
+     * @link https://core.telegram.org/bots/api#getfile
      * @param array $parameters
      * @return bool|string
      * @throws TelegramBotAPIException
@@ -884,6 +887,24 @@ class TelegramBotAPI extends HTTP {
         foreach ($result as $gameHighScore) $gameHighScores[] = new GameHighScore($gameHighScore);
 
         return $gameHighScores;
+    }
+
+    /**
+     * @api
+     * @link https://core.telegram.org/bots/api#sendmediagroup
+     * @param array $parameters
+     * @return Message[]
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    public function sendMediaGroup(array $parameters) {
+
+        $result = $this->getResult($this->getMethod(self::SEND_MEDIA_GROUP), $parameters);
+        $messages = array();
+
+        foreach ($result as $message) $messages[] = new Message($message);
+
+        return $messages;
     }
 
 

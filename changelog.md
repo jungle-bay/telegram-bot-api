@@ -1,5 +1,12 @@
 # Changelog for Telegram Bot API
 
+#### 3.5 / 2017-11-17
+
+* Added the new method [sendMediaGroup](https://core.telegram.org/bots/api#sendmediagroup) and two kinds of [InputMedia](https://core.telegram.org/bots/api#inputmedia) objects to support the new [albums feature](https://telegram.org/blog/albums-saved-messages).
+* Added support for pinning messages in channels. [pinChatMessage](https://core.telegram.org/bots/api#pinchatmessage) and [unpinChatMessage](https://core.telegram.org/bots/api#unpinchatmessage) accept channels.
+* Added the new field ***provider_data*** to [sendInvoice](https://core.telegram.org/bots/api#sendinvoice) for sharing information about the invoice with the payment provider.
+* Added two methods **setUpdate** and **getUpdate** to TelegramBotAPIException.
+
 #### 3.4 / 2017-10-11
 
 * Bots can now send and receive [Live Locations](https://telegram.org/blog/live-locations). Added new field ***live_period*** to the [sendLocation](https://core.telegram.org/bots/api#sendlocation) method and the [editMessageLiveLocation](https://core.telegram.org/bots/api#editmessagelivelocation) and [stopMessageLiveLocation](https://core.telegram.org/bots/api#stopmessagelivelocation) methods as well as the necessary objects for inline bots.
