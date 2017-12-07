@@ -5,7 +5,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-api.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-api)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/629ccaba-0a4e-4ea3-b0a4-63d053b5bf30.svg?style=flat)](https://insight.sensiolabs.com/projects/629ccaba-0a4e-4ea3-b0a4-63d053b5bf30)
 
-This is PHP Library for Telegram Bot API.
+This is PHP Library for Telegram Bot API. <br />
 You can follow [this](https://core.telegram.org/bots/api) documentation to work with the library.
 
 ### Prerequisites
@@ -28,18 +28,13 @@ composer require jungle-bay/telegram-bot-api
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
-
-use TelegramBotAPI\TelegramBotAPI;
-
 // parameter is your bot token.
-$tba = new TelegramBotAPI('123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11');
+$tba = new \TelegramBotAPI\TelegramBotAPI('123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11');
 
-$info = $tba->getMe();
+$botInfo = $tba->getMe();
 
-echo 'Hello ' . $info->getUsername() . ' !';
+echo 'Hello world! Im bot ' . $botInfo->getFirstName() . ' !';
 ```
-
-You may be interested in the following files (development) examples: [getUpdates.php](https://github.com/roma-bb8/telegram-bot-simple/blob/master/bin/getUpdates.php) and [setWebhook.php](https://github.com/roma-bb8/telegram-bot-simple/blob/master/bin/setWebhook.php).
 
 ### License
 
