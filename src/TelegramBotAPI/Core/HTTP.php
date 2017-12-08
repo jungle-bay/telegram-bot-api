@@ -212,7 +212,7 @@ class HTTP {
      */
     public function setToken($token) {
 
-        if (false === preg_match(self::CHECK_TOKEN_PATTERN, $token)) {
+        if (!preg_match(self::CHECK_TOKEN_PATTERN, $token)) {
             throw new TelegramBotAPIException('Telegram Bot API Token is not valid.');
         }
 
