@@ -10,6 +10,7 @@ class MimeTypeTraitTest extends TestCase {
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testSetMimeType() {
 

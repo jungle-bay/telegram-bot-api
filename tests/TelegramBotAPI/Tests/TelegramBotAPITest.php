@@ -4,6 +4,7 @@ namespace TelegramBotAPI\Tests;
 
 
 use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -87,19 +88,20 @@ class TelegramBotAPITest extends TestCase {
         $this->assertEquals($token, $tba->getToken());
     }
 
-    /*
+    /**
      * @param TelegramBotAPI $tba
      * @throws TelegramBotAPIException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
-    /*public function testSetTokenNotValid(TelegramBotAPI $tba) {
+    public function testSetTokenNotValid(TelegramBotAPI $tba) {
 
         $tba->setToken('abc');
-    }*/
+    }
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @throws TelegramBotAPIException
      */
     public function testGetTokenEmpty() {
 
@@ -207,7 +209,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSetWebhook(TelegramBotAPI $tba) {
@@ -222,7 +225,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testDeleteWebhook(TelegramBotAPI $tba) {
@@ -235,7 +239,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetWebhookInfo(TelegramBotAPI $tba) {
@@ -255,7 +260,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetMe(TelegramBotAPI $tba) {
@@ -273,7 +279,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendMessage(TelegramBotAPI $tba) {
@@ -293,7 +300,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testForwardMessage(TelegramBotAPI $tba) {
@@ -313,7 +321,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendPhotoInputFile(TelegramBotAPI $tba) {
@@ -334,7 +343,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendPhoto(TelegramBotAPI $tba) {
@@ -363,7 +373,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendVideoNoteInputFile(TelegramBotAPI $tba) {
@@ -383,7 +394,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendVideoNote(TelegramBotAPI $tba) {
@@ -402,7 +414,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -424,7 +437,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -444,7 +458,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -461,7 +476,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -478,7 +494,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -494,7 +511,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -512,7 +530,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -528,7 +547,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -545,7 +565,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -562,7 +583,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -579,7 +601,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -595,7 +618,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -612,7 +636,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -628,7 +653,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -644,7 +670,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -661,7 +688,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetStickerSet(TelegramBotAPI $tba) {
@@ -678,7 +706,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -696,7 +725,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -716,7 +746,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -735,7 +766,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -752,7 +784,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      */
@@ -768,7 +801,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -799,7 +833,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -817,7 +852,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -835,7 +871,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendAudioInputFile(TelegramBotAPI $tba) {
@@ -855,7 +892,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendAudio(TelegramBotAPI $tba) {
@@ -874,7 +912,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendDocumentInputFile(TelegramBotAPI $tba) {
@@ -894,7 +933,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendDocument(TelegramBotAPI $tba) {
@@ -913,7 +953,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendStickerInputFile(TelegramBotAPI $tba) {
@@ -933,7 +974,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendSticker(TelegramBotAPI $tba) {
@@ -952,7 +994,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendVideoInputFile(TelegramBotAPI $tba) {
@@ -972,7 +1015,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendVideo(TelegramBotAPI $tba) {
@@ -991,7 +1035,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendVoiceInputFile(TelegramBotAPI $tba) {
@@ -1011,7 +1056,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendVoice(TelegramBotAPI $tba) {
@@ -1030,7 +1076,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendLocation(TelegramBotAPI $tba) {
@@ -1050,7 +1097,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendVenue(TelegramBotAPI $tba) {
@@ -1072,7 +1120,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendContact(TelegramBotAPI $tba) {
@@ -1092,7 +1141,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testSendChatAction(TelegramBotAPI $tba) {
@@ -1108,7 +1158,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetUserProfilePhotos(TelegramBotAPI $tba) {
@@ -1133,7 +1184,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetFile(TelegramBotAPI $tba) {
@@ -1150,7 +1202,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testLoadFile(TelegramBotAPI $tba) {
@@ -1169,7 +1222,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1186,7 +1240,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1202,7 +1257,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1219,7 +1275,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetChat(TelegramBotAPI $tba) {
@@ -1236,7 +1293,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1257,7 +1315,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetChatMembersCount(TelegramBotAPI $tba) {
@@ -1272,7 +1331,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      */
     public function testGetChatMember(TelegramBotAPI $tba) {
@@ -1294,7 +1354,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1315,7 +1376,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1336,7 +1398,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1405,7 +1468,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1435,7 +1499,8 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
@@ -1454,7 +1519,6 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
      * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
      * @throws \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
@@ -1479,7 +1543,6 @@ class TelegramBotAPITest extends TestCase {
 
     /**
      * @param TelegramBotAPI $tba
-     *
      * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
      * @throws \TelegramBotAPI\Exception\TelegramBotAPIRuntimeException
      * @dataProvider TBAProvider
