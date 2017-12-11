@@ -296,6 +296,7 @@ abstract class GSON implements JsonSerializable {
             if ('*' === substr($key, 1, 1)) $key = substr($key, 2);
 
             $key = str_replace(get_called_class(), '', $key);
+            $key = str_replace(get_parent_class($this), '', $key);
             $key = str_replace("\0", '', $key);
 
             $json[$this->unCamelize($key)] = $value;
