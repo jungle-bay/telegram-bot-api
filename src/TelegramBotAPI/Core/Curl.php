@@ -28,9 +28,7 @@ class Curl {
 
     private function close() {
 
-        if (false === is_resource($this->ch)) {
-            return;
-        }
+        if (false === is_resource($this->ch)) return;
 
         curl_close($this->ch);
     }
@@ -44,12 +42,7 @@ class Curl {
         $response = curl_exec($this->ch);
         $codeError = curl_errno($this->ch);
 
-        if ($codeError !== 0) {
-
-            $messageError = empty($message = curl_error($this->ch)) ? 'Fatal error' : $message;
-
-            throw new TelegramBotAPIRuntimeException($messageError, $messageError);
-        }
+        if (0 !== $codeError) throw new TelegramBotAPIRuntimeException(curl_error($this->ch), $codeError);
 
         $this->close();
 
