@@ -35,9 +35,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $tba = new \TelegramBotAPI\TelegramBotAPI('123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'); // Your token bot.
 
-$botInfo = $tba->getMe();
+$bot = $tba->getMe();
 
-echo 'Hello world! Im bot ' . $botInfo->getFirstName() . ' !';
+echo 'Hello world! Im bot ' . $bot->getFirstName() . ' !';
 ```
 
 ### Note
