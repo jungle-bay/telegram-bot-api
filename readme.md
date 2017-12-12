@@ -20,7 +20,7 @@ You can follow [this](https://core.telegram.org/bots/api) documentation to work 
 
 ### Install
 
-The recommended way to install is through [Composer](https://getcomposer.org):
+The recommended way to install is through [Composer](https://getcomposer.org/doc/00-intro.md#introduction):
 
 ```bash
 composer require jungle-bay/telegram-bot-api
