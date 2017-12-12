@@ -41,6 +41,11 @@ $botInfo = $tba->getMe();
 echo 'Hello world! Im bot ' . $botInfo->getFirstName() . ' !';
 ```
 
+### Note
+
+* The basis for your bot can use [Telegram Bot Platform](https://github.com/jungle-bay/telegram-bot-platform).
+* For the convenience of development, you can use [Telegram Bot CLI](https://github.com/jungle-bay/telegram-bot-cli).
+
 ### License
 
 This bundle is under the [MIT license](http://opensource.org/licenses/MIT). See the complete license in the file: [here](https://github.com/jungle-bay/telegram-bot-api/blob/master/license.txt).
