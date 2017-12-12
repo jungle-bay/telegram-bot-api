@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/jungle-bay/telegram-bot-api">
-        <img width="128" height="128" src="logo.png" alt="Telegram Bot API Logo">
+        <img width="128" height="128" src="x.png" alt="Telegram Bot API Logo">
     </a>
 </p>
 
