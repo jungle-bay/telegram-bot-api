@@ -6,8 +6,8 @@
         "php",
         "php-library",
         "telegram",
-        "bot",
-        "api"
+        "telegram-bot",
+        "telegram-bot-api"
     ],
     "homepage": "https://core.telegram.org/bots/api/",
     "license": "MIT",
