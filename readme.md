@@ -10,7 +10,7 @@
 [![Scrutinizer CI](https://img.shields.io/scrutinizer/g/jungle-bay/telegram-bot-api.svg?style=flat)](https://scrutinizer-ci.com/g/jungle-bay/telegram-bot-api)
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-api.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-api)
 
-This is PHP Library for Telegram Bot API. <br />
+This is PHP Library for [Telegram Bot API](https://core.telegram.org/bots). <br />
 You can follow [this](https://core.telegram.org/bots/api) documentation to work with the library.
 
 ### Prerequisites
