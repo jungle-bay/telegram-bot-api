@@ -16,6 +16,7 @@ use TelegramBotAPI\Traits\IdTrait;
 use TelegramBotAPI\Traits\ReplyMarkupTrait;
 
 /**
+ * Class InlineQueryResult
  * @package TelegramBotAPI\Supports
  * @link https://core.telegram.org/bots/api#inlinequeryresult
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
