@@ -27,7 +27,7 @@ abstract class GSON implements JsonSerializable {
      * @param string $value
      * @return string
      */
-    private function unCamelize($value) {
+    private function fromCamelCase($value) {
 
         $value = preg_replace('/[A-Z]/', ' ${0}', $value);
         $value = str_replace(' ', '_', $value);
@@ -39,7 +39,7 @@ abstract class GSON implements JsonSerializable {
      * @param string $value
      * @return string
      */
-    private function camelize($value) {
+    private function toCamelCase($value) {
 
         $value = str_replace('_', ' ', $value);
         $value = ucwords($value);
@@ -101,7 +101,7 @@ abstract class GSON implements JsonSerializable {
      */
     private function setValue($key, $value) {
 
-        $name = $this->camelize($key);
+        $name = $this->toCamelCase($key);
 
         if ('Is' === substr($name, 0, 2)) $name = substr($name, 2);
 
@@ -258,7 +258,7 @@ abstract class GSON implements JsonSerializable {
 
             if (true === $isArrayArray) $type = substr($type, 0, -2);
 
-            $schema[$this->unCamelize($refProperty->name)] = array(
+            $schema[$this->fromCamelCase($refProperty->name)] = array(
                 'value'       => $type,
                 'require'     => $isRequired,
                 'array'       => $isArray,
@@ -300,7 +300,7 @@ abstract class GSON implements JsonSerializable {
             $key = str_replace(get_parent_class($this), '', $key);
             $key = str_replace("\0", '', $key);
 
-            $json[$this->unCamelize($key)] = $value;
+            $json[$this->fromCamelCase($key)] = $value;
         }
 
         return $json;

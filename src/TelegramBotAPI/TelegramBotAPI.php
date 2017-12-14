@@ -911,7 +911,7 @@ class TelegramBotAPI extends HTTP {
     /**
      * @api
      * @link https://core.telegram.org/bots/api#authorizing-your-bot
-     * @param string $token
+     * @param string|null $token
      * @throws TelegramBotAPIException
      */
     public function __construct($token = null) {
