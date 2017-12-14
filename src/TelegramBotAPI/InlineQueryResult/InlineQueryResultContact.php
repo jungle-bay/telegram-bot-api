@@ -17,6 +17,7 @@ use TelegramBotAPI\Traits\ThumbHeightTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultContact
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultcontact
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

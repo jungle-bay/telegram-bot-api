@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class MessageEntity
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#messageentity
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

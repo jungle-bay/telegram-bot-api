@@ -14,6 +14,7 @@ namespace TelegramBotAPI\InlineQueryResult;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultCachedSticker
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedsticker
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

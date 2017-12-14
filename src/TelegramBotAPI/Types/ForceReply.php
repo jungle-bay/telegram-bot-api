@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class ForceReply
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#forcereply
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -32,7 +33,7 @@ class ForceReply extends Type {
     /**
      * @return bool
      */
-    public function getForceReply() {
+    public function isForceReply() {
         return $this->forceReply;
     }
 
@@ -46,7 +47,7 @@ class ForceReply extends Type {
     /**
      * @return bool|null
      */
-    public function getSelective() {
+    public function isSelective() {
         return $this->selective;
     }
 

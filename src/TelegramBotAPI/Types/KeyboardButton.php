@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class KeyboardButton
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#keyboardbutton
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -51,7 +52,7 @@ class KeyboardButton extends Type {
     /**
      * @return bool|null
      */
-    public function getRequestContact() {
+    public function isRequestContact() {
         return $this->requestContact;
     }
 
@@ -65,7 +66,7 @@ class KeyboardButton extends Type {
     /**
      * @return bool|null
      */
-    public function getRequestLocation() {
+    public function isRequestLocation() {
         return $this->requestLocation;
     }
 

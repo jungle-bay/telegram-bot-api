@@ -17,6 +17,7 @@ use TelegramBotAPI\Traits\DescriptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultCachedPhoto
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedphoto
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

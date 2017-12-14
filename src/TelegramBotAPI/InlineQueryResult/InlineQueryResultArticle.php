@@ -19,6 +19,7 @@ use TelegramBotAPI\Traits\ThumbHeightTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultArticle
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultarticle
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -73,7 +74,7 @@ class InlineQueryResultArticle extends InlineQueryResult {
     /**
      * @return bool|null
      */
-    public function getHideUrl() {
+    public function isHideUrl() {
         return $this->hideUrl;
     }
 

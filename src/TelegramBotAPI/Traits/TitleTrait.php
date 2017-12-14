@@ -19,13 +19,13 @@ namespace TelegramBotAPI\Traits;
 trait TitleTrait {
 
     /**
-     * @var string $title
+     * @var null|string $title
      */
     protected $title;
 
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getTitle() {
         return $this->title;

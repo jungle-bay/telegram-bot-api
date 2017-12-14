@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class VideoNote
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#videonote
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

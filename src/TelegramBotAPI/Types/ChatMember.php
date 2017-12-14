@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class ChatMember
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#chatmember
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -151,7 +152,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanBeEdited() {
+    public function isCanBeEdited() {
         return $this->canBeEdited;
     }
 
@@ -167,7 +168,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanChangeInfo() {
+    public function isCanChangeInfo() {
         return $this->canChangeInfo;
     }
 
@@ -183,7 +184,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanPostMessages() {
+    public function isCanPostMessages() {
         return $this->canPostMessages;
     }
 
@@ -199,7 +200,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanEditMessages() {
+    public function isCanEditMessages() {
         return $this->canEditMessages;
     }
 
@@ -215,7 +216,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanDeleteMessages() {
+    public function isCanDeleteMessages() {
         return $this->canDeleteMessages;
     }
 
@@ -231,7 +232,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanInviteUsers() {
+    public function isCanInviteUsers() {
         return $this->canInviteUsers;
     }
 
@@ -247,7 +248,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanRestrictMembers() {
+    public function isCanRestrictMembers() {
         return $this->canRestrictMembers;
     }
 
@@ -263,7 +264,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanPinMessages() {
+    public function isCanPinMessages() {
         return $this->canPinMessages;
     }
 
@@ -279,7 +280,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanPromoteMembers() {
+    public function isCanPromoteMembers() {
         return $this->canPromoteMembers;
     }
 
@@ -295,7 +296,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanSendMessages() {
+    public function isCanSendMessages() {
         return $this->canSendMessages;
     }
 
@@ -311,7 +312,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanSendMediaMessages() {
+    public function isCanSendMediaMessages() {
         return $this->canSendMediaMessages;
     }
 
@@ -327,7 +328,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanSendOtherMessages() {
+    public function isCanSendOtherMessages() {
         return $this->canSendOtherMessages;
     }
 
@@ -343,7 +344,7 @@ class ChatMember extends Type {
      * @api
      * @return bool|null
      */
-    public function getCanAddWebPagePreviews() {
+    public function isCanAddWebPagePreviews() {
         return $this->canAddWebPagePreviews;
     }
 

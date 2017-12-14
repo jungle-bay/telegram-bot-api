@@ -17,6 +17,7 @@ use TelegramBotAPI\Traits\ThumbUrlTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultGif
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultgif
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

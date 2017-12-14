@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class ReplyKeyboardRemove
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#replykeyboardremove
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -32,7 +33,7 @@ class ReplyKeyboardRemove extends Type {
     /**
      * @return bool
      */
-    public function getRemoveKeyboard() {
+    public function isRemoveKeyboard() {
         return $this->removeKeyboard;
     }
 
@@ -46,7 +47,7 @@ class ReplyKeyboardRemove extends Type {
     /**
      * @return bool|null
      */
-    public function getSelective() {
+    public function isSelective() {
         return $this->selective;
     }
 

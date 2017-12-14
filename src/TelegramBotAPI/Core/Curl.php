@@ -16,6 +16,7 @@ use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 /**
  * Class Curl
  * @package TelegramBotAPI\Core
+ * @link http://php.net/manual/en/function.curl-init.php
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class Curl {

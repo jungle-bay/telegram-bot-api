@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class Video
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#video
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

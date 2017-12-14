@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\Types;
 
@@ -8,6 +16,11 @@ use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\Message;
 use TelegramBotAPI\Types\ChatPhoto;
 
+/**
+ * Class ChatTest
+ * @package TelegramBotAPI\Tests\Types
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class ChatTest extends TestCase {
 
     public function testAccessors() {
@@ -35,8 +48,8 @@ class ChatTest extends TestCase {
         $this->assertEquals('last_name', $obj->getLastName());
         $this->assertInstanceOf(ChatPhoto::class, $obj->getPhoto());
         $this->assertEquals('type', $obj->getType());
-        $this->assertTrue($obj->getAllMembersAreAdministrators());
-        $this->assertTrue($obj->getCanSetStickerSet());
+        $this->assertTrue($obj->isAllMembersAreAdministrators());
+        $this->assertTrue($obj->isCanSetStickerSet());
         $this->assertEquals('invite_link', $obj->getInviteLink());
         $this->assertInstanceOf(Message::class, $obj->getPinnedMessage());
         $this->assertEquals('sticker_set_name', $obj->getStickerSetName());

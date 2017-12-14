@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class Contact
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#contact
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

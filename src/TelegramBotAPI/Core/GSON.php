@@ -18,6 +18,7 @@ use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 /**
  * Class GSON
  * @package TelegramBotAPI\Core
+ * @link https://en.wikipedia.org/wiki/Gson
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 abstract class GSON implements JsonSerializable {

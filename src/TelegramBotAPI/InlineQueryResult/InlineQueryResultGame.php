@@ -12,6 +12,7 @@ namespace TelegramBotAPI\InlineQueryResult;
 
 
 /**
+ * Class InlineQueryResultGame
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultgame
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

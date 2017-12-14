@@ -50,7 +50,7 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @link https://core.telegram.org/bots/api#setwebhook
+     * @link https://core.telegram.org/bots/api#getting-updates
      * @param string $request
      * @return Update[]
      * @throws TelegramBotAPIException
@@ -260,6 +260,24 @@ class TelegramBotAPI extends HTTP {
         $result = $this->getResult($this->getMethod(self::SEND_VIDEO_NOTE), $parameters);
 
         return new Message($result);
+    }
+
+    /**
+     * @api
+     * @link https://core.telegram.org/bots/api#sendmediagroup
+     * @param array $parameters
+     * @return Message[]
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    public function sendMediaGroup(array $parameters) {
+
+        $result = $this->getResult($this->getMethod(self::SEND_MEDIA_GROUP), $parameters);
+        $messages = array();
+
+        foreach ($result as $message) $messages[] = new Message($message);
+
+        return $messages;
     }
 
     /**
@@ -683,7 +701,7 @@ class TelegramBotAPI extends HTTP {
 
     /**
      * @api
-     * @link https://core.telegram.org/bots/api#deleteMessage
+     * @link https://core.telegram.org/bots/api#deletemessage
      * @param array $parameters
      * @return bool
      * @throws TelegramBotAPIException
@@ -887,24 +905,6 @@ class TelegramBotAPI extends HTTP {
         foreach ($result as $gameHighScore) $gameHighScores[] = new GameHighScore($gameHighScore);
 
         return $gameHighScores;
-    }
-
-    /**
-     * @api
-     * @link https://core.telegram.org/bots/api#sendmediagroup
-     * @param array $parameters
-     * @return Message[]
-     * @throws TelegramBotAPIException
-     * @throws TelegramBotAPIRuntimeException
-     */
-    public function sendMediaGroup(array $parameters) {
-
-        $result = $this->getResult($this->getMethod(self::SEND_MEDIA_GROUP), $parameters);
-        $messages = array();
-
-        foreach ($result as $message) $messages[] = new Message($message);
-
-        return $messages;
     }
 
 

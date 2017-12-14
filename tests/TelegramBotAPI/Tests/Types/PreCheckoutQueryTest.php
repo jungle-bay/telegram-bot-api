@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\Types;
 
@@ -9,6 +17,11 @@ use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\OrderInfo;
 use TelegramBotAPI\Types\PreCheckoutQuery;
 
+/**
+ * Class PreCheckoutQueryTest
+ * @package TelegramBotAPI\Tests\Types
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class PreCheckoutQueryTest extends TestCase {
 
     public function testAccessors() {

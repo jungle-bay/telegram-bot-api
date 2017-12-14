@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class ChatPhoto
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#chatphoto
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

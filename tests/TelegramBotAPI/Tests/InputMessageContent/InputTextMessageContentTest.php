@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\InputMessageContent;
 
@@ -7,13 +15,18 @@ use TelegramBotAPI\Constants;
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\InputMessageContent\InputTextMessageContent;
 
+/**
+ * Class InputTextMessageContentTest
+ * @package TelegramBotAPI\Tests\InputMessageContent
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class InputTextMessageContentTest extends TestCase {
 
     private function gettersTest(InputTextMessageContent $obj) {
 
         $this->assertEquals('text', $obj->getMessageText());
         $this->assertEquals(Constants::MARKDOWN_PARSE_MODE, $obj->getParseMode());
-        $this->assertTrue($obj->getDisableWebPagePreview());
+        $this->assertTrue($obj->isDisableWebPagePreview());
     }
 
 
@@ -30,6 +43,9 @@ class InputTextMessageContentTest extends TestCase {
         return $obj;
     }
 
+    /**
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
+     */
     public function testSetters() {
 
         $obj = new InputTextMessageContent();
@@ -59,6 +75,7 @@ class InputTextMessageContentTest extends TestCase {
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testSetMessageText() {
 
@@ -69,6 +86,7 @@ class InputTextMessageContentTest extends TestCase {
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testSetMessageTextSize() {
 
@@ -85,6 +103,7 @@ class InputTextMessageContentTest extends TestCase {
 
     /**
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testSetParseMode() {
 

@@ -14,6 +14,11 @@ namespace TelegramBotAPI\Tests\Core;
 use TelegramBotAPI\Core\HTTP;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class HTTPTest
+ * @package TelegramBotAPI\Tests\Core
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class HTTPTest extends TestCase {
 
     public function testSetToken() {

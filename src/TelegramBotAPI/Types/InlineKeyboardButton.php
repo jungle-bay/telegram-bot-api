@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class InlineKeyboardButton
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#inlinekeyboardbutton
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -52,7 +53,6 @@ class InlineKeyboardButton extends Type {
      * @var null|bool $pay
      */
     private $pay;
-
 
 
     /**
@@ -142,7 +142,7 @@ class InlineKeyboardButton extends Type {
     /**
      * @return bool|null
      */
-    public function getPay() {
+    public function isPay() {
         return $this->pay;
     }
 

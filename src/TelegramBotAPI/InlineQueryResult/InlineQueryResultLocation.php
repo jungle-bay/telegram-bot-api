@@ -20,6 +20,7 @@ use TelegramBotAPI\Traits\ThumbHeightTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultLocation
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultlocation
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

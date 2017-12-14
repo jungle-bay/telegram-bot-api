@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class ReplyKeyboardMarkup
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#replykeyboardmarkup
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -56,7 +57,7 @@ class ReplyKeyboardMarkup extends Type {
     /**
      * @return bool|null
      */
-    public function getResizeKeyboard() {
+    public function isResizeKeyboard() {
         return $this->resizeKeyboard;
     }
 
@@ -70,7 +71,7 @@ class ReplyKeyboardMarkup extends Type {
     /**
      * @return bool|null
      */
-    public function getOneTimeKeyboard() {
+    public function isOneTimeKeyboard() {
         return $this->oneTimeKeyboard;
     }
 
@@ -84,7 +85,7 @@ class ReplyKeyboardMarkup extends Type {
     /**
      * @return bool|null
      */
-    public function getSelective() {
+    public function isSelective() {
         return $this->selective;
     }
 

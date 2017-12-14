@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class File
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#file
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

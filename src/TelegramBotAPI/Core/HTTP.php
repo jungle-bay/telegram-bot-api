@@ -11,6 +11,7 @@
 namespace TelegramBotAPI\Core;
 
 
+use TelegramBotAPI\Types\ResponseParameters;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
@@ -150,10 +151,16 @@ class HTTP {
 
         if (true === $data['ok']) return;
 
-        $codeError = array_key_exists('error_code', $data) ? $data['error_code'] : 500;
+        $codeError = array_key_exists('error_code', $data) ? $data['error_code'] : self::HTTP_INTERNAL_SERVER_ERROR;
         $messageError = array_key_exists('description', $data) ? $data['description'] : 'Error request.';
 
-        throw new TelegramBotAPIRuntimeException($messageError, $codeError);
+        $exception = new TelegramBotAPIRuntimeException($messageError, $codeError);
+
+        if (true === array_key_exists('parameters', $data)) {
+            $exception->setResponseParameters(new ResponseParameters($data['parameters']));
+        }
+
+        throw $exception;
     }
 
     /**
@@ -226,9 +233,7 @@ class HTTP {
      */
     public function getToken() {
 
-        if (empty($this->token)) {
-            throw new TelegramBotAPIException('`token` empty');
-        }
+        if (empty($this->token)) throw new TelegramBotAPIException('Token empty.');
 
         return $this->token;
     }

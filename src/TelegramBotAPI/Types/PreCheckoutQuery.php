@@ -14,6 +14,7 @@ namespace TelegramBotAPI\Types;
 use TelegramBotAPI\Traits\CurrencyTrait;
 
 /**
+ * Class PreCheckoutQuery
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#precheckoutquery
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

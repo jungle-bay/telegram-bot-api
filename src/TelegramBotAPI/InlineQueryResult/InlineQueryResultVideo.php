@@ -19,6 +19,7 @@ use TelegramBotAPI\Traits\DescriptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultVideo
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultvideo
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

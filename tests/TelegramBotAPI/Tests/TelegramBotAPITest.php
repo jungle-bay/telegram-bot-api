@@ -1,10 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests;
 
 
-use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
+use TelegramBotAPI\Constants;
 use TelegramBotAPI\Types\User;
 use TelegramBotAPI\Types\Chat;
 use TelegramBotAPI\Types\File;
@@ -21,13 +28,15 @@ use TelegramBotAPI\Types\LabeledPrice;
 use TelegramBotAPI\Types\GameHighScore;
 use TelegramBotAPI\Types\MessageEntity;
 use TelegramBotAPI\Types\UserProfilePhotos;
-use TelegramBotAPI\Constants;
 use phpDocumentor\Reflection\Types\String_;
 use TelegramBotAPI\Types\InlineKeyboardButton;
 use TelegramBotAPI\Types\InlineKeyboardMarkup;
+use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 use TelegramBotAPI\InlineQueryResult\InlineQueryResultArticle;
 
 /**
+ * Class TelegramBotAPITest
  * @package TelegramBotAPI\Tests
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
@@ -166,7 +175,7 @@ class TelegramBotAPITest extends TestCase {
         $this->assertEquals(1591, $update->getMessage()->getMessageId());
 
         $this->assertEquals(59673324, $update->getMessage()->getFrom()->getId());
-        $this->assertFalse($update->getMessage()->getFrom()->getBot());
+        $this->assertFalse($update->getMessage()->getFrom()->isBot());
         $this->assertEquals('Roma', $update->getMessage()->getFrom()->getFirstName());
         $this->assertEquals('Baranenko', $update->getMessage()->getFrom()->getLastName());
         $this->assertEquals('roma_bb8', $update->getMessage()->getFrom()->getUsername());
@@ -251,7 +260,7 @@ class TelegramBotAPITest extends TestCase {
         $this->assertInstanceOf(WebhookInfo::class, $webhookInfo);
 
         $this->assertEquals('', $webhookInfo->getUrl());
-        $this->assertFalse($webhookInfo->getHasCustomCertificate());
+        $this->assertFalse($webhookInfo->isHasCustomCertificate());
     }
 
 
@@ -272,7 +281,7 @@ class TelegramBotAPITest extends TestCase {
         $this->assertInstanceOf(User::class, $info);
 
         $this->assertEquals('479218867', $info->getId());
-        $this->assertTrue($info->getBot());
+        $this->assertTrue($info->isBot());
         $this->assertEquals('TestBot', $info->getFirstName());
         $this->assertEquals('TBAPHPBot', $info->getUsername());
     }

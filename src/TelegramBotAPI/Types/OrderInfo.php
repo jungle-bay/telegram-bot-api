@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class OrderInfo
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#orderinfo
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

@@ -16,6 +16,7 @@ use TelegramBotAPI\Traits\CaptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultCachedMpeg4Gif
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedmpeg4gif
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class WebhookInfo
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#webhookinfo
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -71,7 +72,7 @@ class WebhookInfo extends Type {
     /**
      * @return bool
      */
-    public function getHasCustomCertificate() {
+    public function isHasCustomCertificate() {
         return $this->hasCustomCertificate;
     }
 

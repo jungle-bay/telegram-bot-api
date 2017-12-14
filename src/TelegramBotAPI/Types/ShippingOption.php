@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class ShippingOption
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#shippingoption
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class ResponseParameters
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#responseparameters
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -19,7 +20,7 @@ namespace TelegramBotAPI\Types;
 class ResponseParameters extends Type {
 
     /**
-     * @var null|int $migrateToChatId
+     * @var null|float $migrateToChatId
      */
     private $migrateToChatId;
 
@@ -30,14 +31,14 @@ class ResponseParameters extends Type {
 
 
     /**
-     * @return int|null
+     * @return float|null
      */
     public function getMigrateToChatId() {
         return $this->migrateToChatId;
     }
 
     /**
-     * @param int|null $migrateToChatId
+     * @param float|null $migrateToChatId
      */
     public function setMigrateToChatId($migrateToChatId) {
         $this->migrateToChatId = $migrateToChatId;

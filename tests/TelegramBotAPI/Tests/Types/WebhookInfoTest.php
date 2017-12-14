@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\Types;
 
@@ -6,6 +14,11 @@ namespace TelegramBotAPI\Tests\Types;
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\WebhookInfo;
 
+/**
+ * Class WebhookInfoTest
+ * @package TelegramBotAPI\Tests\Types
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class WebhookInfoTest extends TestCase {
 
     public function testAccessors() {
@@ -22,7 +35,7 @@ class WebhookInfoTest extends TestCase {
 
         $this->assertEquals('url', $obj->getUrl());
         $this->assertEquals('array', gettype($obj->getAllowedUpdates()));
-        $this->assertTrue($obj->getHasCustomCertificate());
+        $this->assertTrue($obj->isHasCustomCertificate());
         $this->assertEquals(1, $obj->getLastErrorDate());
         $this->assertEquals('last_error_message', $obj->getLastErrorMessage());
         $this->assertEquals(2, $obj->getMaxConnections());

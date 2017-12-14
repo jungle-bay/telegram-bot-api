@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class Invoice
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#invoice
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

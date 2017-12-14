@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class Chat
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#chat
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -184,7 +185,7 @@ class Chat extends Type {
      * @api
      * @return bool|null
      */
-    public function getAllMembersAreAdministrators() {
+    public function isAllMembersAreAdministrators() {
         return $this->allMembersAreAdministrators;
     }
 
@@ -277,7 +278,7 @@ class Chat extends Type {
     /**
      * @return null|bool
      */
-    public function getCanSetStickerSet() {
+    public function isCanSetStickerSet() {
         return $this->canSetStickerSet;
     }
 

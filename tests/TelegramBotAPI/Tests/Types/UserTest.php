@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\Types;
 
@@ -7,6 +15,11 @@ use TelegramBotAPI\Constants;
 use TelegramBotAPI\Types\User;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class UserTest
+ * @package TelegramBotAPI\Tests\Types
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class UserTest extends TestCase {
 
     public function testAccessors() {
@@ -24,7 +37,7 @@ class UserTest extends TestCase {
         $this->assertEquals('username', $obj->getUsername());
         $this->assertEquals('first_name', $obj->getFirstName());
         $this->assertEquals('last_name', $obj->getLastName());
-        $this->assertTrue($obj->getBot());
+        $this->assertTrue($obj->isBot());
         $this->assertEquals(Constants::CURRENCY_UAH, $obj->getLanguageCode());
 
         $this->assertJson(json_encode($obj));

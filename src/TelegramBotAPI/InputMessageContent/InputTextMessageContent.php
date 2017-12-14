@@ -15,6 +15,7 @@ use TelegramBotAPI\Constants;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
+ * Class InputTextMessageContent
  * @package TelegramBotAPI\InputMessageContent
  * @link https://core.telegram.org/bots/api#inputtextmessagecontent
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -82,6 +83,7 @@ class InputTextMessageContent extends InputMessageContent {
 
         if (($parseMode === Constants::HTML_PARSE_MODE) || ($parseMode === Constants::MARKDOWN_PARSE_MODE)) {
             $this->parseMode = $parseMode;
+
             return;
         }
 
@@ -91,7 +93,7 @@ class InputTextMessageContent extends InputMessageContent {
     /**
      * @return bool|null
      */
-    public function getDisableWebPagePreview() {
+    public function isDisableWebPagePreview() {
         return $this->disableWebPagePreview;
     }
 

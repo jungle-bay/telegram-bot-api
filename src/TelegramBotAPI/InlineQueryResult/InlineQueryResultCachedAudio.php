@@ -15,6 +15,7 @@ use TelegramBotAPI\Traits\CaptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultCachedAudio
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedaudio
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

@@ -11,6 +11,8 @@
 namespace TelegramBotAPI\Exception;
 
 
+use TelegramBotAPI\Types\ResponseParameters;
+
 /**
  * Class TelegramBotAPIRuntimeException
  * @package TelegramBotAPI\Exception
@@ -18,4 +20,23 @@ namespace TelegramBotAPI\Exception;
  */
 class TelegramBotAPIRuntimeException extends TelegramBotAPIException {
 
+    /**
+     * @var ResponseParameters $responseParameters
+     */
+    private $responseParameters;
+
+
+    /**
+     * @return ResponseParameters
+     */
+    public function getResponseParameters() {
+        return $this->responseParameters;
+    }
+
+    /**
+     * @param ResponseParameters $responseParameters
+     */
+    public function setResponseParameters($responseParameters) {
+        $this->responseParameters = $responseParameters;
+    }
 }

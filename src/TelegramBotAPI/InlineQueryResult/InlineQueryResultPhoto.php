@@ -18,6 +18,7 @@ use TelegramBotAPI\Traits\DescriptionTrait;
 use TelegramBotAPI\Traits\InputMessageContentTrait;
 
 /**
+ * Class InlineQueryResultPhoto
  * @package TelegramBotAPI\InlineQueryResult
  * @link https://core.telegram.org/bots/api#inlinequeryresultphoto
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

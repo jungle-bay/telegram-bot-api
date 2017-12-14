@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\Types;
 
@@ -8,6 +16,11 @@ use TelegramBotAPI\Types\Sticker;
 use TelegramBotAPI\Types\PhotoSize;
 use TelegramBotAPI\Types\MaskPosition;
 
+/**
+ * Class StickerTest
+ * @package TelegramBotAPI\Tests\Types
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class StickerTest extends TestCase {
 
     public function testAccessors() {

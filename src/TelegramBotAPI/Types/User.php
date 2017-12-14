@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class User
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#user
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -122,7 +123,7 @@ class User extends Type {
     /**
      * @return null|bool
      */
-    public function getBot() {
+    public function isBot() {
         return $this->isBot;
     }
 

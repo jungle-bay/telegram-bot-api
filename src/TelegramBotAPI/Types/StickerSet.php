@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class StickerSet
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#stickerset
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -70,7 +71,7 @@ class StickerSet extends Type {
     /**
      * @return bool
      */
-    public function getContainsMasks() {
+    public function isContainsMasks() {
         return $this->containsMasks;
     }
 

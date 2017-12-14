@@ -14,6 +14,7 @@ namespace TelegramBotAPI\InputMessageContent;
 use TelegramBotAPI\Types\Type;
 
 /**
+ * Class InputMessageContent
  * @package TelegramBotAPI\Supports
  * @link https://core.telegram.org/bots/api#inputmessagecontent
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

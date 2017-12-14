@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\InputMessageContent;
 
@@ -6,6 +14,11 @@ namespace TelegramBotAPI\Tests\InputMessageContent;
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\InputMessageContent\InputVenueMessageContent;
 
+/**
+ * Class InputVenueMessageContentTest
+ * @package TelegramBotAPI\Tests\InputMessageContent
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class InputVenueMessageContentTest extends TestCase {
 
     private function gettersTest(InputVenueMessageContent $obj) {

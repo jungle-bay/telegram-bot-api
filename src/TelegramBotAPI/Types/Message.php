@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class Message
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#message
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -633,7 +634,7 @@ class Message extends Type {
     /**
      * @return bool|null
      */
-    public function getDeleteChatPhoto() {
+    public function isDeleteChatPhoto() {
         return $this->deleteChatPhoto;
     }
 
@@ -647,7 +648,7 @@ class Message extends Type {
     /**
      * @return bool|null
      */
-    public function getGroupChatCreated() {
+    public function isGroupChatCreated() {
         return $this->groupChatCreated;
     }
 
@@ -661,7 +662,7 @@ class Message extends Type {
     /**
      * @return bool|null
      */
-    public function getSupergroupChatCreated() {
+    public function isSupergroupChatCreated() {
         return $this->supergroupChatCreated;
     }
 
@@ -675,7 +676,7 @@ class Message extends Type {
     /**
      * @return bool|null
      */
-    public function getChannelChatCreated() {
+    public function isChannelChatCreated() {
         return $this->channelChatCreated;
     }
 

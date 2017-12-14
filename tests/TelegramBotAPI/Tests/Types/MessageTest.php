@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Team: jungle
+ * User: Roma Baranenko
+ * Contacts: <jungle.romabb8@gmail.com>
+ * Date: 05.12.17
+ * Time: 18:50
+ */
 
 namespace TelegramBotAPI\Tests\Types;
 
@@ -20,6 +28,11 @@ use TelegramBotAPI\Types\Location;
 use TelegramBotAPI\Types\VideoNote;
 use TelegramBotAPI\Types\SuccessfulPayment;
 
+/**
+ * Class MessageTest
+ * @package TelegramBotAPI\Tests\Types
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class MessageTest extends TestCase {
 
     public function testAccessors() {
@@ -95,10 +108,10 @@ class MessageTest extends TestCase {
         $this->assertInstanceOf(User::class, $obj->getLeftChatMember());
         $this->assertEquals('new chat title', $obj->getNewChatTitle());
         $this->assertEquals('array', gettype($obj->getNewChatPhoto()));
-        $this->assertTrue($obj->getDeleteChatPhoto());
-        $this->assertTrue($obj->getGroupChatCreated());
-        $this->assertTrue($obj->getSupergroupChatCreated());
-        $this->assertTrue($obj->getChannelChatCreated());
+        $this->assertTrue($obj->isDeleteChatPhoto());
+        $this->assertTrue($obj->isGroupChatCreated());
+        $this->assertTrue($obj->isSupergroupChatCreated());
+        $this->assertTrue($obj->isChannelChatCreated());
         $this->assertEquals(1, $obj->getMigrateToChatId());
         $this->assertEquals(2, $obj->getMigrateFromChatId());
         $this->assertInstanceOf(Message::class, $obj->getPinnedMessage());

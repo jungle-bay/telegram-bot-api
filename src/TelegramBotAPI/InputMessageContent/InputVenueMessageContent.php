@@ -16,6 +16,7 @@ use TelegramBotAPI\Traits\LatitudeTrait;
 use TelegramBotAPI\Traits\LongitudeTrait;
 
 /**
+ * Class InputVenueMessageContent
  * @package TelegramBotAPI\InputMessageContent
  * @link https://core.telegram.org/bots/api#inputvenuemessagecontent
  * @author Roma Baranenko <jungle.romabb8@gmail.com>

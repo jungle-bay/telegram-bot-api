@@ -14,6 +14,11 @@ namespace TelegramBotAPI\Tests\Core;
 use TelegramBotAPI\Core\Curl;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class CurlTest
+ * @package TelegramBotAPI\Tests\Core
+ * @author Roma Baranenko <jungle.romabb8@gmail.com>
+ */
 class CurlTest extends TestCase {
 
     public function testPost() {

@@ -12,6 +12,7 @@ namespace TelegramBotAPI\Types;
 
 
 /**
+ * Class MaskPosition
  * @package TelegramBotAPI\Types
  * @link https://core.telegram.org/bots/api#maskposition
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
@@ -34,9 +35,9 @@ class MaskPosition extends Type {
     private $yShift;
 
     /**
-     * @var float $zoom
+     * @var float $scale
      */
-    private $zoom;
+    private $scale;
 
 
     /**
@@ -84,14 +85,14 @@ class MaskPosition extends Type {
     /**
      * @return float
      */
-    public function getZoom() {
-        return $this->zoom;
+    public function getScale() {
+        return $this->scale;
     }
 
     /**
-     * @param float $zoom
+     * @param float $scale
      */
-    public function setZoom($zoom) {
-        $this->zoom = $zoom;
+    public function setScale($scale) {
+        $this->scale = $scale;
     }
 }
