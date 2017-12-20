@@ -64,7 +64,6 @@ class MessageTest extends TestCase {
         $obj->setContact(new Contact());
         $obj->setLocation(new Location());
         $obj->setVenue(new Venue());
-        $obj->setNewChatMember(new User());
         $obj->setLeftChatMember(new User());
         $obj->setNewChatTitle('new chat title');
         $obj->setNewChatPhoto(array());
@@ -104,7 +103,6 @@ class MessageTest extends TestCase {
         $this->assertInstanceOf(Contact::class, $obj->getContact());
         $this->assertInstanceOf(Location::class, $obj->getLocation());
         $this->assertInstanceOf(Venue::class, $obj->getVenue());
-        $this->assertInstanceOf(User::class, $obj->getNewChatMember());
         $this->assertInstanceOf(User::class, $obj->getLeftChatMember());
         $this->assertEquals('new chat title', $obj->getNewChatTitle());
         $this->assertEquals('array', gettype($obj->getNewChatPhoto()));
