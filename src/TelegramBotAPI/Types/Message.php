@@ -55,6 +55,11 @@ class Message extends Type {
     private $forwardFromMessageId;
 
     /**
+     * @var null|string $forwardSignature
+     */
+    private $forwardSignature;
+
+    /**
      * @var null|int $forwardDate
      */
     private $forwardDate;
@@ -68,6 +73,16 @@ class Message extends Type {
      * @var null|int $editDate
      */
     private $editDate;
+
+    /**
+     * @var null|string $mediaGroupId
+     */
+    private $mediaGroupId;
+
+    /**
+     * @var null|string $authorSignature
+     */
+    private $authorSignature;
 
     /**
      * @var null|string $text
@@ -125,11 +140,6 @@ class Message extends Type {
     private $videoNote;
 
     /**
-     * @var null|User[] $newChatMembers
-     */
-    private $newChatMembers;
-
-    /**
      * @var null|string $caption
      */
     private $caption;
@@ -150,9 +160,9 @@ class Message extends Type {
     private $venue;
 
     /**
-     * @var null|User $newChatMember
+     * @var null|User[] $newChatMembers
      */
-    private $newChatMember;
+    private $newChatMembers;
 
     /**
      * @var null|User $leftChatMember
@@ -213,16 +223,6 @@ class Message extends Type {
      * @var null|SuccessfulPayment $successfulPayment
      */
     private $successfulPayment;
-
-    /**
-     * @var null|string $authorSignature
-     */
-    private $authorSignature;
-
-    /**
-     * @var null|string $forwardSignature
-     */
-    private $forwardSignature;
 
 
     /**
@@ -363,6 +363,20 @@ class Message extends Type {
      */
     public function setEditDate($editDate) {
         $this->editDate = $editDate;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMediaGroupId() {
+        return $this->mediaGroupId;
+    }
+
+    /**
+     * @param null|string $mediaGroupId
+     */
+    public function setMediaGroupId($mediaGroupId) {
+        $this->mediaGroupId = $mediaGroupId;
     }
 
     /**
@@ -573,20 +587,6 @@ class Message extends Type {
      */
     public function setVenue($venue) {
         $this->venue = $venue;
-    }
-
-    /**
-     * @return null|User
-     */
-    public function getNewChatMember() {
-        return $this->newChatMember;
-    }
-
-    /**
-     * @param null|User $newChatMember
-     */
-    public function setNewChatMember($newChatMember) {
-        $this->newChatMember = $newChatMember;
     }
 
     /**
