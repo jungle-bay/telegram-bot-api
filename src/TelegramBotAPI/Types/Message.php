@@ -225,7 +225,7 @@ class Message extends Type {
     private $successfulPayment;
 
     /**
-     * @var string $connectedWebsite
+     * @var null|string $connectedWebsite
      */
     private $connectedWebsite;
 
@@ -805,14 +805,14 @@ class Message extends Type {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getConnectedWebsite() {
         return $this->connectedWebsite;
     }
 
     /**
-     * @param string $connectedWebsite
+     * @param null|string $connectedWebsite
      */
     public function setConnectedWebsite($connectedWebsite) {
         $this->connectedWebsite = $connectedWebsite;

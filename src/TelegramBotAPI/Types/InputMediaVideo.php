@@ -45,7 +45,7 @@ class InputMediaVideo extends InputMedia {
     private $duration;
 
     /**
-     * @var bool $supportsStreaming
+     * @var bool|null $supportsStreaming
      */
     private $supportsStreaming;
 
@@ -100,14 +100,14 @@ class InputMediaVideo extends InputMedia {
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isSupportsStreaming() {
         return $this->supportsStreaming;
     }
 
     /**
-     * @param bool $supportsStreaming
+     * @param bool|null $supportsStreaming
      */
     public function setSupportsStreaming($supportsStreaming) {
         $this->supportsStreaming = $supportsStreaming;
