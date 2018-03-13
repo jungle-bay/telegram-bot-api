@@ -1,5 +1,12 @@
 # Changelog for Telegram Bot API
 
+#### 3.6 / 2018-02-13
+
+* Supported [text formatting](https://core.telegram.org/bots/api#formatting-options) in media captions. Specify the desired ***parse_mode*** ([Markdown](https://core.telegram.org/bots/api#markdown-style) or [HTML](https://core.telegram.org/bots/api#html-style)) when you provide a caption.
+* In supergroups, if the bot receives a message that is a reply, it will also receive the message to which that message is replying – even if the original message is inaccessible due to the bot's privacy settings. (In other words, replying to any message in a supergroup with a message that mentions the bot or features a command for it acts as forwarding the original message to the bot).
+* Added the new field ***connected_website*** to [Message](https://core.telegram.org/bots/api#message). The bot will receive a message with this field in a private chat when a user logs in on the bot's connected website using the [Login Widget](https://core.telegram.org/widgets/login) and allows sending messages from your bot.
+* Added the new parameter ***supports_streaming*** to the [sendVideo](https://core.telegram.org/bots/api#sendvideo) method and a field with the same name to the [inputMediaVideo](https://core.telegram.org/bots/api#inputmediavideo) object.
+
 #### 3.5.3 / 2017-12-14
 
 * Added two methods **getResponseParameters** and **setResponseParameters** to `TelegramBotAPIRuntimeException`.

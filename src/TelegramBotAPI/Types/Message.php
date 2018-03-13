@@ -224,6 +224,11 @@ class Message extends Type {
      */
     private $successfulPayment;
 
+    /**
+     * @var string $connectedWebsite
+     */
+    private $connectedWebsite;
+
 
     /**
      * @return int
@@ -797,5 +802,19 @@ class Message extends Type {
      */
     public function setCaptionEntities($captionEntities) {
         $this->captionEntities = $captionEntities;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConnectedWebsite() {
+        return $this->connectedWebsite;
+    }
+
+    /**
+     * @param string $connectedWebsite
+     */
+    public function setConnectedWebsite($connectedWebsite) {
+        $this->connectedWebsite = $connectedWebsite;
     }
 }
