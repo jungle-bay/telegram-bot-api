@@ -31,7 +31,7 @@ composer require jungle-bay/telegram-bot-api
 ```php
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('vendor', 'autoload.php'));
 
 $tba = new \TelegramBotAPI\TelegramBotAPI('123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'); // Your token bot.
 
